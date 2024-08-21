@@ -1,3 +1,5 @@
+import { UUID } from "crypto";
+
 import { SVGProps } from "react";
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
@@ -18,4 +20,15 @@ export interface UserType {
 
 export type UserProps = {
   user?: UserType;
+};
+
+export interface Account {
+  id: UUID;
+  account_name: string;
+  current_balance: number;
+  user_id: UUID;
+}
+
+export type AccountProps = {
+  accounts?: Account[];
 };

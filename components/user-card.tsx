@@ -6,7 +6,7 @@ import { Button } from "@nextui-org/button";
 import { createClient } from "@/utils/supabase/server";
 import { signOut } from "@/app/auth/actions";
 
-export default async function User() {
+export default async function UserCard() {
   const supabase = createClient();
 
   const {
@@ -18,7 +18,7 @@ export default async function User() {
   }
 
   return (
-    <Card className="min-w-[300px] w-full">
+    <Card className="w-full" radius="sm">
       <CardHeader className="flex gap-3">
         <Avatar src={user.user_metadata?.avatar_url || ""} />
         <div className="flex flex-col text-left gap-2 pr-2">

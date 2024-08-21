@@ -21,7 +21,7 @@ const today = {
 
 export default function TodayCard() {
   return (
-    <Card className="max-w-[400px]">
+    <Card className="min-w-[300px] w-full">
       <CardHeader className="flex gap-3">
         <div className="flex flex-col">
           <p className="text-[4rem]">{today.date}</p>

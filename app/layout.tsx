@@ -4,6 +4,7 @@ import { Link } from "@nextui-org/link";
 import clsx from "clsx";
 
 import { Providers } from "./providers";
+import { signInWithGithub } from "./auth/actions";
 
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
@@ -47,7 +48,6 @@ export default function RootLayout({
             <Navbar />
             <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
               {children}
-              <Notes />
             </main>
             <footer className="w-full flex items-center justify-center py-3">
               <Link

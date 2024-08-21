@@ -9,6 +9,7 @@ import {
   Divider,
   Link,
   Calendar,
+  Button,
 } from "@nextui-org/react";
 import { parseDate } from "@internationalized/date";
 
@@ -65,6 +66,15 @@ export default function Home() {
       </div> */}
       <div className="inline-block max-w-lg text-center justify-center">
         <h1>Hello World!</h1>
+        <Button
+          showAnchorIcon
+          as={Link}
+          color="primary"
+          href="/login"
+          variant="solid"
+        >
+          Login
+        </Button>
       </div>
       <Card className="max-w-[400px]">
         <CardHeader className="flex gap-3">

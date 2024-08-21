@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
-import { Button, Input } from "@nextui-org/react";
+import { Button, Card, CardBody, Input } from "@nextui-org/react";
 import { BsFillEyeFill, BsFillEyeSlashFill, BsGithub } from "react-icons/bs";
 
-import { login, signup, signInWithGithub } from "../auth/actions";
+import { login, signInWithGithub, signup } from "@/app/auth/actions";
 
 export default function LoginPage() {
   const [isVisible, setIsVisible] = React.useState(false);
@@ -13,34 +13,28 @@ export default function LoginPage() {
 
   return (
     <section className="mx-auto max-w-sm">
-      <div className="relative self-center mt-6 bg-zinc-900 rounded-lg p-1.5 flex gap-2 sm:mt-8 border border-zinc-800">
-        <Button
-          fullWidth
-          className={`${
-            isRegister === false
-              ? "bg-zinc-700 shadow-sm text-white"
-              : "bg-transparent text-zinc-400"
-          }`}
-          radius="sm"
-          onClick={() => setIsRegister(false)}
-        >
-          Sign In
-        </Button>
-        <Button
-          fullWidth
-          className={`${
-            isRegister === true
-              ? "bg-zinc-700 shadow-sm text-white"
-              : "bg-transparent text-zinc-400"
-          }`}
-          radius="sm"
-          onClick={() => setIsRegister(true)}
-        >
-          Register
-        </Button>
-      </div>
+      <Card radius="sm">
+        <CardBody className="flex flex-row gap-2 p-2">
+          <Button
+            fullWidth
+            radius="sm"
+            variant={isRegister === false ? "solid" : "light"}
+            onClick={() => setIsRegister(false)}
+          >
+            Sign In
+          </Button>
+          <Button
+            fullWidth
+            radius="sm"
+            variant={isRegister === true ? "solid" : "light"}
+            onClick={() => setIsRegister(true)}
+          >
+            Register
+          </Button>
+        </CardBody>
+      </Card>
       <form className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-        <Input label="Email" radius="sm" type="email" />
+        <Input id="email" label="Email" name="email" radius="sm" type="email" />
         <Input
           endContent={
             <button
@@ -60,7 +54,9 @@ export default function LoginPage() {
               )}
             </button>
           }
+          id="password"
           label="Password"
+          name="password"
           radius="sm"
           type={isVisible ? "text" : "password"}
         />
@@ -71,6 +67,7 @@ export default function LoginPage() {
             formAction={signup}
             radius="sm"
             size="lg"
+            type="submit"
             variant="solid"
           >
             Sign up
@@ -82,18 +79,19 @@ export default function LoginPage() {
             formAction={login}
             radius="sm"
             size="lg"
+            type="submit"
             variant="solid"
           >
             Log in
           </Button>
         )}
       </form>
-      {/* <div className="max-w-xs flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-        <Button fullWidth radius="sm" onClick={signInWithGithub}>
+      <form action={signInWithGithub}>
+        <Button fullWidth radius="sm" size="lg" type="submit">
           <BsGithub />
           Login using Github
         </Button>
-      </div> */}
+      </form>
     </section>
   );
 }

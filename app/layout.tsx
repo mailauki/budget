@@ -1,15 +1,14 @@
 import "@/styles/globals.css";
+import React from "react";
 import { Metadata, Viewport } from "next";
 import { Link } from "@nextui-org/link";
 import clsx from "clsx";
 
 import { Providers } from "./providers";
-import { signInWithGithub } from "./auth/actions";
 
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
-import Notes from "@/components/notes";
 
 export const metadata: Metadata = {
   title: {
@@ -29,7 +28,7 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;

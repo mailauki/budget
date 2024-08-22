@@ -13,10 +13,12 @@ import { Input } from "@nextui-org/input";
 import { link as linkStyles } from "@nextui-org/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
+import { Button } from "@nextui-org/button";
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import { GithubIcon, SearchIcon, Logo } from "@/components/icons";
+import { SearchIcon, Logo } from "@/components/icons";
+import { logout } from "@/app/auth/actions";
 
 export const Navbar = () => {
   const searchInput = (
@@ -78,9 +80,6 @@ export const Navbar = () => {
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <Link isExternal aria-label="Github" href={siteConfig.links.github}>
-          <GithubIcon className="text-default-500" />
-        </Link>
         <ThemeSwitch />
         <NavbarMenuToggle />
       </NavbarContent>
@@ -98,7 +97,7 @@ export const Navbar = () => {
                       ? "danger"
                       : "foreground"
                 }
-                href="#"
+                href={item.href}
                 size="lg"
               >
                 {item.label}
@@ -106,6 +105,17 @@ export const Navbar = () => {
             </NavbarMenuItem>
           ))}
         </div>
+        <form action={logout}>
+          <Button
+            className="text-lg"
+            color="danger"
+            size="md"
+            type="submit"
+            variant="light"
+          >
+            Logout
+          </Button>
+        </form>
       </NavbarMenu>
     </NextUINavbar>
   );

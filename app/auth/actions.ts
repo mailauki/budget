@@ -64,7 +64,7 @@ export async function signInWithGithub() {
   redirect(data.url);
 }
 
-export async function signOut() {
+export async function logout() {
   const supabase = createClient();
 
   const { error } = await supabase.auth.signOut();
@@ -73,5 +73,6 @@ export async function signOut() {
     redirect("/error");
   }
 
-  redirect("/login");
+  // redirect("/login");
+  revalidatePath("/", "layout");
 }

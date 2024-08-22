@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
@@ -10,13 +11,12 @@ export async function addAccount(formData: FormData) {
 
   const data = {
     account_name: formData.get("account-name") as string,
-    date: formData.get("date"),
-    category: formData.get("category") as string,
     user_id: user?.id,
   };
 
-  // eslint-disable-next-line no-console
-  console.log({ data });
+  const { error } = await supabase.from("accounts").upsert(data);
+
+  if (error) alert(error.message);
 }
 
 export async function addTransaction(formData: FormData) {
@@ -34,6 +34,8 @@ export async function addTransaction(formData: FormData) {
     user_id: user?.id,
   };
 
-  // eslint-disable-next-line no-console
   console.log({ data });
+  const { error } = await supabase.from("transactions").upsert(data);
+
+  if (error) alert(error.message);
 }

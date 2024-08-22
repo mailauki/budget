@@ -16,6 +16,10 @@ export const siteConfig = {
       label: "Transactions",
       href: "/transactions",
     },
+    {
+      label: "Budget",
+      href: "/budget",
+    },
   ],
   navMenuItems: [
     {

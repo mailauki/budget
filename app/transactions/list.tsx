@@ -4,7 +4,7 @@ import { Listbox, ListboxItem } from "@nextui-org/listbox";
 
 import { Transaction } from "@/types";
 
-export default async function TransactionsList({
+export default function TransactionsList({
   transactions,
 }: {
   transactions: Transaction[];

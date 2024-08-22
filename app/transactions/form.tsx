@@ -55,7 +55,7 @@ export default function NewTranactionForm() {
                     <SelectItem key={category.id}>{category.label}</SelectItem>
                   ))}
                 </Select>
-                <Select
+                {/* <Select
                   id="account"
                   label="Select an account"
                   name="account"
@@ -64,7 +64,7 @@ export default function NewTranactionForm() {
                   {categories.map((category) => (
                     <SelectItem key={category.id}>{category.label}</SelectItem>
                   ))}
-                </Select>
+                </Select> */}
                 <Input
                   id="label"
                   label="Label"
@@ -84,10 +84,6 @@ export default function NewTranactionForm() {
           )}
         </ModalContent>
       </Modal>
-      {/* <form action={addAccount} className="flex flex-col gap-2">
-        <Input id="account-name" label="Account Name" name="account-name" />
-        <Button type="submit">Add Account</Button>
-      </form> */}
     </>
   );
 }

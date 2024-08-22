@@ -47,10 +47,6 @@ export default function NewAccountForm() {
           )}
         </ModalContent>
       </Modal>
-      {/* <form action={addAccount} className="flex flex-col gap-2">
-        <Input id="account-name" label="Account Name" name="account-name" />
-        <Button type="submit">Add Account</Button>
-      </form> */}
     </>
   );
 }

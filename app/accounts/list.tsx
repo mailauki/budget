@@ -1,15 +1,10 @@
 "use client";
 
 import { Listbox, ListboxItem } from "@nextui-org/listbox";
-import { Avatar } from "@nextui-org/react";
 
 import { Account } from "@/types";
 
-export default async function AccountsList({
-  accounts,
-}: {
-  accounts: Account[];
-}) {
+export default function AccountsList({ accounts }: { accounts: Account[] }) {
   return (
     <Listbox
       aria-label="List of accounts"
@@ -22,7 +17,6 @@ export default async function AccountsList({
         accounts.map((acc) => (
           <ListboxItem key={acc.id}>
             <div className="flex gap-2 items-center">
-              {/* <Avatar className="flex-shrink-0" size="sm" /> */}
               <div className="flex flex-col">
                 <span className="text-lg">{acc.account_name}</span>
                 <span className="text-small text-default-400">

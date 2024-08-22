@@ -1,4 +1,4 @@
-export default function DocsLayout({
+export default function BudgetLayout({
   children,
 }: {
   children: React.ReactNode;

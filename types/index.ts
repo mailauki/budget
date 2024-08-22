@@ -32,3 +32,13 @@ export interface Account {
 export type AccountProps = {
   accounts?: Account[];
 };
+
+export interface Transaction {
+  id: UUID;
+  account_id: UUID;
+  date: Date;
+  amount: number;
+  category: string;
+  label: string;
+  user_id: UUID;
+}

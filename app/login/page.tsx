@@ -1,19 +1,22 @@
 "use client";
+import { Button } from "@nextui-org/button";
 import React from "react";
-import { Button, Card, CardBody, Input } from "@nextui-org/react";
-import { BsFillEyeFill, BsFillEyeSlashFill, BsGithub } from "react-icons/bs";
+// import { Button, Card, CardBody, Input } from "@nextui-org/react";
+// import { BsFillEyeFill, BsFillEyeSlashFill, BsGithub } from "react-icons/bs";
+import { BsGithub } from "react-icons/bs";
 
-import { login, signInWithGithub, signup } from "@/app/auth/actions";
+// import { login, signInWithGithub, signup } from "@/app/auth/actions";
+import { signInWithGithub } from "@/app/auth/actions";
 
 export default function LoginPage() {
-  const [isVisible, setIsVisible] = React.useState(false);
-  const [isRegister, setIsRegister] = React.useState(false);
+  // const [isVisible, setIsVisible] = React.useState(false);
+  // const [isRegister, setIsRegister] = React.useState(false);
 
-  const toggleVisibility = () => setIsVisible(!isVisible);
+  // const toggleVisibility = () => setIsVisible(!isVisible);
 
   return (
     <section className="mx-auto max-w-sm">
-      <Card radius="sm">
+      {/* <Card radius="sm">
         <CardBody className="flex flex-row gap-2 p-2">
           <Button
             fullWidth
@@ -32,8 +35,8 @@ export default function LoginPage() {
             Register
           </Button>
         </CardBody>
-      </Card>
-      <form className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+      </Card> */}
+      {/* <form className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
         <Input id="email" label="Email" name="email" radius="sm" type="email" />
         <Input
           endContent={
@@ -85,7 +88,7 @@ export default function LoginPage() {
             Log in
           </Button>
         )}
-      </form>
+      </form> */}
       <form action={signInWithGithub}>
         <Button fullWidth radius="sm" size="lg" type="submit">
           <BsGithub />

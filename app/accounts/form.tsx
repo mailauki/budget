@@ -1,21 +1,16 @@
 "use client";
 import {
   Button,
-  DatePicker,
   Input,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
-  Select,
-  SelectItem,
   useDisclosure,
 } from "@nextui-org/react";
 
 import { addAccount } from "../db/actions";
-
-import { categories } from "@/utils/helpers";
 
 export default function NewAccountForm() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -39,22 +34,6 @@ export default function NewAccountForm() {
                   name="account-name"
                   variant="bordered"
                 />
-                <DatePicker
-                  id="date"
-                  label="Date"
-                  name="date"
-                  variant="bordered"
-                />
-                <Select
-                  id="category"
-                  label="Select a category"
-                  name="category"
-                  variant="bordered"
-                >
-                  {categories.map((category) => (
-                    <SelectItem key={category.id}>{category.label}</SelectItem>
-                  ))}
-                </Select>
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="flat" onPress={onClose}>

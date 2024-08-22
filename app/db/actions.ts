@@ -18,3 +18,22 @@ export async function addAccount(formData: FormData) {
   // eslint-disable-next-line no-console
   console.log({ data });
 }
+
+export async function addTransaction(formData: FormData) {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const data = {
+    date: formData.get("date"),
+    amount: formData.get("amount"),
+    category: formData.get("category") as string,
+    label: formData.get("label") as string,
+    account_id: formData.get("account") as string,
+    user_id: user?.id,
+  };
+
+  // eslint-disable-next-line no-console
+  console.log({ data });
+}

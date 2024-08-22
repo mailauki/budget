@@ -3,7 +3,7 @@ import { Card, CardHeader } from "@nextui-org/card";
 import { Button } from "@nextui-org/button";
 import { redirect } from "next/navigation";
 
-import { signOut } from "@/app/auth/actions";
+import { logout } from "@/app/auth/actions";
 import { getUser } from "@/app/db/queries";
 
 export default async function UserCard() {
@@ -21,7 +21,7 @@ export default async function UserCard() {
           <p className="text-md">
             Hello, {user.user_metadata?.user_name || user.email}
           </p>
-          <form action={signOut}>
+          <form action={logout}>
             <Button
               className="text-small text-default-500"
               radius="sm"

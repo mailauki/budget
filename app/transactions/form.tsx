@@ -13,6 +13,7 @@ import {
   SelectItem,
   useDisclosure,
 } from "@nextui-org/react";
+import { BsPlus } from "react-icons/bs";
 
 import { addTransaction } from "../db/actions";
 
@@ -23,8 +24,13 @@ export default function NewTranactionForm() {
 
   return (
     <>
-      <Button fullWidth variant="ghost" onPress={onOpen}>
-        Add transaction
+      <Button
+        className="bg-foreground text-background"
+        endContent={<BsPlus />}
+        radius="sm"
+        onPress={onOpen}
+      >
+        Add New
       </Button>
       <Modal isOpen={isOpen} placement="top-center" onOpenChange={onOpenChange}>
         <ModalContent action={addTransaction} as="form">

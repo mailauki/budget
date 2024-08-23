@@ -10,19 +10,19 @@ import {
 } from "@nextui-org/react";
 
 import { Budget } from "@/types";
+import { categories } from "@/utils/helpers";
 
 export default function BudgetList({ budgets }: { budgets: Budget[] }) {
-  return (
-    <Table fullWidth aria-label="Budgets table">
-      <TableHeader>
-        <TableColumn className="uppercase">Name</TableColumn>
-        <TableColumn className="uppercase">Budget</TableColumn>
-        <TableColumn className="uppercase">Actual</TableColumn>
-      </TableHeader>
-      {budgets.length == 0 ? (
-        <TableBody emptyContent={"No rows to display."}>{[]}</TableBody>
-      ) : (
-        <TableBody>
+  return categories.map((category) => (
+    <>
+      <p>{category.label}</p>
+      <Table fullWidth aria-label="Budgets table">
+        <TableHeader>
+          <TableColumn className="uppercase">Name</TableColumn>
+          <TableColumn className="uppercase">Budget</TableColumn>
+          <TableColumn className="uppercase">Actual</TableColumn>
+        </TableHeader>
+        <TableBody emptyContent={"No rows to display"}>
           {budgets.map((bgt) => (
             <TableRow key={bgt.id}>
               <TableCell>{bgt.label}</TableCell>
@@ -31,7 +31,7 @@ export default function BudgetList({ budgets }: { budgets: Budget[] }) {
             </TableRow>
           ))}
         </TableBody>
-      )}
-    </Table>
-  );
+      </Table>
+    </>
+  ));
 }

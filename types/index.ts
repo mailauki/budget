@@ -1,6 +1,6 @@
 import { UUID } from "crypto";
 
-import { SVGProps } from "react";
+import { ReactNode, SVGProps } from "react";
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
   size?: number;
@@ -21,6 +21,10 @@ export interface UserType {
 export type UserProps = {
   user?: UserType;
 };
+export interface Category {
+  id: UUID;
+  label: string;
+}
 
 export interface Account {
   id: UUID;
@@ -35,7 +39,7 @@ export type AccountProps = {
 
 export interface Transaction {
   id: UUID;
-  date: Date;
+  date: ReactNode;
   amount: number;
   category: string;
   label: string;

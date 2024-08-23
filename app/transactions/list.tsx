@@ -1,6 +1,13 @@
 "use client";
 
-import { Listbox, ListboxItem } from "@nextui-org/listbox";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+} from "@nextui-org/react";
 
 import { Transaction } from "@/types";
 
@@ -10,18 +17,21 @@ export default function TransactionsList({
   transactions: Transaction[];
 }) {
   return (
-    <Listbox
-      aria-label="List of transactions"
-      disabledKeys={["none"]}
-      onAction={(key) => alert(key)}
-    >
-      {transactions.length == 0 ? (
-        <ListboxItem key="none">No transactions yet</ListboxItem>
-      ) : (
-        transactions.map((ta) => (
-          <ListboxItem key={ta.id}>{ta.label}</ListboxItem>
-        ))
-      )}
-    </Listbox>
+    <Table fullWidth aria-label="Transactions table" radius="sm">
+      <TableHeader>
+        <TableColumn className="uppercase">Name</TableColumn>
+        <TableColumn className="uppercase">Date</TableColumn>
+        <TableColumn className="uppercase">Amount</TableColumn>
+      </TableHeader>
+      <TableBody emptyContent={"No transactions to display"}>
+        {transactions.map((ta) => (
+          <TableRow key={ta.id}>
+            <TableCell>{ta.label}</TableCell>
+            <TableCell>{ta.date}</TableCell>
+            <TableCell>{ta.amount}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 }

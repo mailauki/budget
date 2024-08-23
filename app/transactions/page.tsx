@@ -1,10 +1,7 @@
-import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
-import { Divider } from "@nextui-org/divider";
-
 import { getTransactions } from "../db/queries";
 
-import NewTranactionForm from "./form";
 import TransactionsList from "./list";
+import NewTranactionForm from "./form";
 
 import { title } from "@/components/primitives";
 
@@ -13,19 +10,13 @@ export default async function TransactionsPage() {
 
   return (
     <>
-      <Card className="w-full" radius="sm">
-        <CardHeader className="flex gap-3">
-          <p className={title()}>Transactions</p>
-        </CardHeader>
-        <Divider />
-        <CardBody>
-          <TransactionsList transactions={transactions} />
-        </CardBody>
-        <Divider />
-        <CardFooter>
+      <div className="w-full flex flex-col gap-2 my-3">
+        <div className="flex items-center justify-between">
+          <h1 className={title()}>Transactions</h1>
           <NewTranactionForm />
-        </CardFooter>
-      </Card>
+        </div>
+        <TransactionsList transactions={transactions} />
+      </div>
     </>
   );
 }

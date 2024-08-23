@@ -39,3 +39,22 @@ export async function addTransaction(formData: FormData) {
 
   if (error) alert(error.message);
 }
+
+export async function editBudget(formData: FormData) {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const data = {
+    label: formData.get("label"),
+    budget: formData.get("budget"),
+    date: formData.get("date"),
+    user_id: user?.id,
+  };
+
+  console.log({ data });
+  // const { error } = await supabase.from("budgets").upsert(data);
+
+  // if (error) alert(error.message);
+}

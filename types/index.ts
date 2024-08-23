@@ -35,10 +35,21 @@ export type AccountProps = {
 
 export interface Transaction {
   id: UUID;
-  account_id: UUID;
   date: Date;
   amount: number;
   category: string;
   label: string;
+  account_id: UUID;
+  user_id: UUID;
+}
+
+export interface Budget {
+  id: UUID;
+  budget: number;
+  actual: number;
+  category: string;
+  label: string;
+  date: Date;
+  account_id: UUID;
   user_id: UUID;
 }

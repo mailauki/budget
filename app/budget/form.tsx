@@ -13,7 +13,7 @@ import {
 
 import { addAccount } from "../db/actions";
 
-export default function NewAccountForm() {
+export default function NewBudgetForm() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
@@ -26,7 +26,7 @@ export default function NewAccountForm() {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Add new account
+                Add new budgets
               </ModalHeader>
               <ModalBody>
                 <Input

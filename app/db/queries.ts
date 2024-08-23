@@ -1,4 +1,4 @@
-import { Account, Transaction } from "@/types";
+import { Account, Budget, Transaction } from "@/types";
 import { createClient } from "@/utils/supabase/server";
 
 export async function getUser() {
@@ -45,4 +45,22 @@ export async function getTransactions() {
   const transactions = (data ?? []) as Transaction[];
 
   return { transactions };
+}
+
+export async function getBudgets() {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { data } = await supabase
+    .from("budgets")
+    .select()
+    .eq("user_id", user?.id)
+    .returns<Budget[]>();
+
+  const budgets = (data ?? []) as Budget[];
+
+  return { budgets };
 }

@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const categories = {
   income: [
     {
@@ -104,3 +106,19 @@ export const categories = {
   ],
   contributions: [{ id: 1, label: "Goals" }],
 }; // update to db
+
+export function getDatesBetween(
+  startDate: moment.MomentInput,
+  endDate: moment.MomentInput,
+) {
+  let dates = [];
+  let currentDate = moment(startDate);
+  let lastDate = moment(endDate);
+
+  while (currentDate.isSameOrBefore(lastDate)) {
+    dates.push(currentDate.format("YYYY-MM-DD"));
+    currentDate.add(1, "month");
+  }
+
+  return dates;
+}

@@ -58,7 +58,7 @@ export default function NewTranactionForm() {
                   name="category"
                   variant="bordered"
                 >
-                  {categories.map((category) => (
+                  {categories.expenses.map((category) => (
                     <SelectItem key={category.id}>{category.label}</SelectItem>
                   ))}
                 </Select>

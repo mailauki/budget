@@ -3,6 +3,7 @@
 import {
   Accordion,
   AccordionItem,
+  Selection,
   Table,
   TableBody,
   TableCell,
@@ -11,22 +12,26 @@ import {
   TableRow,
 } from "@nextui-org/react";
 import React from "react";
+import { isSameMonth, parseDate } from "@internationalized/date";
 
 import BudgetForm from "./form";
 
-import { Budget, Category } from "@/types";
+import { Budget, Category, Transaction } from "@/types";
 
 export default function BudgetTable({
   budgets,
   category,
   selectedDate,
+  transactions,
 }: {
   budgets: Budget[];
   category: Category;
   selectedDate: string;
+  transactions: Transaction[];
 }) {
   const [budgetSum, setBudgetSum] = React.useState(0);
-  const [openKeys, setOpenKeys] = React.useState<string[]>([]);
+  const [actualSum, setActualSum] = React.useState(0);
+  const [openKeys, setOpenKeys] = React.useState(new Set([""]));
 
   React.useEffect(() => {
     const sum = budgets.reduce(
@@ -40,16 +45,31 @@ export default function BudgetTable({
 
     setBudgetSum(sum);
 
-    if (sum > 0 && !openKeys.includes(`${category.id}`)) {
-      setOpenKeys([...openKeys, `${category.id}`]);
-    } else if (sum == 0 && openKeys.includes(`${category.id}`)) {
-      setOpenKeys(openKeys.filter((key) => key !== `${category.id}`));
-    }
-  }, [selectedDate, openKeys]);
+    const actual = transactions.reduce(
+      (partialSum, ta) =>
+        partialSum +
+        (isSameMonth(
+          parseDate(`${ta.date}`),
+          parseDate(`${selectedDate}-01`),
+        ) && category.labels.some(({ label }) => label == ta.category)
+          ? ta.amount
+          : 0),
+      0,
+    );
+
+    setActualSum(actual);
+
+    if (sum > 0) setOpenKeys(new Set([`${category.id}`]));
+    else if (sum == 0) setOpenKeys(new Set([""]));
+  }, [selectedDate]);
 
   return (
     <>
-      <Accordion selectedKeys={openKeys}>
+      <Accordion
+        defaultSelectedKeys={openKeys}
+        selectedKeys={openKeys}
+        onSelectionChange={setOpenKeys as (keys: Selection) => void}
+      >
         <AccordionItem
           key={category.id}
           aria-label={category.label}
@@ -57,9 +77,11 @@ export default function BudgetTable({
             <div className="flex items-center justify-between gap-2">
               <p className="grow flex-1">{category.label}</p>
               <p className="w-[100px] text-right">
-                ${new Intl.NumberFormat().format(budgetSum)}
+                $ {new Intl.NumberFormat().format(budgetSum)}
               </p>
-              <p className="w-[80px] text-right">$0.00</p>
+              <p className="w-[80px] text-right">
+                $ {new Intl.NumberFormat().format(actualSum)}
+              </p>
             </div>
           }
         >
@@ -81,7 +103,22 @@ export default function BudgetTable({
                       selectedDate={selectedDate}
                     />
                   </TableCell>
-                  <TableCell className="w-[80px] flex-none">$0.00</TableCell>
+                  <TableCell className="w-[80px] flex-none">
+                    ${" "}
+                    {new Intl.NumberFormat().format(
+                      transactions?.reduce(
+                        (partialSum, ta) =>
+                          partialSum +
+                          (isSameMonth(
+                            parseDate(`${ta.date}`),
+                            parseDate(`${selectedDate}-01`),
+                          ) && label.label == ta.category
+                            ? ta.amount
+                            : 0),
+                        0,
+                      ),
+                    )}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -19,12 +19,13 @@ export default function DateSelector({
   return (
     <>
       <Card radius="sm">
-        <div className="flex flex-row gap-4 p-4 items-center overflow-x-auto overscroll-x-contain scroll-smooth snap-normal snap-x scrollbar-hidden focus:scroll-auto">
+        <div className="flex flex-row gap-4 p-4 items-center overflow-x-auto  overscroll-auto scroll-smooth snap-normal snap-x scrollbar-hidden focus:scroll-auto">
           {dateRange.map((date: string) => (
             <Button
               key={date}
               className={`flex-col items-center justify-center gap-1 min-w-[80px] min-h-[70px] snap-center will-change-scroll ${
-                `${moment(date).format("YYYY-MM")}` == selectedDate && "active focus"
+                `${moment(date).format("YYYY-MM")}` == selectedDate &&
+                "active focus"
               }`}
               color={
                 `${moment(date).format("YYYY-MM")}` == selectedDate

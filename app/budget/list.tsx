@@ -7,10 +7,16 @@ import React from "react";
 import DateSelector from "./date-select";
 import BudgetTable from "./table";
 
-import { Budget } from "@/types";
+import { Budget, Transaction } from "@/types";
 import { categories } from "@/utils/helpers";
 
-export default function BudgetList({ budgets }: { budgets: Budget[] }) {
+export default function BudgetList({
+  budgets,
+  transactions,
+}: {
+  budgets: Budget[];
+  transactions: Transaction[];
+}) {
   const [selectedDate, setSelectedDate] = React.useState(
     moment().format("YYYY-MM"),
   );
@@ -38,6 +44,7 @@ export default function BudgetList({ budgets }: { budgets: Budget[] }) {
           budgets={budgets}
           category={category}
           selectedDate={selectedDate}
+          transactions={transactions}
         />
       ))}
       {categories.expenses.map((category) => (
@@ -46,6 +53,7 @@ export default function BudgetList({ budgets }: { budgets: Budget[] }) {
           budgets={budgets}
           category={category}
           selectedDate={selectedDate}
+          transactions={transactions}
         />
       ))}
     </>

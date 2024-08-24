@@ -22,8 +22,9 @@ export type UserProps = {
   user?: UserType;
 };
 export interface Category {
-  id: UUID;
+  id: number;
   label: string;
+  labels: { id: number; label: string }[];
 }
 
 export interface Account {
@@ -53,7 +54,7 @@ export interface Budget {
   actual: number;
   category: string;
   label: string;
-  date: Date;
+  date: string;
   account_id: UUID;
   user_id: UUID;
 }

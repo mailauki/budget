@@ -22,6 +22,15 @@ export default function BudgetForm({
     ),
   );
 
+  React.useEffect(() => {
+    setValue(
+      new Intl.NumberFormat().format(
+        budgets?.find((bgt) => bgt.date === selectedDate && bgt.label === label)
+          ?.budget || 0,
+      ),
+    );
+  }, [selectedDate]);
+
   return (
     <form action={editBudget}>
       <input className="hidden" name="category" value={category} />

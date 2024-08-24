@@ -44,6 +44,7 @@ export interface Transaction {
   amount: number;
   category: string;
   label: string;
+  credit: boolean;
   account_id: UUID;
   user_id: UUID;
 }

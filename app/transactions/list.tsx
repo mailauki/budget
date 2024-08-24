@@ -8,6 +8,9 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
+import { getLocalTimeZone, parseDate } from "@internationalized/date";
+import { useDateFormatter } from "@react-aria/i18n";
+import React from "react";
 
 import { Transaction } from "@/types";
 
@@ -16,6 +19,8 @@ export default function TransactionsList({
 }: {
   transactions: Transaction[];
 }) {
+  let formatter = useDateFormatter({ dateStyle: "full" });
+
   return (
     <Table fullWidth aria-label="Transactions table" radius="sm">
       <TableHeader>
@@ -27,8 +32,14 @@ export default function TransactionsList({
         {transactions.map((ta) => (
           <TableRow key={ta.id}>
             <TableCell>{ta.label}</TableCell>
-            <TableCell>{ta.date}</TableCell>
-            <TableCell>{ta.amount}</TableCell>
+            <TableCell>
+              {ta.date
+                ? formatter.format(
+                    parseDate(`${ta.date}`).toDate(getLocalTimeZone()),
+                  )
+                : "--"}
+            </TableCell>
+            <TableCell>${ta.amount}</TableCell>
           </TableRow>
         ))}
       </TableBody>

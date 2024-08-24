@@ -50,13 +50,6 @@ export default function BudgetTable({
   return (
     <>
       <Accordion selectedKeys={openKeys}>
-        {/* <div className="flex items-center justify-between px-6 gap-2">
-        <p className="flex-1">{category.label}</p>
-        <p className="w-[100px]">
-          ${new Intl.NumberFormat().format(budgetSum)}
-        </p>
-        <p className="w-[80px]" />
-      </div> */}
         <AccordionItem
           key={category.id}
           aria-label={category.label}
@@ -75,15 +68,6 @@ export default function BudgetTable({
               <TableColumn className="uppercase">Name</TableColumn>
               <TableColumn className="uppercase">Budget</TableColumn>
               <TableColumn className="uppercase">Actual</TableColumn>
-              {/* <TableColumn className="uppercase text-sm">
-                {category.label}
-              </TableColumn>
-              <TableColumn className="uppercase text-sm text-right">
-                ${new Intl.NumberFormat().format(budgetSum)}
-              </TableColumn>
-              <TableColumn className="uppercase text-sm text-right">
-                $0.00
-              </TableColumn> */}
             </TableHeader>
             <TableBody emptyContent={"No rows to display"}>
               {category.labels.map((label) => (

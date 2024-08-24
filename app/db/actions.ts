@@ -27,10 +27,11 @@ export async function addTransaction(formData: FormData) {
 
   const data = {
     date: formData.get("date"),
-    amount: formData.get("amount"),
+    amount: parseFloat(formData.get("amount") as string),
     category: formData.get("category") as string,
     label: formData.get("label") as string,
-    account_id: formData.get("account") as string,
+    credit: (formData.get("credit") as string) == "true" ? true : false,
+    // account_id: formData.get("account") as string,
     user_id: user?.id,
   };
 

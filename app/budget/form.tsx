@@ -1,53 +1,47 @@
-"use client";
+import { Input } from "@nextui-org/input";
+import React from "react";
 
-import {
-  Button,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  useDisclosure,
-} from "@nextui-org/react";
+import { editBudget } from "../db/actions";
 
-import { addAccount } from "../db/actions";
+import { Budget } from "@/types";
 
-export default function NewBudgetForm() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+export default function BudgetForm({
+  category,
+  label,
+  selectedDate,
+  budgets,
+}: {
+  category: string;
+  label: string;
+  selectedDate: string;
+  budgets: Budget[];
+}) {
+  const [value, setValue] = React.useState(
+    new Intl.NumberFormat().format(
+      budgets?.find((bgt) => bgt.label === label)?.budget || 0,
+    ),
+  );
 
   return (
-    <>
-      <Button fullWidth variant="ghost" onPress={onOpen}>
-        Add account
-      </Button>
-      <Modal isOpen={isOpen} placement="top-center" onOpenChange={onOpenChange}>
-        <ModalContent action={addAccount} as="form">
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Add new budgets
-              </ModalHeader>
-              <ModalBody>
-                <Input
-                  id="account-name"
-                  label="Account name"
-                  name="account-name"
-                  variant="bordered"
-                />
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="flat" onPress={onClose}>
-                  Close
-                </Button>
-                <Button color="primary" type="submit" onPress={onClose}>
-                  Create
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
-    </>
+    <form action={editBudget}>
+      <input className="hidden" name="category" value={category} />
+      <input className="hidden" name="label" value={label} />
+      <input className="hidden" name="date" value={selectedDate} />
+      <Input
+        className="w-[100px]"
+        name="budget"
+        startContent={
+          <div className="pointer-events-none flex items-center">
+            <span className="text-default-400 text-small">$</span>
+          </div>
+        }
+        value={value}
+        variant="bordered"
+        onChange={(event) => setValue(event.target.value)}
+      />
+      <button className="hidden" type="submit">
+        Submit
+      </button>
+    </form>
   );
 }

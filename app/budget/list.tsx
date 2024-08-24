@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 "use client";
 
 import {
@@ -18,12 +19,9 @@ import DateSelector from "./date-select";
 
 import { Budget } from "@/types";
 import { categories } from "@/utils/helpers";
+import BudgetForm from "./form";
 
-export default function BudgetList({
-  budgets,
-}: {
-  budgets: Budget[] | undefined;
-}) {
+export default function BudgetList({ budgets }: { budgets: Budget[] }) {
   const [selectedDate, setSelectedDate] = React.useState(
     moment().format("YYYY-MM"),
   );
@@ -59,33 +57,12 @@ export default function BudgetList({
                 <TableRow key={label.id}>
                   <TableCell>{label.label}</TableCell>
                   <TableCell>
-                    <form action={editBudget}>
-                      <input
-                        className="hidden"
-                        name="label"
-                        value={label.label}
-                      />
-                      <input
-                        className="hidden"
-                        name="date"
-                        value={selectedDate}
-                      />
-                      <Input
-                        className="w-[90px]"
-                        name="budget"
-                        startContent={
-                          <div className="pointer-events-none flex items-center">
-                            <span className="text-default-400 text-small">
-                              $
-                            </span>
-                          </div>
-                        }
-                        variant="bordered"
-                      />
-                      <button className="hidden" type="submit">
-                        Submit
-                      </button>
-                    </form>
+                    <BudgetForm
+                      budgets={budgets}
+                      category={category.label}
+                      label={label.label}
+                      selectedDate={selectedDate}
+                    />
                   </TableCell>
                   <TableCell>$0.00</TableCell>
                 </TableRow>
@@ -108,32 +85,12 @@ export default function BudgetList({
                 <TableRow key={label.label}>
                   <TableCell>{label.label}</TableCell>
                   <TableCell>
-                    <form action={editBudget}>
-                      <input
-                        className="hidden"
-                        name="label"
-                        value={label.label}
-                      />
-                      <input
-                        className="hidden"
-                        name="date"
-                        value={selectedDate}
-                      />
-                      <Input
-                        className="w-[90px]"
-                        name="budget"
-                        value={`$${
-                          budgets?.find((bgt) => {
-                            if (bgt.label == label.label)
-                              return bgt.budget.toFixed(2);
-                          }) || (0).toFixed(2)
-                        }`}
-                        variant="bordered"
-                      />
-                      <button className="hidden" type="submit">
-                        Submit
-                      </button>
-                    </form>
+                    <BudgetForm
+                      budgets={budgets}
+                      category={category.label}
+                      label={label.label}
+                      selectedDate={selectedDate}
+                    />
                   </TableCell>
                   <TableCell>$0.00</TableCell>
                 </TableRow>

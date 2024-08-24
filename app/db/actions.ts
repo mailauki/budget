@@ -47,14 +47,15 @@ export async function editBudget(formData: FormData) {
   } = await supabase.auth.getUser();
 
   const data = {
-    label: formData.get("label"),
     budget: formData.get("budget"),
+    category: formData.get("category"),
+    label: formData.get("label"),
     date: formData.get("date"),
     user_id: user?.id,
   };
 
   console.log({ data });
-  // const { error } = await supabase.from("budgets").upsert(data);
+  const { error } = await supabase.from("budgets").upsert(data);
 
-  // if (error) alert(error.message);
+  if (error) alert(error.message);
 }

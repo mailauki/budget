@@ -81,18 +81,18 @@ export default function BudgetTable({
           aria-label={category.label}
           title={
             <div className="flex items-center justify-between gap-2">
-              <p className="grow flex-1">{category.label}</p>
-              <p className="w-[100px] text-right">
+              <div className="grow flex-1">{category.label}</div>
+              <div className="w-[100px] text-right">
                 <Chip size="lg" variant="light">
                   $ {new Intl.NumberFormat().format(budgetSum)}
                 </Chip>
-              </p>
-              <p className="w-[80px] text-right hidden sm:block">
+              </div>
+              <div className="w-[80px] text-right hidden sm:block">
                 <Chip size="lg" variant="light">
                   $ {new Intl.NumberFormat().format(actualSum)}
                 </Chip>
-              </p>
-              <p className="w-[80px] text-right">
+              </div>
+              <div className="w-[80px] text-right">
                 <Chip
                   color={
                     remaingSum > 0
@@ -106,7 +106,7 @@ export default function BudgetTable({
                 >
                   $ {new Intl.NumberFormat().format(remaingSum)}
                 </Chip>
-              </p>
+              </div>
             </div>
           }
         >

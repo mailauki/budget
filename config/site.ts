@@ -23,6 +23,22 @@ export const siteConfig = {
   ],
   navMenuItems: [
     {
+      label: "Home",
+      href: "/",
+    },
+    {
+      label: "Accounts",
+      href: "/accounts",
+    },
+    {
+      label: "Transactions",
+      href: "/transactions",
+    },
+    {
+      label: "Budget",
+      href: "/budget",
+    },
+    {
       label: "Profile",
       href: "/profile",
     },
@@ -49,10 +65,6 @@ export const siteConfig = {
     {
       label: "Help & Feedback",
       href: "/help-feedback",
-    },
-    {
-      label: "Logout",
-      href: "/auth/logout",
     },
   ],
   links: {

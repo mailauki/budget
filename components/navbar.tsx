@@ -13,14 +13,15 @@ import { Input } from "@nextui-org/input";
 import { link as linkStyles } from "@nextui-org/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
-import { Button } from "@nextui-org/button";
+
+import UserCard from "./user-card";
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { SearchIcon, Logo } from "@/components/icons";
-import { logout } from "@/app/auth/actions";
+import { getUser } from "@/app/db/queries";
 
-export const Navbar = () => {
+export async function Navbar() {
   const searchInput = (
     <Input
       aria-label="Search"
@@ -41,6 +42,7 @@ export const Navbar = () => {
       type="search"
     />
   );
+  const user = await getUser();
 
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
@@ -84,19 +86,13 @@ export const Navbar = () => {
         <NavbarMenuToggle />
       </NavbarContent>
 
-      <NavbarMenu>
+      <NavbarMenu className="pb-4">
         {searchInput}
-        <div className="mx-4 mt-2 flex flex-col gap-2">
+        <div className="mx-4 mt-2 flex flex-col gap-2 grow">
           {siteConfig.navMenuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link
-                color={
-                  index === 2
-                    ? "primary"
-                    : index === siteConfig.navMenuItems.length - 1
-                      ? "danger"
-                      : "foreground"
-                }
+                color={index === 2 ? "primary" : "foreground"}
                 href={item.href}
                 size="lg"
               >
@@ -105,18 +101,8 @@ export const Navbar = () => {
             </NavbarMenuItem>
           ))}
         </div>
-        <form action={logout}>
-          <Button
-            className="text-lg"
-            color="danger"
-            size="md"
-            type="submit"
-            variant="light"
-          >
-            Logout
-          </Button>
-        </form>
+        <UserCard user={user!} />
       </NavbarMenu>
     </NextUINavbar>
   );
-};
+}

@@ -4,10 +4,10 @@ import { Button } from "@nextui-org/button";
 import React from "react";
 // import { Button, Card, CardBody, Input } from "@nextui-org/react";
 // import { BsFillEyeFill, BsFillEyeSlashFill, BsGithub } from "react-icons/bs";
-import { BsGithub } from "react-icons/bs";
+import { BsGithub, BsGoogle } from "react-icons/bs";
 
 // import { login, signInWithGithub, signup } from "@/app/auth/actions";
-import { signInWithGithub } from "@/app/auth/actions";
+import { signInWithGithub, signInWithGoogle } from "@/app/auth/actions";
 
 export default function LoginPage() {
   // const [isVisible, setIsVisible] = React.useState(false);
@@ -17,7 +17,8 @@ export default function LoginPage() {
 
   return (
     <section className="mx-auto max-w-sm">
-      {/* <Card radius="sm">
+      <div className="flex flex-col gap-4">
+        {/* <Card radius="sm">
         <CardBody className="flex flex-row gap-2 p-2">
           <Button
             fullWidth
@@ -37,7 +38,7 @@ export default function LoginPage() {
           </Button>
         </CardBody>
       </Card> */}
-      {/* <form className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+        {/* <form className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
         <Input id="email" label="Email" name="email" radius="sm" type="email" />
         <Input
           endContent={
@@ -90,12 +91,19 @@ export default function LoginPage() {
           </Button>
         )}
       </form> */}
-      <form action={signInWithGithub}>
-        <Button fullWidth radius="sm" size="lg" type="submit">
-          <BsGithub />
-          Login using Github
-        </Button>
-      </form>
+        <form action={signInWithGithub}>
+          <Button fullWidth radius="sm" size="lg" type="submit">
+            <BsGithub />
+            Login using Github
+          </Button>
+        </form>
+        <form action={signInWithGoogle}>
+          <Button fullWidth radius="sm" size="lg" type="submit">
+            <BsGoogle />
+            Login using Google
+          </Button>
+        </form>
+      </div>
     </section>
   );
 }

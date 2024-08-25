@@ -18,7 +18,7 @@ export default function DateSelector({
 
   return (
     <>
-      <Card radius="sm">
+      <Card radius="sm" shadow="sm">
         <div className="flex flex-row gap-4 p-4 items-center overflow-x-auto  overscroll-auto scroll-smooth snap-normal snap-x scrollbar-hidden focus:scroll-auto">
           {dateRange.map((date: string) => (
             <Button
@@ -45,7 +45,9 @@ export default function DateSelector({
               <span className="text-small uppercase">
                 {moment(date).format("MMM")}
               </span>
-              <span className="text-tiny text-default-500">
+              <span
+                className={`text-tiny ${`${moment(date).format("YYYY-MM")}` == selectedDate ? "text-forground" : "text-default-500"}`}
+              >
                 {moment(date).format("YYYY")}
               </span>
             </Button>

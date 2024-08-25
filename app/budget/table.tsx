@@ -3,6 +3,7 @@
 import {
   Accordion,
   AccordionItem,
+  Chip,
   Selection,
   Table,
   TableBody,
@@ -31,6 +32,7 @@ export default function BudgetTable({
 }) {
   const [budgetSum, setBudgetSum] = React.useState(0);
   const [actualSum, setActualSum] = React.useState(0);
+  const [remaingSum, setRemaingSum] = React.useState(0);
   const [openKeys, setOpenKeys] = React.useState(new Set([""]));
 
   React.useEffect(() => {
@@ -59,6 +61,10 @@ export default function BudgetTable({
 
     setActualSum(actual);
 
+    const remaing = sum - actual;
+
+    setRemaingSum(remaing);
+
     if (sum > 0) setOpenKeys(new Set([`${category.id}`]));
     else if (sum == 0) setOpenKeys(new Set([""]));
   }, [selectedDate]);
@@ -77,10 +83,29 @@ export default function BudgetTable({
             <div className="flex items-center justify-between gap-2">
               <p className="grow flex-1">{category.label}</p>
               <p className="w-[100px] text-right">
-                $ {new Intl.NumberFormat().format(budgetSum)}
+                <Chip size="lg" variant="light">
+                  $ {new Intl.NumberFormat().format(budgetSum)}
+                </Chip>
+              </p>
+              <p className="w-[80px] text-right hidden sm:block">
+                <Chip size="lg" variant="light">
+                  $ {new Intl.NumberFormat().format(actualSum)}
+                </Chip>
               </p>
               <p className="w-[80px] text-right">
-                $ {new Intl.NumberFormat().format(actualSum)}
+                <Chip
+                  color={
+                    remaingSum > 0
+                      ? "success"
+                      : remaingSum < 0
+                        ? "danger"
+                        : "default"
+                  }
+                  size="lg"
+                  variant="flat"
+                >
+                  $ {new Intl.NumberFormat().format(remaingSum)}
+                </Chip>
               </p>
             </div>
           }
@@ -89,7 +114,10 @@ export default function BudgetTable({
             <TableHeader>
               <TableColumn className="uppercase">Name</TableColumn>
               <TableColumn className="uppercase">Budget</TableColumn>
-              <TableColumn className="uppercase">Actual</TableColumn>
+              <TableColumn className="uppercase hidden sm:table-cell">
+                Actual
+              </TableColumn>
+              <TableColumn className="uppercase">Remaining</TableColumn>
             </TableHeader>
             <TableBody emptyContent={"No rows to display"}>
               {category.labels.map((label) => (
@@ -103,7 +131,7 @@ export default function BudgetTable({
                       selectedDate={selectedDate}
                     />
                   </TableCell>
-                  <TableCell className="w-[80px] flex-none">
+                  <TableCell className="w-[80px] hidden sm:table-cell">
                     ${" "}
                     {new Intl.NumberFormat().format(
                       transactions?.reduce(
@@ -119,6 +147,7 @@ export default function BudgetTable({
                       ),
                     )}
                   </TableCell>
+                  <TableCell className="w-[80px] flex-none">$ 0</TableCell>
                 </TableRow>
               ))}
             </TableBody>

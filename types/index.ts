@@ -28,7 +28,7 @@ export interface Category {
 }
 
 export interface Account {
-  id: UUID;
+  id: number;
   account_name: string;
   current_balance: number;
   user_id: UUID;
@@ -39,7 +39,7 @@ export type AccountProps = {
 };
 
 export interface Transaction {
-  id: UUID;
+  id: number;
   date: ReactNode;
   amount: number;
   category: string;
@@ -50,7 +50,7 @@ export interface Transaction {
 }
 
 export interface Budget {
-  id: UUID;
+  id: number;
   budget: number;
   actual: number;
   category: string;

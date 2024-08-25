@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -26,6 +27,8 @@ export default function TransactionsList({
       <TableHeader>
         <TableColumn className="uppercase">Name</TableColumn>
         <TableColumn className="uppercase">Date</TableColumn>
+        <TableColumn className="uppercase">Credit</TableColumn>
+        <TableColumn className="uppercase">Category</TableColumn>
         <TableColumn className="uppercase">Amount</TableColumn>
       </TableHeader>
       <TableBody emptyContent={"No transactions to display"}>
@@ -39,7 +42,11 @@ export default function TransactionsList({
                   )
                 : "--"}
             </TableCell>
-            <TableCell>${ta.amount}</TableCell>
+            <TableCell>
+              <Checkbox disabled isSelected={ta.credit} />
+            </TableCell>
+            <TableCell>{ta.category}</TableCell>
+            <TableCell>$ {ta.amount}</TableCell>
           </TableRow>
         ))}
       </TableBody>

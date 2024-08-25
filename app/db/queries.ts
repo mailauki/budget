@@ -1,15 +1,27 @@
+import { cache } from "react";
+
 import { Account, Budget, Transaction } from "@/types";
 import { createClient } from "@/utils/supabase/server";
 
-export async function getUser() {
-  const supabase = createClient();
+// export async function getUser() {
+//   const supabase = createClient();
 
+//   const {
+//     data: { user },
+//   } = await supabase.auth.getUser();
+
+//   return user;
+// }
+
+
+export const getUser = cache(async () => {
+  const supabase = createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   return user;
-}
+});
 
 export async function getAccounts() {
   const supabase = createClient();

@@ -3,13 +3,21 @@ import { BsCalendar } from "react-icons/bs";
 
 import { getBudgets, getTransactions } from "../db/queries";
 
-import BudgetList from "./list";
+import Budgets from "./budgets";
 
 import { title } from "@/components/primitives";
 
 export default async function BudgetPage() {
-  const { budgets } = await getBudgets();
-  const { transactions } = await getTransactions();
+  // const { budgets } = await getBudgets();
+  // const { transactions } = await getTransactions();
+  const budgetsData = getBudgets();
+  const transactionsData = getTransactions();
+
+  // Initiate both requests in parallel
+  const [{ budgets }, { transactions }] = await Promise.all([
+    budgetsData,
+    transactionsData,
+  ]);
 
   return (
     <div className="w-full flex flex-col gap-4 my-3">
@@ -19,7 +27,8 @@ export default async function BudgetPage() {
           <BsCalendar />
         </Button>
       </div>
-      <BudgetList budgets={budgets} transactions={transactions} />
+      {/* <BudgetList serverBudgets={budgets} serverTransactions={transactions} /> */}
+      <Budgets />
     </div>
   );
 }

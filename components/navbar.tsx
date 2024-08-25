@@ -14,14 +14,13 @@ import { link as linkStyles } from "@nextui-org/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
 
-import UserCard from "./user-card";
+import Users from "./users";
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { SearchIcon, Logo } from "@/components/icons";
-import { getUser } from "@/app/db/queries";
 
-export async function Navbar() {
+export function Navbar() {
   const searchInput = (
     <Input
       aria-label="Search"
@@ -42,7 +41,6 @@ export async function Navbar() {
       type="search"
     />
   );
-  const user = await getUser();
 
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
@@ -101,7 +99,6 @@ export async function Navbar() {
             </NavbarMenuItem>
           ))}
         </div>
-        <UserCard user={user!} />
       </NavbarMenu>
     </NextUINavbar>
   );

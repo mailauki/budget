@@ -14,7 +14,7 @@ export async function addAccount(formData: FormData) {
     user_id: user?.id,
   };
 
-  const { error } = await supabase.from("accounts").upsert(data);
+  const { error } = await supabase.from("accounts").insert(data);
 
   if (error) alert(error.message);
 }
@@ -36,7 +36,7 @@ export async function addTransaction(formData: FormData) {
   };
 
   console.log({ data });
-  const { error } = await supabase.from("transactions").upsert(data);
+  const { error } = await supabase.from("transactions").insert(data);
 
   if (error) alert(error.message);
 }

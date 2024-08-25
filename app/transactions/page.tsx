@@ -1,13 +1,9 @@
-import { getTransactions } from "../db/queries";
-
-import TransactionsList from "./list";
+import Transactions from "./transactions";
 import NewTranactionForm from "./form";
 
 import { title } from "@/components/primitives";
 
 export default async function TransactionsPage() {
-  const { transactions } = await getTransactions();
-
   return (
     <>
       <div className="w-full flex flex-col gap-2 my-3">
@@ -15,7 +11,7 @@ export default async function TransactionsPage() {
           <h1 className={title()}>Transactions</h1>
           <NewTranactionForm />
         </div>
-        <TransactionsList transactions={transactions} />
+        <Transactions />
       </div>
     </>
   );

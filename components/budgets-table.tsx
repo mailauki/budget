@@ -15,11 +15,11 @@ import {
 import React from "react";
 import { isSameMonth, parseDate } from "@internationalized/date";
 
-import BudgetForm from "./form";
+import BudgetForm from "./budget-form";
 
 import { Budget, Category, Transaction } from "@/types";
 
-export default function BudgetTable({
+export default function BudgetsTable({
   budgets,
   category,
   selectedDate,

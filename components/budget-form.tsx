@@ -1,8 +1,7 @@
 import { Input } from "@nextui-org/input";
 import React from "react";
 
-import { editBudget } from "../db/actions";
-
+import { editBudget } from "@/app/db/actions";
 import { Budget } from "@/types";
 
 export default function BudgetForm({
@@ -39,20 +38,20 @@ export default function BudgetForm({
     // handleSumbit(event);
   }
 
-  function handleSumbit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    event.currentTarget.form?.requestSubmit();
-  }
+  // function handleSumbit(event: React.FormEvent<HTMLFormElement>) {
+  //   event.preventDefault();
+  //   event.currentTarget.form?.requestSubmit();
+  // }
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (
-      (event.ctrlKey || event.metaKey) &&
-      (event.key === "Enter" || event.key === "NumpadEnter")
-    ) {
-      event.preventDefault();
-      event.currentTarget.form?.requestSubmit();
-    }
-  };
+  // const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  //   if (
+  //     (event.ctrlKey || event.metaKey) &&
+  //     (event.key === "Enter" || event.key === "NumpadEnter")
+  //   ) {
+  //     event.preventDefault();
+  //     event.currentTarget.form?.requestSubmit();
+  //   }
+  // };
 
   return (
     <form action={editBudget}>

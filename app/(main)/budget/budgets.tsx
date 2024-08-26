@@ -2,12 +2,11 @@
 
 import React from "react";
 
-import BudgetList from "./list";
-
 import { Budget, Transaction } from "@/types";
 import { createClient } from "@/utils/supabase/client";
+import BudgetsList from "@/components/budgets-list";
 
-export default function RealtimeBudgets({
+export default function Budgets({
   serverBudgets,
   serverTransactions,
 }: {
@@ -89,5 +88,5 @@ export default function RealtimeBudgets({
   }, [serverTransactions]);
 
   // return <pre>{JSON.stringify(budgets, null, 2)}</pre>;
-  return <BudgetList budgets={budgets} transactions={transactions} />;
+  return <BudgetsList budgets={budgets} transactions={transactions} />;
 }

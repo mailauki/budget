@@ -13,7 +13,6 @@ import { createClient } from "@/utils/supabase/server";
 //   return user;
 // }
 
-
 export const getUser = cache(async () => {
   const supabase = createClient();
   const {

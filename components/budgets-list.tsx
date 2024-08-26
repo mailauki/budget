@@ -4,8 +4,8 @@
 import moment from "moment";
 import React from "react";
 
+import BudgetsTable from "./budgets-table";
 import DateSelector from "./date-select";
-import BudgetTable from "./table";
 
 import { Budget, Transaction } from "@/types";
 import { categories } from "@/utils/helpers";
@@ -39,7 +39,7 @@ export default function BudgetList({
     <>
       <DateSelector changeDate={changeDate} selectedDate={selectedDate} />
       {categories.income.map((category) => (
-        <BudgetTable
+        <BudgetsTable
           key={category.id}
           budgets={budgets}
           category={category}
@@ -48,7 +48,7 @@ export default function BudgetList({
         />
       ))}
       {categories.expenses.map((category) => (
-        <BudgetTable
+        <BudgetsTable
           key={category.id}
           budgets={budgets}
           category={category}

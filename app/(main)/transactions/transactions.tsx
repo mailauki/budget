@@ -2,10 +2,9 @@
 
 import React from "react";
 
-import TransactionsList from "./list";
-
 import { Transaction } from "@/types";
 import { createClient } from "@/utils/supabase/client";
+import TransactionsTable from "@/components/transactions-table";
 
 export default function RealtimeTransactions({
   serverTransactions,
@@ -62,5 +61,5 @@ export default function RealtimeTransactions({
     };
   }, [serverTransactions]);
 
-  return <TransactionsList transactions={transactions} />;
+  return <TransactionsTable transactions={transactions} />;
 }

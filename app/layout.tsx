@@ -5,7 +5,6 @@ import { Link } from "@nextui-org/link";
 import clsx from "clsx";
 
 import { Providers } from "./providers";
-import { getUser } from "./db/queries";
 
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
@@ -34,7 +33,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
   return (
     <html suppressHydrationWarning lang="en">
       <head />

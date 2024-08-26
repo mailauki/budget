@@ -4,8 +4,13 @@ import { BsCalendar } from "react-icons/bs";
 import Budgets from "./budgets";
 
 import { title } from "@/components/primitives";
+import { createClient } from "@/utils/supabase/server";
 
-export default function BudgetPage() {
+export default async function BudgetPage() {
+  const supabase = createClient();
+  const { data } = await supabase.from("budgets").select();
+  const { data: transactions } = await supabase.from("transactions").select();
+
   return (
     <div className="w-full flex flex-col gap-4 my-3">
       <div className="flex items-baseline justify-between">
@@ -14,7 +19,11 @@ export default function BudgetPage() {
           <BsCalendar />
         </Button>
       </div>
-      <Budgets />
+
+      <Budgets
+        serverBudgets={data ?? []}
+        serverTransactions={transactions ?? []}
+      />
     </div>
   );
 }

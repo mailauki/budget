@@ -15,7 +15,7 @@ import React from "react";
 
 import { Transaction } from "@/types";
 
-export default function TransactionsList({
+export default function TransactionsTable({
   transactions,
 }: {
   transactions: Transaction[];

@@ -19,11 +19,10 @@ import { BsPlus } from "react-icons/bs";
 import React from "react";
 import { today, getLocalTimeZone } from "@internationalized/date";
 
-import { addTransaction } from "../db/actions";
-
+import { addTransaction } from "@/app/db/actions";
 import { categories } from "@/utils/helpers";
 
-export default function NewTranactionForm() {
+export default function TranactionForm() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const expenses = categories.expenses.flatMap((category) => category.labels);
   const [date, setDate] = React.useState(today(getLocalTimeZone()));

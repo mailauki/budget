@@ -16,7 +16,8 @@ export async function addAccount(formData: FormData) {
 
   const { error } = await supabase.from("accounts").insert(data);
 
-  if (error) alert(error.message);
+  // if (error) alert(error.message);
+  if (error) console.log(error);
 }
 
 export async function addTransaction(formData: FormData) {
@@ -38,7 +39,8 @@ export async function addTransaction(formData: FormData) {
   console.log({ data });
   const { error } = await supabase.from("transactions").insert(data);
 
-  if (error) alert(error.message);
+  // if (error) alert(error.message);
+  if (error) console.log(error);
 }
 
 export async function editBudget(formData: FormData) {
@@ -63,4 +65,5 @@ export async function editBudget(formData: FormData) {
     .match({ id: data.id, user_id: user?.id });
 
   // if (error) alert(error.message);
+  if (error) console.log(error);
 }

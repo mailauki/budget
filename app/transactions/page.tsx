@@ -3,7 +3,7 @@ import NewTranactionForm from "./form";
 
 import { title } from "@/components/primitives";
 
-export default async function TransactionsPage() {
+export default function TransactionsPage() {
   return (
     <>
       <div className="w-full flex flex-col gap-2 my-3">

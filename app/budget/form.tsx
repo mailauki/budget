@@ -16,6 +16,10 @@ export default function BudgetForm({
   selectedDate: string;
   budgets: Budget[];
 }) {
+  const currentBudget = budgets?.find(
+    (bgt) => bgt.date === selectedDate && bgt.label === label,
+  );
+
   const [value, setValue] = React.useState(
     new Intl.NumberFormat().format(
       budgets?.find((bgt) => bgt.label === label)?.budget || 0,
@@ -23,22 +27,43 @@ export default function BudgetForm({
   );
 
   React.useEffect(() => {
-    setValue(
-      new Intl.NumberFormat().format(
-        budgets?.find((bgt) => bgt.date === selectedDate && bgt.label === label)
-          ?.budget || 0,
-      ),
-    );
+    setValue(new Intl.NumberFormat().format(currentBudget?.budget || 0));
   }, [selectedDate]);
+
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setValue(event.target.value.replace(",", ""));
+
+    event.preventDefault();
+    event.currentTarget.form?.requestSubmit();
+    // formRef.dispatchEvent(new Event("submit"));
+    // handleSumbit(event);
+  }
+
+  function handleSumbit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    event.currentTarget.form?.requestSubmit();
+  }
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (
+      (event.ctrlKey || event.metaKey) &&
+      (event.key === "Enter" || event.key === "NumpadEnter")
+    ) {
+      event.preventDefault();
+      event.currentTarget.form?.requestSubmit();
+    }
+  };
 
   return (
     <form action={editBudget}>
+      <input className="hidden" name="id" value={currentBudget?.id} />
       <input className="hidden" name="category" value={category} />
       <input className="hidden" name="label" value={label} />
       <input className="hidden" name="date" value={selectedDate} />
       <Input
         className="w-[100px]"
         name="budget"
+        pattern="[0-9]*[.,]?[0-9]*"
         startContent={
           <div className="pointer-events-none flex items-center">
             <span className="text-default-400 text-small">$</span>
@@ -46,7 +71,8 @@ export default function BudgetForm({
         }
         value={value}
         variant="bordered"
-        onChange={(event) => setValue(event.target.value)}
+        onChange={handleChange}
+        // onKeyDown={handleKeyDown}
       />
       <button className="hidden" type="submit">
         Submit

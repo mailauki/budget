@@ -14,6 +14,7 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 import { isSameMonth, parseDate } from "@internationalized/date";
+import { useNumberFormatter } from "@react-aria/i18n";
 
 import BudgetForm from "./budget-form";
 
@@ -30,6 +31,11 @@ export default function BudgetsTable({
   selectedDate: string;
   transactions: Transaction[];
 }) {
+  const formatter = useNumberFormatter({
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 0,
+  });
   const [budgetSum, setBudgetSum] = React.useState(0);
   const [actualSum, setActualSum] = React.useState(0);
   const [remaingSum, setRemaingSum] = React.useState(0);
@@ -39,7 +45,7 @@ export default function BudgetsTable({
     const sum = budgets.reduce(
       (partialSum, bgt) =>
         partialSum +
-        (bgt.date == selectedDate && bgt.category == category.label
+        (bgt.date == selectedDate && bgt.category == category.name
           ? bgt.budget
           : 0),
       0,
@@ -53,7 +59,7 @@ export default function BudgetsTable({
         (isSameMonth(
           parseDate(`${ta.date}`),
           parseDate(`${selectedDate}-01`),
-        ) && category.labels.some(({ label }) => label == ta.category)
+        ) && category.labels.some(({ name }) => name == ta.category)
           ? ta.amount
           : 0),
       0,
@@ -69,6 +75,35 @@ export default function BudgetsTable({
     else if (sum == 0) setOpenKeys(new Set([""]));
   }, [selectedDate]);
 
+  const topContent = React.useMemo(() => {
+    return (
+      <div className="flex items-center justify-between gap-2">
+        <div className="grow flex-1">{category.name}</div>
+        <div className="w-[100px] text-right">
+          <Chip size="lg" variant="light">
+            {formatter.format(budgetSum)}
+          </Chip>
+        </div>
+        <div className="w-[100px] text-right hidden sm:block">
+          <Chip size="lg" variant="light">
+            {formatter.format(actualSum)}
+          </Chip>
+        </div>
+        <div className="w-[100px] text-right">
+          <Chip
+            color={
+              remaingSum > 0 ? "success" : remaingSum < 0 ? "danger" : "default"
+            }
+            size="lg"
+            variant="flat"
+          >
+            {formatter.format(remaingSum)}
+          </Chip>
+        </div>
+      </div>
+    );
+  }, [category, budgetSum, actualSum, remaingSum]);
+
   return (
     <>
       <Accordion
@@ -78,76 +113,57 @@ export default function BudgetsTable({
       >
         <AccordionItem
           key={category.id}
-          aria-label={category.label}
-          title={
-            <div className="flex items-center justify-between gap-2">
-              <div className="grow flex-1">{category.label}</div>
-              <div className="w-[100px] text-right">
-                <Chip size="lg" variant="light">
-                  $ {new Intl.NumberFormat().format(budgetSum)}
-                </Chip>
-              </div>
-              <div className="w-[80px] text-right hidden sm:block">
-                <Chip size="lg" variant="light">
-                  $ {new Intl.NumberFormat().format(actualSum)}
-                </Chip>
-              </div>
-              <div className="w-[80px] text-right">
-                <Chip
-                  color={
-                    remaingSum > 0
-                      ? "success"
-                      : remaingSum < 0
-                        ? "danger"
-                        : "default"
-                  }
-                  size="lg"
-                  variant="flat"
-                >
-                  $ {new Intl.NumberFormat().format(remaingSum)}
-                </Chip>
-              </div>
-            </div>
-          }
+          aria-label={category.name}
+          title={topContent}
         >
-          <Table fullWidth aria-label="Budgets table">
+          <Table fullWidth aria-label="Budgets table" radius="sm">
             <TableHeader>
-              <TableColumn className="uppercase">Name</TableColumn>
-              <TableColumn className="uppercase">Budget</TableColumn>
-              <TableColumn className="uppercase hidden sm:table-cell">
+              <TableColumn align="start" className="uppercase">
+                Name
+              </TableColumn>
+              <TableColumn align="center" className="uppercase">
+                Budget
+              </TableColumn>
+              <TableColumn
+                align="end"
+                className="uppercase hidden sm:table-cell"
+              >
                 Actual
               </TableColumn>
-              <TableColumn className="uppercase">Remaining</TableColumn>
+              <TableColumn align="end" className="uppercase">
+                Remaining
+              </TableColumn>
             </TableHeader>
             <TableBody emptyContent={"No rows to display"}>
               {category.labels.map((label) => (
                 <TableRow key={label.id}>
-                  <TableCell className="grow flex-1">{label.label}</TableCell>
+                  <TableCell className="grow flex-1">{label.name}</TableCell>
                   <TableCell className="w-[100px] flex-none">
                     <BudgetForm
                       budgets={budgets}
-                      category={category.label}
-                      label={label.label}
+                      category={category.name}
+                      label={label.name}
                       selectedDate={selectedDate}
                     />
                   </TableCell>
-                  <TableCell className="w-[80px] hidden sm:table-cell">
-                    ${" "}
-                    {new Intl.NumberFormat().format(
+                  <TableCell className="w-[100px] hidden sm:table-cell">
+                    {formatter.format(
                       transactions?.reduce(
                         (partialSum, ta) =>
                           partialSum +
                           (isSameMonth(
                             parseDate(`${ta.date}`),
                             parseDate(`${selectedDate}-01`),
-                          ) && label.label == ta.category
+                          ) && label.name == ta.category
                             ? ta.amount
                             : 0),
                         0,
                       ),
                     )}
                   </TableCell>
-                  <TableCell className="w-[80px] flex-none">$ 0</TableCell>
+                  <TableCell className="w-[100px] flex-none">
+                    {formatter.format(0)}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

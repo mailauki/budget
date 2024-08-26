@@ -16,12 +16,12 @@ export default function BudgetForm({
   budgets: Budget[];
 }) {
   const currentBudget = budgets?.find(
-    (bgt) => bgt.date === selectedDate && bgt.label === label,
+    (bgt) => bgt.date === selectedDate && bgt.name === label,
   );
 
   const [value, setValue] = React.useState(
     new Intl.NumberFormat().format(
-      budgets?.find((bgt) => bgt.label === label)?.budget || 0,
+      budgets?.find(({ name }) => name === label)?.budget || 0,
     ),
   );
 

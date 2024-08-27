@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 "use server";
 
+import { Transaction } from "@/types";
 import { createClient } from "@/utils/supabase/server";
 
 export async function addAccount(formData: FormData) {
@@ -40,6 +41,26 @@ export async function addTransaction(formData: FormData) {
   const { error } = await supabase.from("transactions").insert(data);
 
   // if (error) alert(error.message);
+  if (error) console.log(error);
+}
+
+export async function editTransaction(transaction: Transaction) {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  console.log({ transaction });
+
+  const { data, error } = await supabase
+    .from("transactions")
+    .upsert(transaction)
+    .match({ id: transaction.id, user_id: user?.id })
+    .select()
+    .maybeSingle();
+
+  console.log({ data });
+
   if (error) console.log(error);
 }
 

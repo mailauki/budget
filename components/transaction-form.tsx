@@ -21,7 +21,7 @@ import { BsPlus } from "react-icons/bs";
 import React from "react";
 import { today, getLocalTimeZone } from "@internationalized/date";
 
-import { addTransaction } from "@/app/db/actions";
+import { addTransaction } from "@/db/actions";
 import { expenses } from "@/utils/helpers";
 import { Category } from "@/types";
 

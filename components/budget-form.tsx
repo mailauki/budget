@@ -1,7 +1,7 @@
 import { Input } from "@nextui-org/input";
 import React from "react";
 
-import { editBudget } from "@/app/db/actions";
+import { editBudget } from "@/db/actions";
 import { Budget } from "@/types";
 
 export default function BudgetForm({

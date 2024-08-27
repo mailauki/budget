@@ -2,7 +2,7 @@ import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Button } from "@nextui-org/button";
 import { Divider } from "@nextui-org/react";
 
-import { getAccounts } from "../db/queries";
+import { getAccounts } from "../../db/queries";
 
 import NewAccountForm from "./form";
 import AccountsList from "./list";

@@ -11,7 +11,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 
-import { addAccount } from "../db/actions";
+import { addAccount } from "../../db/actions";
 
 export default function NewAccountForm() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();

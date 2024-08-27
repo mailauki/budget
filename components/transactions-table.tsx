@@ -1,7 +1,12 @@
 "use client";
 
 import {
+  Button,
   Checkbox,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
   SortDescriptor,
   Table,
   TableBody,
@@ -13,17 +18,20 @@ import {
 import { useDateFormatter, useNumberFormatter } from "@react-aria/i18n";
 import React from "react";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
+import { BsChevronDown } from "react-icons/bs";
 
-import CategoryPopover from "./category-popover";
+import CategorySelect from "./category-select";
 
 import { Transaction } from "@/types";
+import { editTransaction } from "@/db/actions";
 
 export default function TransactionsTable({
   transactions,
 }: {
   transactions: Transaction[];
 }) {
-  let formatter = useDateFormatter({ dateStyle: "full" });
+  const formatter = useDateFormatter({ dateStyle: "medium" });
+  const formatterFull = useDateFormatter({ dateStyle: "full" });
   const formatterAmount = useNumberFormatter({
     style: "currency",
     currency: "USD",
@@ -59,7 +67,12 @@ export default function TransactionsTable({
               )
             : "--";
         case "category":
-          return <CategoryPopover category={transaction.category} />;
+          return (
+            <CategorySelect
+              category={transaction.category}
+              transaction={transaction}
+            />
+          );
         case "credit":
           return (
             <Checkbox
@@ -77,12 +90,57 @@ export default function TransactionsTable({
     [],
   );
 
+  const topContent = React.useMemo(() => {
+    return (
+      <Dropdown>
+        <DropdownTrigger>
+          <Button className="justify-between" size="lg" variant="light">
+            {transactions[0].date
+              ? formatterFull.format(
+                  parseDate(`${transactions[0].date}`).toDate(
+                    getLocalTimeZone(),
+                  ),
+                )
+              : "--"}
+            <BsChevronDown />
+          </Button>
+        </DropdownTrigger>
+        <DropdownMenu
+          disallowEmptySelection
+          aria-label="Selected category"
+          className="p-0 [&_ul]:p-2"
+          classNames={{
+            base: "max-w-xs",
+            list: "max-h-[300px] overflow-y-scroll",
+          }}
+          closeOnSelect={false}
+          selectionMode="single"
+        >
+          {transactions.map(({ date }) => (
+            <DropdownItem key={date as keyof Transaction}>
+              {formatter.format(
+                parseDate(`${date}`).toDate(getLocalTimeZone()),
+              )}
+            </DropdownItem>
+          ))}
+        </DropdownMenu>
+      </Dropdown>
+    );
+  }, []);
+
   return (
     <Table
       fullWidth
       aria-label="Transactions table"
       radius="sm"
+      selectionMode="single"
       sortDescriptor={sortDescriptor}
+      topContent={topContent}
+      topContentPlacement="outside"
+      // onRowAction={(key) => alert(`Opening item ${key}...`)}
+      // onRowAction={(key) =>
+      //   editTransaction(transactions.find(({ name }) => name == key)!)
+      // }
       onSortChange={setSortDescriptor}
     >
       <TableHeader>

@@ -10,10 +10,10 @@ import { useDateFormatter } from "@react-aria/i18n";
 import React from "react";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
 
-import { Budget, Transaction } from "@/types";
+import { Transaction } from "@/types";
 import { editTransaction } from "@/db/actions";
 
-export default function DateForm({ item }: { item: Transaction | Budget }) {
+export default function DateForm({ item }: { item: Transaction }) {
   const formatter = useDateFormatter({ dateStyle: "medium" });
   const [value, setValue] = React.useState(parseDate(`${item.date}`));
 
@@ -26,7 +26,7 @@ export default function DateForm({ item }: { item: Transaction | Budget }) {
             .toDate(getLocalTimeZone())
             .toISOString()
             .substring(0, 10),
-        } as Transaction)
+        })
       }
     >
       <PopoverTrigger>

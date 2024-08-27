@@ -24,6 +24,7 @@ import CategorySelect from "./category-select";
 import DateForm from "./date-form";
 
 import { Transaction } from "@/types";
+import NameForm from "./name-form";
 
 export default function TransactionsTable({
   transactions,
@@ -59,13 +60,8 @@ export default function TransactionsTable({
 
       switch (columnKey) {
         case "name":
-          return transaction.name;
+          return <NameForm item={transaction} />;
         case "date":
-          // return transaction.date
-          //   ? formatter.format(
-          //       parseDate(`${transaction.date}`).toDate(getLocalTimeZone()),
-          //     )
-          //   : "--";
           return <DateForm item={transaction} />;
         case "category":
           return (
@@ -134,7 +130,7 @@ export default function TransactionsTable({
       fullWidth
       aria-label="Transactions table"
       radius="sm"
-      selectionMode="single"
+      // selectionMode="single"
       sortDescriptor={sortDescriptor}
       topContent={topContent}
       topContentPlacement="outside"

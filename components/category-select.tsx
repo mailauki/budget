@@ -32,8 +32,6 @@ export default function CategorySelect({
 
   return (
     <Dropdown
-      // eslint-disable-next-line no-console
-      // onClose={() => console.log({ category }, { selectedCategory })}
       onClose={() =>
         editTransaction({
           ...transaction,
@@ -41,7 +39,7 @@ export default function CategorySelect({
         })
       }
     >
-      <DropdownTrigger className="hidden sm:flex">
+      <DropdownTrigger>
         <Chip as="button" variant="flat">
           {category}
         </Chip>

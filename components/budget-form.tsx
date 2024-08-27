@@ -57,7 +57,7 @@ export default function BudgetForm({
     <form action={editBudget}>
       <input className="hidden" name="id" value={currentBudget?.id} />
       <input className="hidden" name="category" value={category} />
-      <input className="hidden" name="label" value={label} />
+      <input className="hidden" name="name" value={label} />
       <input className="hidden" name="date" value={selectedDate} />
       <Input
         className="w-[100px]"

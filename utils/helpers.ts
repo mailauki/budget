@@ -107,6 +107,10 @@ export const categories = {
   contributions: [{ id: 1, name: "Goals" }],
 }; // update to db
 
+export const expenses = categories.expenses.flatMap(
+  (category) => category.labels,
+);
+
 export function getDatesBetween(
   startDate: moment.MomentInput,
   endDate: moment.MomentInput,

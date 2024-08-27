@@ -18,7 +18,7 @@ import { useNumberFormatter } from "@react-aria/i18n";
 
 import BudgetForm from "./budget-form";
 
-import { Budget, Category, Transaction } from "@/types";
+import { Budget, Categories, Transaction } from "@/types";
 
 export default function BudgetsTable({
   budgets,
@@ -27,7 +27,7 @@ export default function BudgetsTable({
   transactions,
 }: {
   budgets: Budget[];
-  category: Category;
+  category: Categories;
   selectedDate: string;
   transactions: Transaction[];
 }) {

@@ -3,6 +3,7 @@
 import {
   Button,
   Checkbox,
+  Chip,
   DatePicker,
   Input,
   Link,
@@ -12,6 +13,7 @@ import {
   ModalFooter,
   ModalHeader,
   Select,
+  SelectedItems,
   SelectItem,
   useDisclosure,
 } from "@nextui-org/react";
@@ -20,15 +22,15 @@ import React from "react";
 import { today, getLocalTimeZone } from "@internationalized/date";
 
 import { addTransaction } from "@/app/db/actions";
-import { categories } from "@/utils/helpers";
+import { expenses } from "@/utils/helpers";
+import { Category } from "@/types";
 
 export default function TranactionForm() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const expenses = categories.expenses.flatMap((category) => category.labels);
   const [date, setDate] = React.useState(today(getLocalTimeZone()));
   const [category, setCategory] = React.useState("Uncategorized");
   const [amount, setAmount] = React.useState("");
-  const [label, setLabel] = React.useState("");
+  const [name, setName] = React.useState("");
   const [isCredit, setIsCredit] = React.useState(false);
 
   return (
@@ -78,19 +80,28 @@ export default function TranactionForm() {
                   }
                 />
                 <Select
+                  isMultiline
                   id="category"
+                  items={expenses}
                   label="Select a category"
                   name="category"
+                  renderValue={(items: SelectedItems<Category>) => {
+                    return (
+                      <div className="flex flex-wrap gap-2">
+                        {items.map((item) => (
+                          <Chip key={item.key}>{item.data?.name}</Chip>
+                        ))}
+                      </div>
+                    );
+                  }}
                   selectedKeys={[category]}
                   value={category}
                   variant="bordered"
                   onChange={(event) => setCategory(event.target.value)}
                 >
-                  {expenses.map((category) => (
-                    <SelectItem key={category.label}>
-                      {category.label}
-                    </SelectItem>
-                  ))}
+                  {(category) => (
+                    <SelectItem key={category.name}>{category.name}</SelectItem>
+                  )}
                 </Select>
                 {/* <Select
                   id="account"
@@ -106,9 +117,9 @@ export default function TranactionForm() {
                   id="label"
                   label="Label"
                   name="label"
-                  value={label}
+                  value={name}
                   variant="bordered"
-                  onChange={(event) => setLabel(event.target.value)}
+                  onChange={(event) => setName(event.target.value)}
                 />
                 <div className="flex py-2 px-1 justify-between">
                   <Checkbox

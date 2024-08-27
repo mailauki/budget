@@ -30,7 +30,7 @@ export async function addTransaction(formData: FormData) {
     date: formData.get("date"),
     amount: parseFloat(formData.get("amount") as string),
     category: formData.get("category") as string,
-    label: formData.get("label") as string,
+    label: formData.get("name") as string,
     credit: (formData.get("credit") as string) == "true" ? true : false,
     // account_id: formData.get("account") as string,
     user_id: user?.id,
@@ -53,7 +53,7 @@ export async function editBudget(formData: FormData) {
     id: formData.get("id"),
     budget: parseFloat(formData.get("budget") as string),
     category: formData.get("category"),
-    label: formData.get("label"),
+    label: formData.get("name"),
     date: formData.get("date"),
     user_id: user?.id,
   };

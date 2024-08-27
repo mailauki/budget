@@ -2,7 +2,6 @@
 
 import {
   Checkbox,
-  Chip,
   SortDescriptor,
   Table,
   TableBody,
@@ -14,6 +13,8 @@ import {
 import { useDateFormatter, useNumberFormatter } from "@react-aria/i18n";
 import React from "react";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
+
+import CategoryPopover from "./category-popover";
 
 import { Transaction } from "@/types";
 
@@ -58,7 +59,7 @@ export default function TransactionsTable({
               )
             : "--";
         case "category":
-          return <Chip variant="flat">{transaction.category}</Chip>;
+          return <CategoryPopover category={transaction.category} />;
         case "credit":
           return (
             <Checkbox

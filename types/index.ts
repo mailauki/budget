@@ -21,10 +21,17 @@ export interface UserType {
 export type UserProps = {
   user?: UserType;
 };
+export interface Categories {
+  id: number;
+  key?: Key;
+  name: string;
+  labels: Category[];
+}
+
 export interface Category {
   id: number;
+  key?: Key;
   name: string;
-  labels: { id: number; name: string }[];
 }
 
 export interface Account {

@@ -21,9 +21,9 @@ import { parseDate, getLocalTimeZone } from "@internationalized/date";
 import { BsChevronDown } from "react-icons/bs";
 
 import CategorySelect from "./category-select";
+import DateForm from "./date-form";
 
 import { Transaction } from "@/types";
-import { editTransaction } from "@/db/actions";
 
 export default function TransactionsTable({
   transactions,
@@ -61,11 +61,12 @@ export default function TransactionsTable({
         case "name":
           return transaction.name;
         case "date":
-          return transaction.date
-            ? formatter.format(
-                parseDate(`${transaction.date}`).toDate(getLocalTimeZone()),
-              )
-            : "--";
+          // return transaction.date
+          //   ? formatter.format(
+          //       parseDate(`${transaction.date}`).toDate(getLocalTimeZone()),
+          //     )
+          //   : "--";
+          return <DateForm item={transaction} />;
         case "category":
           return (
             <CategorySelect

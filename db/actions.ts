@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 "use server";
 
-import { Transaction } from "@/types";
+import { Budget, Transaction } from "@/types";
 import { createClient } from "@/utils/supabase/server";
 
 export async function addAccount(formData: FormData) {
@@ -64,27 +64,43 @@ export async function editTransaction(transaction: Transaction) {
   if (error) console.log(error);
 }
 
-export async function editBudget(formData: FormData) {
+// export async function editBudget(formData: FormData) {
+//   const supabase = createClient();
+//   const {
+//     data: { user },
+//   } = await supabase.auth.getUser();
+
+//   const data = {
+//     id: formData.get("id"),
+//     budget: parseFloat(formData.get("budget") as string),
+//     category: formData.get("category"),
+//     label: formData.get("name"),
+//     date: formData.get("date"),
+//     user_id: user?.id,
+//   };
+
+//   console.log({ data });
+//   const { error } = await supabase
+//     .from("budgets")
+//     .upsert(data)
+//     .match({ id: data.id, user_id: user?.id });
+
+//   // if (error) alert(error.message);
+//   if (error) console.log(error);
+// }
+
+export async function editBudget(budget: Budget) {
   const supabase = createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const data = {
-    id: formData.get("id"),
-    budget: parseFloat(formData.get("budget") as string),
-    category: formData.get("category"),
-    label: formData.get("name"),
-    date: formData.get("date"),
-    user_id: user?.id,
-  };
+  console.log({ budget });
 
-  console.log({ data });
   const { error } = await supabase
     .from("budgets")
-    .upsert(data)
-    .match({ id: data.id, user_id: user?.id });
+    .upsert({ ...budget, user_id: user?.id })
+    .match({ id: budget.id, user_id: user?.id });
 
-  // if (error) alert(error.message);
   if (error) console.log(error);
 }

@@ -1,81 +1,70 @@
-import { Input } from "@nextui-org/input";
 import React from "react";
+import { Input } from "@nextui-org/input";
 
-import { editBudget } from "@/db/actions";
 import { Budget } from "@/types";
+import { editBudget } from "@/db/actions";
 
 export default function BudgetForm({
   category,
-  label,
+  name,
   selectedDate,
   budgets,
 }: {
   category: string;
-  label: string;
+  name: string;
   selectedDate: string;
   budgets: Budget[];
 }) {
-  const currentBudget = budgets?.find(
-    (bgt) => bgt.date === selectedDate && bgt.name === label,
+  const currentBudget = budgets.find(
+    (bgt) => bgt.date === selectedDate && bgt.name === name,
   );
-
-  const [value, setValue] = React.useState(
-    new Intl.NumberFormat().format(
-      budgets?.find(({ name }) => name === label)?.budget || 0,
-    ),
+  const [value, setValue] = React.useState<string | undefined>();
+  const [valueNumber, setValueNumber] = React.useState<number | undefined>(
+    budgets?.find((bgt) => bgt.name === name)?.budget,
   );
 
   React.useEffect(() => {
-    setValue(new Intl.NumberFormat().format(currentBudget?.budget || 0));
+    currentBudget && setValue(`${currentBudget?.budget}`);
   }, [selectedDate]);
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setValue(event.target.value.replace(",", ""));
+  function handleChange() {
+    valueNumber && setValue(`${valueNumber}`);
 
-    event.preventDefault();
-    event.currentTarget.form?.requestSubmit();
-    // formRef.dispatchEvent(new Event("submit"));
-    // handleSumbit(event);
+    valueNumber &&
+      editBudget({
+        ...currentBudget,
+        budget: valueNumber,
+        date: selectedDate,
+        name: name,
+        category: category,
+      });
   }
 
-  // function handleSumbit(event: React.FormEvent<HTMLFormElement>) {
-  //   event.preventDefault();
-  //   event.currentTarget.form?.requestSubmit();
-  // }
+  function handleOnValueChange(value: string) {
+    const number = parseFloat(parseFloat(value!).toFixed(2));
 
-  // const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-  //   if (
-  //     (event.ctrlKey || event.metaKey) &&
-  //     (event.key === "Enter" || event.key === "NumpadEnter")
-  //   ) {
-  //     event.preventDefault();
-  //     event.currentTarget.form?.requestSubmit();
-  //   }
-  // };
+    setValue(value);
+    setValueNumber(number);
+  }
 
   return (
-    <form action={editBudget}>
-      <input className="hidden" name="id" value={currentBudget?.id} />
-      <input className="hidden" name="category" value={category} />
-      <input className="hidden" name="name" value={label} />
-      <input className="hidden" name="date" value={selectedDate} />
-      <Input
-        className="w-[100px]"
-        name="budget"
-        pattern="[0-9]*[.,]?[0-9]*"
-        startContent={
-          <div className="pointer-events-none flex items-center">
-            <span className="text-default-400 text-small">$</span>
-          </div>
-        }
-        value={value}
-        variant="bordered"
-        onChange={handleChange}
-        // onKeyDown={handleKeyDown}
-      />
-      <button className="hidden" type="submit">
-        Submit
-      </button>
-    </form>
+    <Input
+      aria-label="budget"
+      className="min-w-[100px]"
+      labelPlacement="outside"
+      name="budget"
+      pattern="[0-9]*[.,]?[0-9]*"
+      placeholder="0.00"
+      startContent={
+        <div className="pointer-events-none flex items-center">
+          <span className="text-default-400 text-small">$</span>
+        </div>
+      }
+      type="text"
+      value={value}
+      variant="bordered"
+      onFocusChange={handleChange}
+      onValueChange={handleOnValueChange}
+    />
   );
 }

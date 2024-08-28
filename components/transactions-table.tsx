@@ -3,11 +3,15 @@
 import {
   Button,
   Checkbox,
-  Chip,
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
   SortDescriptor,
   Table,
   TableBody,
@@ -16,15 +20,16 @@ import {
   TableHeader,
   TableRow,
   Tooltip,
+  useDisclosure,
 } from "@nextui-org/react";
 import { useDateFormatter, useNumberFormatter } from "@react-aria/i18n";
 import React from "react";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
 import { BsChevronDown, BsEye, BsPencil, BsTrash } from "react-icons/bs";
 
-// import CategorySelect from "./category-select";
-// import DateForm from "./date-form";
-// import NameForm from "./name-form";
+import NameForm from "./name-form";
+import DateForm from "./date-form";
+import CategorySelect from "./category-select";
 
 import { Transaction } from "@/types";
 
@@ -40,6 +45,16 @@ export default function TransactionsTable({
     currency: "USD",
     minimumFractionDigits: 2,
   });
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [openType, setOpenType] = React.useState<string>();
+  const [openItem, setOpenItem] = React.useState<Transaction>();
+
+  function handleOpen(type: string, item: Transaction) {
+    setOpenType(type);
+    setOpenItem(item);
+    onOpen();
+  }
 
   const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
     column: "date",
@@ -68,7 +83,7 @@ export default function TransactionsTable({
             parseDate(`${cellValue}`).toDate(getLocalTimeZone()),
           );
         case "category":
-          return <Chip variant="flat">{cellValue}</Chip>;
+          return cellValue;
         case "credit":
           return (
             <Checkbox
@@ -81,30 +96,21 @@ export default function TransactionsTable({
           return formatterAmount.format(transaction.amount);
         case "actions":
           return (
-            // <div className="flex items-center justify-end gap-1 m-0 max-w-fit border">
-            //   <Button isIconOnly size="sm" variant="light">
-            //     <BsPencil />
-            //   </Button>
-            //   <Button isIconOnly color="danger" size="sm" variant="light">
-            //     <BsTrash />
-            //   </Button>
-            // </div>
-
             <div className="relative flex items-center gap-2">
               <Tooltip content="Details">
                 <button
-                  onClick={() =>
-                    alert(`See more for ${transaction.name} transaction`)
-                  }
+                  key="details"
+                  onClick={() => handleOpen("See more for", transaction)}
                 >
                   <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
                     <BsEye />
                   </span>
                 </button>
               </Tooltip>
-              <Tooltip content="Edit user">
+              <Tooltip content="Edit">
                 <button
-                  onClick={() => alert(`Edit ${transaction.name} transaction`)}
+                  key="edit"
+                  onClick={() => handleOpen("Edit", transaction)}
                 >
                   <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
                     <BsPencil />
@@ -113,9 +119,8 @@ export default function TransactionsTable({
               </Tooltip>
               <Tooltip color="danger" content="Delete">
                 <button
-                  onClick={() =>
-                    alert(`Delete ${transaction.name} transaction`)
-                  }
+                  key="delete"
+                  onClick={() => handleOpen("Delete", transaction)}
                 >
                   <span className="text-lg text-danger cursor-pointer active:opacity-50">
                     <BsTrash />
@@ -169,72 +174,126 @@ export default function TransactionsTable({
     );
   }, []);
 
+  const renderModal = React.useCallback((type: string, item: Transaction) => {
+    switch (type) {
+      case "See more for":
+        return (
+          <div className="flex flex-col gap-3">
+            <p>Name: {item.name}</p>
+            <p>Amount: {formatterAmount.format(item.amount)}</p>
+            <p>
+              Date:{" "}
+              {formatter.format(
+                parseDate(`${item.date}`).toDate(getLocalTimeZone()),
+              )}
+            </p>
+            <p>Category: {item.category}</p>
+            <p>Credit card {item.credit ? "" : "not"} used</p>
+          </div>
+        );
+      case "Edit":
+        return (
+          <div className="flex flex-col gap-3">
+            <NameForm item={item} />
+            <DateForm item={item} />
+            <CategorySelect category={item.category} transaction={item} />
+          </div>
+        );
+      case "Delete":
+        return <pre>{JSON.stringify(item, null, 2)}</pre>;
+      default:
+        return <pre>{JSON.stringify(item, null, 2)}</pre>;
+    }
+  }, []);
+
   return (
-    <Table
-      fullWidth
-      aria-label="Transactions table"
-      radius="sm"
-      sortDescriptor={sortDescriptor}
-      topContent={topContent}
-      topContentPlacement="outside"
-      onSortChange={setSortDescriptor}
-    >
-      <TableHeader>
-        <TableColumn
-          key="name"
-          allowsSorting
-          align="start"
-          className="uppercase"
-        >
-          Name
-        </TableColumn>
-        <TableColumn
-          key="date"
-          allowsSorting
-          align="start"
-          className="uppercase"
-        >
-          Date
-        </TableColumn>
-        <TableColumn
-          key="category"
-          align="start"
-          className="uppercase hidden sm:table-cell"
-        >
-          Category
-        </TableColumn>
-        <TableColumn
-          key="credit"
-          align="center"
-          className="uppercase hidden sm:table-cell"
-        >
-          Credit
-        </TableColumn>
-        <TableColumn
-          key="amount"
-          allowsSorting
-          align="start"
-          className="uppercase"
-        >
-          Amount
-        </TableColumn>
-        <TableColumn key="actions" align="end" className="uppercase">
-          Actions
-        </TableColumn>
-      </TableHeader>
-      <TableBody items={sortedTransactions}>
-        {(item) => (
-          <TableRow key={item.name}>
-            {(columnKey) => (
-              <TableCell
-                className={`${columnKey == "name" || columnKey == "date" ? "min-w-[120px]" : "min-w-min"} ${columnKey == "category" || columnKey == "credit" ? "hidden sm:table-cell" : "table-cell"}`}
-              >
-                {renderCell(item, columnKey)}
-              </TableCell>
-            )}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+    <>
+      <Table
+        fullWidth
+        aria-label="Transactions table"
+        radius="sm"
+        sortDescriptor={sortDescriptor}
+        topContent={topContent}
+        topContentPlacement="outside"
+        onSortChange={setSortDescriptor}
+      >
+        <TableHeader>
+          <TableColumn
+            key="name"
+            allowsSorting
+            align="start"
+            className="uppercase"
+          >
+            Name
+          </TableColumn>
+          <TableColumn
+            key="date"
+            allowsSorting
+            align="start"
+            className="uppercase"
+          >
+            Date
+          </TableColumn>
+          <TableColumn
+            key="category"
+            align="start"
+            className="uppercase hidden sm:table-cell"
+          >
+            Category
+          </TableColumn>
+          <TableColumn
+            key="credit"
+            align="center"
+            className="uppercase hidden sm:table-cell"
+          >
+            Credit
+          </TableColumn>
+          <TableColumn
+            key="amount"
+            allowsSorting
+            align="start"
+            className="uppercase"
+          >
+            Amount
+          </TableColumn>
+          <TableColumn key="actions" align="end" className="uppercase">
+            Actions
+          </TableColumn>
+        </TableHeader>
+        <TableBody items={sortedTransactions}>
+          {(item) => (
+            <TableRow key={item.name}>
+              {(columnKey) => (
+                <TableCell
+                  className={`${columnKey == "name" || columnKey == "date" ? "min-w-[120px]" : "min-w-min"} ${columnKey == "category" || columnKey == "credit" ? "hidden sm:table-cell" : "table-cell"}`}
+                >
+                  {renderCell(item, columnKey)}
+                </TableCell>
+              )}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                {openType} {openItem?.name} transaction
+              </ModalHeader>
+              <ModalBody>{renderModal(openType!, openItem!)}</ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  Close
+                </Button>
+                <Button color="primary" onPress={onClose}>
+                  Action
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+    </>
   );
 }

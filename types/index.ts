@@ -58,13 +58,13 @@ export interface Transaction {
 }
 
 export interface Budget {
-  id: number;
+  id?: number;
   key?: Key;
   budget: number;
-  actual: number;
+  actual?: number;
   category: string;
   name: string;
   date: string;
-  account_id: UUID;
-  user_id: UUID;
+  account_id?: UUID;
+  user_id?: UUID;
 }

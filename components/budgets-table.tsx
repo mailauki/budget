@@ -32,9 +32,13 @@ export default function BudgetsTable({
   transactions: Transaction[];
 }) {
   const formatter = useNumberFormatter({
-    style: "currency",
     currency: "USD",
-    minimumFractionDigits: 0,
+    currencyDisplay: "symbol",
+    currencySign: "accounting",
+    style: "currency",
+    minimumFractionDigits: 2,
+    trailingZeroDisplay: "stripIfInteger",
+    roundingPriority: "auto",
   });
   const [budgetSum, setBudgetSum] = React.useState(0);
   const [actualSum, setActualSum] = React.useState(0);
@@ -73,7 +77,7 @@ export default function BudgetsTable({
 
     if (sum > 0) setOpenKeys(new Set([`${category.id}`]));
     else if (sum == 0) setOpenKeys(new Set([""]));
-  }, [selectedDate]);
+  }, [selectedDate, budgets, transactions]);
 
   const topContent = React.useMemo(() => {
     return (
@@ -142,7 +146,7 @@ export default function BudgetsTable({
                     <BudgetForm
                       budgets={budgets}
                       category={category.name}
-                      label={label.name}
+                      name={label.name}
                       selectedDate={selectedDate}
                     />
                   </TableCell>

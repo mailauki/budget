@@ -3,6 +3,7 @@
 import {
   Button,
   Checkbox,
+  Chip,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -14,17 +15,18 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
+  Tooltip,
 } from "@nextui-org/react";
 import { useDateFormatter, useNumberFormatter } from "@react-aria/i18n";
 import React from "react";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
-import { BsChevronDown } from "react-icons/bs";
+import { BsChevronDown, BsEye, BsPencil, BsTrash } from "react-icons/bs";
 
-import CategorySelect from "./category-select";
-import DateForm from "./date-form";
+// import CategorySelect from "./category-select";
+// import DateForm from "./date-form";
+// import NameForm from "./name-form";
 
 import { Transaction } from "@/types";
-import NameForm from "./name-form";
 
 export default function TransactionsTable({
   transactions,
@@ -60,16 +62,13 @@ export default function TransactionsTable({
 
       switch (columnKey) {
         case "name":
-          return <NameForm item={transaction} />;
+          return cellValue;
         case "date":
-          return <DateForm item={transaction} />;
-        case "category":
-          return (
-            <CategorySelect
-              category={transaction.category}
-              transaction={transaction}
-            />
+          return formatter.format(
+            parseDate(`${cellValue}`).toDate(getLocalTimeZone()),
           );
+        case "category":
+          return <Chip variant="flat">{cellValue}</Chip>;
         case "credit":
           return (
             <Checkbox
@@ -80,6 +79,51 @@ export default function TransactionsTable({
           );
         case "amount":
           return formatterAmount.format(transaction.amount);
+        case "actions":
+          return (
+            // <div className="flex items-center justify-end gap-1 m-0 max-w-fit border">
+            //   <Button isIconOnly size="sm" variant="light">
+            //     <BsPencil />
+            //   </Button>
+            //   <Button isIconOnly color="danger" size="sm" variant="light">
+            //     <BsTrash />
+            //   </Button>
+            // </div>
+
+            <div className="relative flex items-center gap-2">
+              <Tooltip content="Details">
+                <button
+                  onClick={() =>
+                    alert(`See more for ${transaction.name} transaction`)
+                  }
+                >
+                  <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                    <BsEye />
+                  </span>
+                </button>
+              </Tooltip>
+              <Tooltip content="Edit user">
+                <button
+                  onClick={() => alert(`Edit ${transaction.name} transaction`)}
+                >
+                  <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                    <BsPencil />
+                  </span>
+                </button>
+              </Tooltip>
+              <Tooltip color="danger" content="Delete">
+                <button
+                  onClick={() =>
+                    alert(`Delete ${transaction.name} transaction`)
+                  }
+                >
+                  <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                    <BsTrash />
+                  </span>
+                </button>
+              </Tooltip>
+            </div>
+          );
         default:
           return cellValue;
       }
@@ -130,14 +174,9 @@ export default function TransactionsTable({
       fullWidth
       aria-label="Transactions table"
       radius="sm"
-      // selectionMode="single"
       sortDescriptor={sortDescriptor}
       topContent={topContent}
       topContentPlacement="outside"
-      // onRowAction={(key) => alert(`Opening item ${key}...`)}
-      // onRowAction={(key) =>
-      //   editTransaction(transactions.find(({ name }) => name == key)!)
-      // }
       onSortChange={setSortDescriptor}
     >
       <TableHeader>
@@ -157,26 +196,41 @@ export default function TransactionsTable({
         >
           Date
         </TableColumn>
-        <TableColumn key="category" align="start" className="uppercase">
+        <TableColumn
+          key="category"
+          align="start"
+          className="uppercase hidden sm:table-cell"
+        >
           Category
         </TableColumn>
-        <TableColumn key="credit" align="center" className="uppercase">
+        <TableColumn
+          key="credit"
+          align="center"
+          className="uppercase hidden sm:table-cell"
+        >
           Credit
         </TableColumn>
         <TableColumn
           key="amount"
           allowsSorting
-          align="end"
+          align="start"
           className="uppercase"
         >
           Amount
+        </TableColumn>
+        <TableColumn key="actions" align="end" className="uppercase">
+          Actions
         </TableColumn>
       </TableHeader>
       <TableBody items={sortedTransactions}>
         {(item) => (
           <TableRow key={item.name}>
             {(columnKey) => (
-              <TableCell>{renderCell(item, columnKey)}</TableCell>
+              <TableCell
+                className={`${columnKey == "name" || columnKey == "date" ? "min-w-[120px]" : "min-w-min"} ${columnKey == "category" || columnKey == "credit" ? "hidden sm:table-cell" : "table-cell"}`}
+              >
+                {renderCell(item, columnKey)}
+              </TableCell>
             )}
           </TableRow>
         )}

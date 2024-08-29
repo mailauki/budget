@@ -10,10 +10,10 @@ import { BsCalendar } from "react-icons/bs";
 
 import BudgetsTable from "./budgets-table";
 import DateSelector from "./date-select";
+import { title } from "./primitives";
 
 import { Budget, Transaction } from "@/types";
-import { categories } from "@/utils/helpers";
-import { title } from "./primitives";
+import { categories, getBudgetTotal } from "@/utils/helpers";
 
 export default function BudgetList({
   budgets,
@@ -59,6 +59,17 @@ export default function BudgetList({
           <DateSelector changeDate={changeDate} selectedDate={selectedDate} />
         </AccordionItem>
       </Accordion>
+      <p>
+        Left to budget: $
+        {getBudgetTotal(budgets, {
+          categories: categories.income,
+          date: selectedDate,
+        }) -
+          getBudgetTotal(budgets, {
+            categories: categories.expenses,
+            date: selectedDate,
+          })}
+      </p>
       {categories.income.map((category) => (
         <BudgetsTable
           key={category.id}

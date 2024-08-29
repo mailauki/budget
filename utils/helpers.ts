@@ -163,3 +163,18 @@ export function getActualBalance(
     0,
   );
 }
+
+export function getBudgetTotal(
+  items: Budget[],
+  { date, categories }: { date: string; categories: Category[] },
+) {
+  return categories.reduce(
+    (partialSum, category) =>
+      partialSum +
+      getBudgetBalance(items, {
+        category: category.name,
+        date: date,
+      }),
+    0,
+  );
+}

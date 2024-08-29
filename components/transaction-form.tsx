@@ -1,20 +1,19 @@
 "use client";
 
 import {
+	Button,
   Checkbox,
-  Chip,
   DatePicker,
   Input,
-  Link,
   Select,
-  SelectedItems,
   SelectItem,
+  SelectSection,
 } from "@nextui-org/react";
 import React from "react";
 import { today, getLocalTimeZone, parseDate } from "@internationalized/date";
 
-import { Category, Transaction } from "@/types";
-import { expenses } from "@/utils/helpers";
+import { Transaction } from "@/types";
+import { categories } from "@/utils/helpers";
 
 export default function TransactionForm({ item }: { item?: Transaction }) {
   const [date, setDate] = React.useState(
@@ -48,6 +47,7 @@ export default function TransactionForm({ item }: { item?: Transaction }) {
         id="date"
         label="Date"
         name="date"
+        radius="sm"
         value={date}
         variant="bordered"
         onChange={setDate}
@@ -58,6 +58,7 @@ export default function TransactionForm({ item }: { item?: Transaction }) {
         name="amount"
         pattern="[0-9]*[.,]?[0-9]*"
         placeholder="0.00"
+        radius="sm"
         startContent={
           <div className="pointer-events-none flex items-center">
             <span className="text-default-400 text-small">$</span>
@@ -72,31 +73,38 @@ export default function TransactionForm({ item }: { item?: Transaction }) {
       <Select
         isMultiline
         id="category"
-        items={expenses}
+        // items={expenses}
+        // items={categories}
         label="Select a category"
         name="category"
-        renderValue={(items: SelectedItems<Category>) => {
-          return (
-            <div className="flex flex-wrap gap-2">
-              {items.map((item) => (
-                <Chip key={item.key}>{item.data?.name}</Chip>
-              ))}
-            </div>
-          );
-        }}
+        // renderValue={(items: SelectedItems<Category>) => {
+        //   return (
+        //     <div className="flex flex-wrap gap-2">
+        //       {items.map((item) => (
+        //         <Chip key={item.key}>{item.data?.name}</Chip>
+        //       ))}
+        //     </div>
+        //   );
+        // }}
+        radius="sm"
         selectedKeys={[category]}
         value={category}
         variant="bordered"
         onChange={(event) => setCategory(event.target.value)}
       >
-        {(category) => (
-          <SelectItem key={category.name}>{category.name}</SelectItem>
-        )}
+        {categories.expenses.map((category) => (
+          <SelectSection key={category.name} showDivider title={category.name}>
+            {category.labels.map((label) => (
+              <SelectItem key={label.name}>{label.name}</SelectItem>
+            ))}
+          </SelectSection>
+        ))}
       </Select>
       <Input
         id="name"
         label="Name"
         name="name"
+        radius="sm"
         value={name}
         variant="bordered"
         onChange={(event) => setName(event.target.value)}
@@ -106,10 +114,11 @@ export default function TransactionForm({ item }: { item?: Transaction }) {
           classNames={{
             label: "text-small",
           }}
+          color="default"
           isSelected={isCredit}
           onValueChange={setIsCredit}
         >
-          Credit card
+          Credit card {isCredit ? "" : "not"} used
         </Checkbox>
         <input
           readOnly
@@ -118,7 +127,13 @@ export default function TransactionForm({ item }: { item?: Transaction }) {
           name="credit"
           value={isCredit ? "true" : "false"}
         />
-        <Link color="primary" href="#" size="sm" />
+        <Button
+          className={`${!item ? "hidden" : "inherit"}`}
+          color="danger"
+          variant="light"
+        >
+          Delete
+        </Button>
       </div>
     </div>
   );

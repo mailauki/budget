@@ -220,7 +220,7 @@ export default function TransactionsTable({
       case "Delete":
         return <pre>{JSON.stringify(item, null, 2)}</pre>;
       default:
-        return <pre>{JSON.stringify(item, null, 2)}</pre>;
+        return <TransactionForm item={item} />;
     }
   }, []);
 
@@ -278,7 +278,11 @@ export default function TransactionsTable({
           >
             Amount
           </TableColumn>
-          <TableColumn key="actions" align="end" className="uppercase">
+          <TableColumn
+            key="actions"
+            align="end"
+            className="uppercase hidden sm:table-cell"
+          >
             Actions
           </TableColumn>
         </TableHeader>
@@ -287,7 +291,7 @@ export default function TransactionsTable({
             <TableRow key={item.name}>
               {(columnKey) => (
                 <TableCell
-                  className={`${columnKey == "name" || columnKey == "date" ? "min-w-[120px]" : "min-w-min"} ${columnKey == "category" || columnKey == "credit" ? "hidden sm:table-cell" : "table-cell"}`}
+                  className={`${columnKey == "name" || columnKey == "date" ? "min-w-[120px]" : "min-w-min"} ${columnKey == "category" || columnKey == "credit" || columnKey == "actions" ? "hidden sm:table-cell" : "table-cell"}`}
                 >
                   {renderCell(item, columnKey)}
                 </TableCell>
@@ -296,7 +300,12 @@ export default function TransactionsTable({
           )}
         </TableBody>
       </Table>
-      <Modal isOpen={isOpen} onClose={onClose} onOpenChange={onOpenChange}>
+      <Modal
+        isOpen={isOpen}
+        radius="sm"
+        onClose={onClose}
+        onOpenChange={onOpenChange}
+      >
         <ModalContent action={editTransaction} as="form">
           {(onClose) => (
             <>
@@ -305,10 +314,16 @@ export default function TransactionsTable({
               </ModalHeader>
               <ModalBody>{renderModal(openType!, openItem!)}</ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
+                <Button radius="sm" variant="bordered" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="primary" type="submit" onPress={onClose}>
+                <Button
+                  className="bg-foreground text-background"
+                  color="primary"
+                  radius="sm"
+                  type="submit"
+                  onPress={onClose}
+                >
                   Update
                 </Button>
               </ModalFooter>

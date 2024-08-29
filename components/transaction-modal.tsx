@@ -29,7 +29,7 @@ export default function TransactionModal() {
       >
         Add New
       </Button>
-      <Modal isOpen={isOpen} placement="top-center" onOpenChange={onOpenChange}>
+      <Modal isOpen={isOpen} radius="sm" onOpenChange={onOpenChange}>
         <ModalContent action={editTransaction} as="form">
           {(onClose) => (
             <>
@@ -40,10 +40,15 @@ export default function TransactionModal() {
                 <TransactionForm />
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="flat" onPress={onClose}>
+                <Button variant="bordered" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="primary" type="submit" onPress={onClose}>
+                <Button
+                  className="bg-foreground text-background"
+                  color="primary"
+                  type="submit"
+                  onPress={onClose}
+                >
                   Create
                 </Button>
               </ModalFooter>

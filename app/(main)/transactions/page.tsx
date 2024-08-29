@@ -10,7 +10,7 @@ export default async function TransactionsPage() {
 
   return (
     <div className="w-full flex flex-col gap-2 my-3">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between px-2">
         <h1 className={title()}>Transactions</h1>
         <TransactionModal />
       </div>

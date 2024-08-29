@@ -34,11 +34,9 @@ export default function BudgetsTable({
   const formatter = useNumberFormatter({
     currency: "USD",
     currencyDisplay: "symbol",
-    currencySign: "accounting",
+    currencySign: "standard",
     style: "currency",
     minimumFractionDigits: 2,
-    trailingZeroDisplay: "stripIfInteger",
-    roundingPriority: "auto",
   });
   const [budgetSum, setBudgetSum] = React.useState(0);
   const [actualSum, setActualSum] = React.useState(0);

@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 "use server";
 
-import { Budget, Transaction } from "@/types";
+import { Budget } from "@/types";
 import { createClient } from "@/utils/supabase/server";
 
 export async function addAccount(formData: FormData) {
@@ -44,25 +44,51 @@ export async function addTransaction(formData: FormData) {
   if (error) console.log(error);
 }
 
-export async function editTransaction(transaction: Transaction) {
+export async function editTransaction(formData: FormData) {
   const supabase = createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  console.log({ transaction });
-
-  const { data, error } = await supabase
-    .from("transactions")
-    .upsert(transaction)
-    .match({ id: transaction.id, user_id: user?.id })
-    .select()
-    .maybeSingle();
+  const data = {
+    amount: parseFloat((formData.get("amount") || 0) as string),
+    category: formData.get("category"),
+    name: formData.get("name"),
+    date: formData.get("date"),
+    credit: formData.get("credit"),
+    user_id: user?.id,
+  };
+  const id = formData.get("id");
 
   console.log({ data });
+  const { error } = await supabase
+    .from("transactions")
+    .upsert(!id || id == "" ? data : { ...data, id: id })
+    .match({ id: id!, user_id: user?.id });
 
+  // if (error) alert(error.message);
   if (error) console.log(error);
 }
+
+// export async function editTransaction(transaction: Transaction) {
+//   const supabase = createClient();
+//   const {
+//     data: { user },
+//   } = await supabase.auth.getUser();
+
+//   console.log({ transaction });
+
+//   const { data, error } = await supabase
+//     .from("transactions")
+//     .upsert(transaction)
+//     .match({ id: transaction.id, user_id: user?.id })
+//     .select()
+//     .maybeSingle();
+
+//   console.log({ data });
+
+//   if (error) console.log(error);
+// }
 
 // export async function editBudget(formData: FormData) {
 //   const supabase = createClient();

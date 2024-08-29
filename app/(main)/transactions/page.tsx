@@ -1,7 +1,7 @@
 import Transactions from "./transactions";
 
 import { title } from "@/components/primitives";
-import TranactionForm from "@/components/transaction-form";
+import TransactionModal from "@/components/transaction-modal";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function TransactionsPage() {
@@ -12,7 +12,7 @@ export default async function TransactionsPage() {
     <div className="w-full flex flex-col gap-2 my-3">
       <div className="flex items-center justify-between">
         <h1 className={title()}>Transactions</h1>
-        <TranactionForm />
+        <TransactionModal />
       </div>
       <Transactions serverTransactions={data ?? []} />
     </div>

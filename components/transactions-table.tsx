@@ -2,7 +2,6 @@
 
 import {
   Button,
-  Checkbox,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -25,13 +24,18 @@ import {
 import { useDateFormatter, useNumberFormatter } from "@react-aria/i18n";
 import React from "react";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
-import { BsChevronDown, BsEye, BsPencil, BsTrash } from "react-icons/bs";
+import {
+  BsCheck2,
+  BsChevronDown,
+  BsEye,
+  BsPencil,
+  BsTrash,
+} from "react-icons/bs";
 
-import NameForm from "./name-form";
-import DateForm from "./date-form";
-import CategorySelect from "./category-select";
+import TransactionForm from "./transaction-form";
 
 import { Transaction } from "@/types";
+import { editTransaction } from "@/db/actions";
 
 export default function TransactionsTable({
   transactions,
@@ -41,12 +45,16 @@ export default function TransactionsTable({
   const formatter = useDateFormatter({ dateStyle: "medium" });
   const formatterFull = useDateFormatter({ dateStyle: "full" });
   const formatterAmount = useNumberFormatter({
-    style: "currency",
     currency: "USD",
+    currencyDisplay: "symbol",
+    currencySign: "standard",
+    style: "currency",
     minimumFractionDigits: 2,
+    // trailingZeroDisplay: "stripIfInteger",
+    // roundingPriority: "auto",
   });
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
   const [openType, setOpenType] = React.useState<string>();
   const [openItem, setOpenItem] = React.useState<Transaction>();
 
@@ -86,11 +94,11 @@ export default function TransactionsTable({
           return cellValue;
         case "credit":
           return (
-            <Checkbox
-              disabled
-              color="default"
-              isSelected={transaction.credit}
-            />
+            transaction.credit && (
+              <span className="text-lg text-default-400">
+                <BsCheck2 className="mx-auto" />
+              </span>
+            )
           );
         case "amount":
           return formatterAmount.format(transaction.amount);
@@ -179,26 +187,36 @@ export default function TransactionsTable({
       case "See more for":
         return (
           <div className="flex flex-col gap-3">
-            <p>Name: {item.name}</p>
-            <p>Amount: {formatterAmount.format(item.amount)}</p>
-            <p>
-              Date:{" "}
-              {formatter.format(
-                parseDate(`${item.date}`).toDate(getLocalTimeZone()),
-              )}
-            </p>
-            <p>Category: {item.category}</p>
-            <p>Credit card {item.credit ? "" : "not"} used</p>
+            <div className="flex flex-col">
+              <p className="text-xs text-default-500">Name</p>
+              <p className="text-md">{item.name}</p>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-xs text-default-500">Amount</p>
+              <p className="text-md">{formatterAmount.format(item.amount)}</p>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-xs text-default-500">Date</p>
+              <p className="text-md">
+                {formatter.format(
+                  parseDate(`${item.date}`).toDate(getLocalTimeZone()),
+                )}
+              </p>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-xs text-default-500">Category</p>
+              <p className="text-md">{item.category}</p>
+            </div>
+            <div className="flex flex-col">
+              <p className="text-xs text-default-500">Credit</p>
+              <p className="text-md">
+                Credit card {item.credit ? "" : "not"} used
+              </p>
+            </div>
           </div>
         );
       case "Edit":
-        return (
-          <div className="flex flex-col gap-3">
-            <NameForm item={item} />
-            <DateForm item={item} />
-            <CategorySelect category={item.category} transaction={item} />
-          </div>
-        );
+        return <TransactionForm item={item} />;
       case "Delete":
         return <pre>{JSON.stringify(item, null, 2)}</pre>;
       default:
@@ -212,9 +230,13 @@ export default function TransactionsTable({
         fullWidth
         aria-label="Transactions table"
         radius="sm"
+        selectionMode="single"
         sortDescriptor={sortDescriptor}
         topContent={topContent}
         topContentPlacement="outside"
+        onRowAction={(key) =>
+          handleOpen("", transactions.find(({ name }) => name == key)!)
+        }
         onSortChange={setSortDescriptor}
       >
         <TableHeader>
@@ -274,8 +296,8 @@ export default function TransactionsTable({
           )}
         </TableBody>
       </Table>
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalContent>
+      <Modal isOpen={isOpen} onClose={onClose} onOpenChange={onOpenChange}>
+        <ModalContent action={editTransaction} as="form">
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
@@ -286,8 +308,8 @@ export default function TransactionsTable({
                 <Button color="danger" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="primary" onPress={onClose}>
-                  Action
+                <Button color="primary" type="submit" onPress={onClose}>
+                  Update
                 </Button>
               </ModalFooter>
             </>

@@ -11,33 +11,32 @@ import {
 import React from "react";
 
 import { expenses } from "@/utils/helpers";
-import { Transaction } from "@/types";
-import { editTransaction } from "@/db/actions";
+// import { Transaction } from "@/types";
 
 export default function CategorySelect({
   category,
-  transaction,
+  // transaction,
 }: {
   category: string;
-  transaction: Transaction;
+  // transaction: Transaction;
 }) {
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set([category]),
   );
 
-  const selectedCategory = React.useMemo(
-    () => Array.from(selectedKeys).join(", "),
-    [selectedKeys],
-  );
+  // const selectedCategory = React.useMemo(
+  //   () => Array.from(selectedKeys).join(", "),
+  //   [selectedKeys],
+  // );
 
   return (
     <Dropdown
-      onClose={() =>
-        editTransaction({
-          ...transaction,
-          category: selectedCategory,
-        })
-      }
+    // onClose={() =>
+    //   editTransaction({
+    //     ...transaction,
+    //     category: selectedCategory,
+    //   })
+    // }
     >
       <DropdownTrigger>
         <Chip as="button" variant="flat">

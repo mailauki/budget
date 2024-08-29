@@ -46,15 +46,15 @@ export type AccountProps = {
 };
 
 export interface Transaction {
-  id: number;
+  id?: number;
   key?: Key;
   date: ReactNode;
   amount: number;
   category: string;
-  name: string;
+  name?: string;
   credit: boolean;
-  account_id: UUID;
-  user_id: UUID;
+  account_id?: UUID;
+  user_id?: UUID;
 }
 
 export interface Budget {

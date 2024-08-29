@@ -11,7 +11,6 @@ import React from "react";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
 
 import { Transaction } from "@/types";
-import { editTransaction } from "@/db/actions";
 
 export default function DateForm({ item }: { item: Transaction }) {
   const formatter = useDateFormatter({ dateStyle: "medium" });
@@ -19,15 +18,15 @@ export default function DateForm({ item }: { item: Transaction }) {
 
   return (
     <Popover
-      onClose={() =>
-        editTransaction({
-          ...item,
-          date: parseDate(`${value}`)
-            .toDate(getLocalTimeZone())
-            .toISOString()
-            .substring(0, 10),
-        })
-      }
+    // onClose={() =>
+    //   editTransaction({
+    //     ...item,
+    //     date: parseDate(`${value}`)
+    //       .toDate(getLocalTimeZone())
+    //       .toISOString()
+    //       .substring(0, 10),
+    //   })
+    // }
     >
       <PopoverTrigger>
         <Chip as="button" variant="light">

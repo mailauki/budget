@@ -1,7 +1,7 @@
 "use client";
 
 import {
-	Button,
+  Button,
   Checkbox,
   DatePicker,
   Input,
@@ -92,7 +92,7 @@ export default function TransactionForm({ item }: { item?: Transaction }) {
         variant="bordered"
         onChange={(event) => setCategory(event.target.value)}
       >
-        {categories.expenses.map((category) => (
+        {categories.income.concat(categories.expenses).map((category) => (
           <SelectSection key={category.name} showDivider title={category.name}>
             {category.labels.map((label) => (
               <SelectItem key={label.name}>{label.name}</SelectItem>

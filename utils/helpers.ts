@@ -1,4 +1,7 @@
 import moment from "moment";
+import { isSameMonth, parseDate } from "@internationalized/date";
+
+import { Budget, Categories, Category, Transaction } from "@/types";
 
 export const categories = {
   income: [
@@ -125,4 +128,38 @@ export function getDatesBetween(
   }
 
   return dates;
+}
+
+export function getBudgetBalance(
+  items: Budget[],
+  { date, category, name }: { date: string; category?: string; name?: string },
+) {
+  return items.reduce(
+    (partialSum, item) =>
+      partialSum +
+      (item.date == date && (item.category == category || item.name == name)
+        ? item.budget
+        : 0),
+    0,
+  );
+}
+
+export function getActualBalance(
+  items: Transaction[],
+  {
+    date,
+    category,
+    categories,
+  }: { date: string; category?: string; categories?: Categories },
+) {
+  return items.reduce(
+    (partialSum, item) =>
+      partialSum +
+      (isSameMonth(parseDate(`${item.date}`), parseDate(`${date}-01`)) &&
+      (item.category == category ||
+        categories?.labels.some(({ name }) => name == item.category))
+        ? item.amount
+        : 0),
+    0,
+  );
 }

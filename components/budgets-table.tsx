@@ -13,12 +13,12 @@ import {
   TableRow,
 } from "@nextui-org/react";
 import React from "react";
-import { isSameMonth, parseDate } from "@internationalized/date";
 import { useNumberFormatter } from "@react-aria/i18n";
 
 import BudgetForm from "./budget-form";
 
 import { Budget, Categories, Transaction } from "@/types";
+import { getActualBalance, getBudgetBalance } from "@/utils/helpers";
 
 export default function BudgetsTable({
   budgets,
@@ -38,43 +38,39 @@ export default function BudgetsTable({
     style: "currency",
     minimumFractionDigits: 2,
   });
+  const formatterAcc = useNumberFormatter({
+    currency: "USD",
+    currencyDisplay: "symbol",
+    currencySign: "accounting",
+    style: "currency",
+    minimumFractionDigits: 2,
+  });
   const [budgetSum, setBudgetSum] = React.useState(0);
   const [actualSum, setActualSum] = React.useState(0);
   const [remaingSum, setRemaingSum] = React.useState(0);
   const [openKeys, setOpenKeys] = React.useState(new Set([""]));
 
   React.useEffect(() => {
-    const sum = budgets.reduce(
-      (partialSum, bgt) =>
-        partialSum +
-        (bgt.date == selectedDate && bgt.category == category.name
-          ? bgt.budget
-          : 0),
-      0,
-    );
+    const budget = getBudgetBalance(budgets, {
+      category: category.name,
+      date: selectedDate,
+    });
 
-    setBudgetSum(sum);
+    setBudgetSum(budget);
 
-    const actual = transactions.reduce(
-      (partialSum, ta) =>
-        partialSum +
-        (isSameMonth(
-          parseDate(`${ta.date}`),
-          parseDate(`${selectedDate}-01`),
-        ) && category.labels.some(({ name }) => name == ta.category)
-          ? ta.amount
-          : 0),
-      0,
-    );
+    const actual = getActualBalance(transactions, {
+      categories: category,
+      date: selectedDate,
+    });
 
     setActualSum(actual);
 
-    const remaing = sum - actual;
+    const remaing = budget - actual;
 
     setRemaingSum(remaing);
 
-    if (sum > 0) setOpenKeys(new Set([`${category.id}`]));
-    else if (sum == 0) setOpenKeys(new Set([""]));
+    if (budget > 0) setOpenKeys(new Set([`${category.id}`]));
+    else if (budget == 0) setOpenKeys(new Set([""]));
   }, [selectedDate, budgets, transactions]);
 
   const topContent = React.useMemo(() => {
@@ -149,22 +145,51 @@ export default function BudgetsTable({
                     />
                   </TableCell>
                   <TableCell className="w-[100px] hidden sm:table-cell">
-                    {formatter.format(
-                      transactions?.reduce(
-                        (partialSum, ta) =>
-                          partialSum +
-                          (isSameMonth(
-                            parseDate(`${ta.date}`),
-                            parseDate(`${selectedDate}-01`),
-                          ) && label.name == ta.category
-                            ? ta.amount
-                            : 0),
-                        0,
-                      ),
+                    {formatterAcc.format(
+                      getActualBalance(transactions, {
+                        category: label.name,
+                        date: selectedDate,
+                      }),
                     )}
                   </TableCell>
                   <TableCell className="w-[100px] flex-none">
-                    {formatter.format(0)}
+                    <Chip
+                      color={
+                        getBudgetBalance(budgets, {
+                          name: label.name,
+                          date: selectedDate,
+                        }) -
+                          getActualBalance(transactions, {
+                            category: label.name,
+                            date: selectedDate,
+                          }) >
+                        0
+                          ? "success"
+                          : getBudgetBalance(budgets, {
+                                name: label.name,
+                                date: selectedDate,
+                              }) -
+                                getActualBalance(transactions, {
+                                  category: label.name,
+                                  date: selectedDate,
+                                }) <
+                              0
+                            ? "danger"
+                            : "default"
+                      }
+                      variant="light"
+                    >
+                      {formatterAcc.format(
+                        getBudgetBalance(budgets, {
+                          name: label.name,
+                          date: selectedDate,
+                        }) -
+                          getActualBalance(transactions, {
+                            category: label.name,
+                            date: selectedDate,
+                          }),
+                      )}
+                    </Chip>
                   </TableCell>
                 </TableRow>
               ))}

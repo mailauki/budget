@@ -9,9 +9,6 @@ export default async function BudgetPage() {
 
   return (
     <div className="w-full flex flex-col gap-4 my-3">
-      {/* <div className="flex items-baseline justify-between">
-        <h1 className={title()}>Budget</h1>
-      </div> */}
       <Budgets
         serverBudgets={data ?? []}
         serverTransactions={transactions ?? []}

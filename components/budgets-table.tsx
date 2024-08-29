@@ -3,6 +3,7 @@
 import {
   Accordion,
   AccordionItem,
+  Button,
   Chip,
   Selection,
   Table,
@@ -14,6 +15,7 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 import { useNumberFormatter } from "@react-aria/i18n";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
 
 import BudgetForm from "./budget-form";
 
@@ -49,6 +51,7 @@ export default function BudgetsTable({
   const [actualSum, setActualSum] = React.useState(0);
   const [remaingSum, setRemaingSum] = React.useState(0);
   const [openKeys, setOpenKeys] = React.useState(new Set([""]));
+  const [showUnbudgeted, setShowUnbudgeted] = React.useState(true);
 
   React.useEffect(() => {
     const budget = getBudgetBalance(budgets, {
@@ -72,6 +75,23 @@ export default function BudgetsTable({
     if (budget > 0) setOpenKeys(new Set([`${category.id}`]));
     else if (budget == 0) setOpenKeys(new Set([""]));
   }, [selectedDate, budgets, transactions]);
+
+  const filteredItems = React.useMemo(() => {
+    let filteredBudgets = [...category.labels];
+
+    if (showUnbudgeted) {
+      filteredBudgets = filteredBudgets.filter((item) =>
+        budgets.find(
+          (bgt) =>
+            bgt.date === selectedDate &&
+            bgt.name === item.name &&
+            bgt.category === category.name,
+        ),
+      );
+    }
+
+    return filteredBudgets;
+  }, [budgets, showUnbudgeted]);
 
   const topContent = React.useMemo(() => {
     return (
@@ -102,101 +122,119 @@ export default function BudgetsTable({
     );
   }, [category, budgetSum, actualSum, remaingSum]);
 
+  const bottomContent = React.useMemo(() => {
+    return (
+      <div className="flex items-center justify-between gap-2">
+        {showUnbudgeted ? (
+          <Button
+            fullWidth
+            className="justify-start"
+            startContent={<BsEye />}
+            variant="light"
+            onClick={() => setShowUnbudgeted(false)}
+          >
+            Show unbudgeted
+          </Button>
+        ) : (
+          <Button
+            fullWidth
+            className="justify-start"
+            startContent={<BsEyeSlash />}
+            variant="light"
+            onClick={() => setShowUnbudgeted(true)}
+          >
+            Hide unbudgeted
+          </Button>
+        )}
+      </div>
+    );
+  }, [category, budgetSum, actualSum, remaingSum, showUnbudgeted]);
+
   return (
-    <>
-      <Accordion
-        defaultSelectedKeys={openKeys}
-        selectedKeys={openKeys}
-        onSelectionChange={setOpenKeys as (keys: Selection) => void}
+    <Accordion
+      defaultSelectedKeys={openKeys}
+      selectedKeys={openKeys}
+      onSelectionChange={setOpenKeys as (keys: Selection) => void}
+    >
+      <AccordionItem
+        key={category.id}
+        aria-label={category.name}
+        title={topContent}
       >
-        <AccordionItem
-          key={category.id}
-          aria-label={category.name}
-          title={topContent}
+        <Table
+          fullWidth
+          aria-label="Budgets table"
+          bottomContent={bottomContent}
+          radius="sm"
         >
-          <Table fullWidth aria-label="Budgets table" radius="sm">
-            <TableHeader>
-              <TableColumn align="start" className="uppercase">
-                Name
-              </TableColumn>
-              <TableColumn align="center" className="uppercase">
-                Budget
-              </TableColumn>
-              <TableColumn
-                align="end"
-                className="uppercase hidden sm:table-cell"
-              >
-                Actual
-              </TableColumn>
-              <TableColumn align="end" className="uppercase">
-                Remaining
-              </TableColumn>
-            </TableHeader>
-            <TableBody emptyContent={"No rows to display"}>
-              {category.labels.map((label) => (
-                <TableRow key={label.id}>
-                  <TableCell className="grow flex-1">{label.name}</TableCell>
-                  <TableCell className="w-[100px] flex-none">
-                    <BudgetForm
-                      budgets={budgets}
-                      category={category.name}
-                      name={label.name}
-                      selectedDate={selectedDate}
-                    />
-                  </TableCell>
-                  <TableCell className="w-[100px] hidden sm:table-cell">
-                    {formatterAcc.format(
-                      getActualBalance(transactions, {
-                        category: label.name,
+          <TableHeader>
+            <TableColumn align="start" className="uppercase">
+              Name
+            </TableColumn>
+            <TableColumn align="center" className="uppercase">
+              Budget
+            </TableColumn>
+            <TableColumn align="end" className="uppercase hidden sm:table-cell">
+              Actual
+            </TableColumn>
+            <TableColumn align="end" className="uppercase">
+              Remaining
+            </TableColumn>
+          </TableHeader>
+          <TableBody emptyContent={"No rows to display"}>
+            {filteredItems.map((label) => (
+              <TableRow key={label.id}>
+                <TableCell className="grow flex-1">{label.name}</TableCell>
+                <TableCell className="w-[100px] flex-none">
+                  <BudgetForm
+                    budgets={budgets}
+                    category={category.name}
+                    name={label.name}
+                    selectedDate={selectedDate}
+                  />
+                </TableCell>
+                <TableCell className="w-[100px] hidden sm:table-cell">
+                  {formatterAcc.format(
+                    getActualBalance(transactions, {
+                      category: label.name,
+                      date: selectedDate,
+                    }),
+                  )}
+                </TableCell>
+                <TableCell className="w-[100px] flex-none">
+                  <Chip
+                    color={
+                      getBudgetBalance(budgets, {
+                        name: label.name,
                         date: selectedDate,
-                      }),
+                      }) -
+                        getActualBalance(transactions, {
+                          category: label.name,
+                          date: selectedDate,
+                        }) <
+                      0
+                        ? "danger"
+                        : "default"
+                    }
+                    variant="light"
+                  >
+                    {formatterAcc.format(
+                      getBudgetBalance(budgets, {
+                        name: label.name,
+                        date: selectedDate,
+                      }) -
+                        getActualBalance(transactions, {
+                          category: label.name,
+                          date: selectedDate,
+                        }),
                     )}
-                  </TableCell>
-                  <TableCell className="w-[100px] flex-none">
-                    <Chip
-                      color={
-                        getBudgetBalance(budgets, {
-                          name: label.name,
-                          date: selectedDate,
-                        }) -
-                          getActualBalance(transactions, {
-                            category: label.name,
-                            date: selectedDate,
-                          }) >
-                        0
-                          ? "success"
-                          : getBudgetBalance(budgets, {
-                                name: label.name,
-                                date: selectedDate,
-                              }) -
-                                getActualBalance(transactions, {
-                                  category: label.name,
-                                  date: selectedDate,
-                                }) <
-                              0
-                            ? "danger"
-                            : "default"
-                      }
-                      variant="light"
-                    >
-                      {formatterAcc.format(
-                        getBudgetBalance(budgets, {
-                          name: label.name,
-                          date: selectedDate,
-                        }) -
-                          getActualBalance(transactions, {
-                            category: label.name,
-                            date: selectedDate,
-                          }),
-                      )}
-                    </Chip>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </AccordionItem>
-      </Accordion>
-    </>
+                  </Chip>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </AccordionItem>
+    </Accordion>
   );
 }

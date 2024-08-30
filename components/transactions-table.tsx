@@ -3,10 +3,7 @@
 import {
   Button,
   Chip,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
+  Divider,
   Modal,
   ModalBody,
   ModalContent,
@@ -24,7 +21,7 @@ import {
 import { useDateFormatter, useNumberFormatter } from "@react-aria/i18n";
 import React from "react";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
-import { BsCheck2, BsChevronDown } from "react-icons/bs";
+import { BsCheck2 } from "react-icons/bs";
 
 import TransactionForm from "./transaction-form";
 import Brand from "./brand";
@@ -35,8 +32,10 @@ import { categories } from "@/utils/helpers";
 
 export default function TransactionsTable({
   transactions,
+  date,
 }: {
   transactions: Transaction[];
+  date: string;
 }) {
   const formatter = useDateFormatter({ dateStyle: "medium" });
   const formatterFull = useDateFormatter({ dateStyle: "full" });
@@ -81,7 +80,9 @@ export default function TransactionsTable({
 
       switch (columnKey) {
         case "date":
-          return <Brand date={cellValue!} name={transaction.name!} />;
+          return (
+            <Brand date={`${transaction.date!}`} name={transaction.name!} />
+          );
         case "category":
           return (
             <Chip
@@ -92,7 +93,7 @@ export default function TransactionsTable({
               // }
               variant="dot"
             >
-              {cellValue}
+              {transaction.category}
             </Chip>
           );
         case "credit":
@@ -129,39 +130,14 @@ export default function TransactionsTable({
 
   const topContent = React.useMemo(() => {
     return (
-      <Dropdown>
-        <DropdownTrigger>
-          <Button className="justify-between" size="lg" variant="light">
-            {transactions[0].date
-              ? formatterFull.format(
-                  parseDate(`${transactions[0].date}`).toDate(
-                    getLocalTimeZone(),
-                  ),
-                )
-              : "--"}
-            <BsChevronDown />
-          </Button>
-        </DropdownTrigger>
-        <DropdownMenu
-          disallowEmptySelection
-          aria-label="Selected category"
-          className="p-0 [&_ul]:p-2"
-          classNames={{
-            base: "max-w-xs",
-            list: "max-h-[300px] overflow-y-scroll",
-          }}
-          closeOnSelect={false}
-          selectionMode="single"
-        >
-          {transactions.map(({ date }) => (
-            <DropdownItem key={date as keyof Transaction}>
-              {formatter.format(
-                parseDate(`${date}`).toDate(getLocalTimeZone()),
-              )}
-            </DropdownItem>
-          ))}
-        </DropdownMenu>
-      </Dropdown>
+      <div className="flex flex-col gap-2">
+        <p>
+          {formatterFull.format(
+            parseDate(`${date}`).toDate(getLocalTimeZone()),
+          )}
+        </p>
+        <Divider />
+      </div>
     );
   }, []);
 
@@ -213,12 +189,14 @@ export default function TransactionsTable({
         fullWidth
         hideHeader
         isStriped
+        // removeWrapper
         aria-label="Transactions table"
         radius="sm"
         selectionMode="single"
+        // shadow="none"
         sortDescriptor={sortDescriptor}
         topContent={topContent}
-        topContentPlacement="outside"
+        // topContentPlacement="outside"
         onRowAction={(key) =>
           handleOpen("", transactions.find(({ name }) => name == key)!)
         }
@@ -247,10 +225,7 @@ export default function TransactionsTable({
             Amount
           </TableColumn>
         </TableHeader>
-        <TableBody
-          emptyContent={"Nothing to display"}
-          items={sortedTransactions}
-        >
+        <TableBody emptyContent={"Nothing to display"} items={transactions}>
           {(item) => (
             <TableRow key={item.name}>
               {(columnKey) => (

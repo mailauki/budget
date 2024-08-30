@@ -49,7 +49,7 @@ export type AccountProps = {
 export interface Transaction {
   id?: number;
   key?: Key;
-  date: ReactNode;
+  date: string;
   amount: number;
   category: string;
   name?: string;

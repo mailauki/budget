@@ -8,6 +8,7 @@ export const categories = {
     {
       id: 1,
       name: "Income",
+      color: "green",
       labels: [
         { id: 1, name: "Paychecks" },
         { id: 2, name: "Interest" },
@@ -21,6 +22,7 @@ export const categories = {
     {
       id: 1,
       name: "Housing",
+      color: "mint",
       labels: [
         { id: 1, name: "Rent" },
         { id: 2, name: "Mortgage" },
@@ -30,6 +32,7 @@ export const categories = {
     {
       id: 2,
       name: "Bills & Utilities",
+      color: "cyan",
       labels: [
         { id: 1, name: "Phone" },
         { id: 2, name: "Garbage" },
@@ -41,18 +44,20 @@ export const categories = {
     {
       id: 3,
       name: "Food & Dining",
+      color: "orange",
       labels: [
-        { id: 1, name: "Restaurants & Bars" },
+        { id: 1, name: "Restaurants" },
         { id: 2, name: "Groceries" },
         { id: 3, name: "Coffee Shops" },
       ],
     },
     {
       id: 4,
-      name: "Travel & Lifestyle",
+      name: "Lifestyle",
+      color: "pink",
       labels: [
-        { id: 1, name: "Entertainment & Recreation" },
-        { id: 2, name: "Travel & Vacation" },
+        { id: 1, name: "Entertainment" },
+        { id: 2, name: "Vacation" },
         { id: 3, name: "Personal" },
         { id: 4, name: "Pets" },
         { id: 5, name: "Fun Money" },
@@ -61,6 +66,7 @@ export const categories = {
     {
       id: 5,
       name: "Shopping",
+      color: "yellow",
       labels: [
         { id: 1, name: "Shopping" },
         { id: 2, name: "Clothing" },
@@ -71,6 +77,7 @@ export const categories = {
     {
       id: 6,
       name: "Education",
+      color: "blue",
       labels: [
         { id: 1, name: "Student Loans" },
         { id: 2, name: "Education" },
@@ -79,6 +86,7 @@ export const categories = {
     {
       id: 7,
       name: "Health & Wellness",
+      color: "red",
       labels: [
         { id: 1, name: "Medical" },
         { id: 2, name: "Dentist" },
@@ -88,6 +96,7 @@ export const categories = {
     {
       id: 8,
       name: "Finacial",
+      color: "violet",
       labels: [
         { id: 1, name: "Loan Repayment" },
         { id: 2, name: "Finacial & Legal Services" },
@@ -100,6 +109,7 @@ export const categories = {
     {
       id: 9,
       name: "Other",
+      color: "default",
       labels: [
         { id: 1, name: "Miscellaneous" },
         { id: 2, name: "Uncategorized" },

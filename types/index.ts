@@ -25,6 +25,7 @@ export interface Categories {
   id: number;
   key?: Key;
   name: string;
+  color: string;
   labels: Category[];
 }
 

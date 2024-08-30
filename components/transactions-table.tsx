@@ -20,14 +20,14 @@ import {
   TableHeader,
   TableRow,
   useDisclosure,
-  User,
 } from "@nextui-org/react";
 import { useDateFormatter, useNumberFormatter } from "@react-aria/i18n";
 import React from "react";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
-import { BsBag, BsCheck2, BsChevronDown } from "react-icons/bs";
+import { BsCheck2, BsChevronDown } from "react-icons/bs";
 
 import TransactionForm from "./transaction-form";
+import Brand from "./brand";
 
 import { Transaction } from "@/types";
 import { editTransaction } from "@/db/actions";
@@ -79,39 +79,9 @@ export default function TransactionsTable({
     (transaction: Transaction, columnKey: React.Key) => {
       const cellValue = transaction[columnKey as keyof Transaction];
 
-      // switch (columnKey) {
-      //   case "name":
-      //     return cellValue;
-      //   case "date":
-      //     return formatter.format(
-      //       parseDate(`${cellValue}`).toDate(getLocalTimeZone()),
-      //     );
-      //   case "category":
-      //     return cellValue;
-      //   case "credit":
-      //     return (
-      //       transaction.credit && (
-      //         <span className="text-lg text-default-400">
-      //           <BsCheck2 className="mx-auto" />
-      //         </span>
-      //       )
-      //     );
-      //   case "amount":
-      //     return formatterAmount.format(transaction.amount);
-      //   default:
-      //     return cellValue;
-      // }
       switch (columnKey) {
         case "date":
-          return (
-            <User
-              avatarProps={{ icon: <BsBag size={18} /> }}
-              description={formatter.format(
-                parseDate(`${cellValue}`).toDate(getLocalTimeZone()),
-              )}
-              name={transaction.name}
-            />
-          );
+          return <Brand date={cellValue!} name={transaction.name!} />;
         case "category":
           return (
             <Chip

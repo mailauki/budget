@@ -75,3 +75,14 @@ export async function getBudgets() {
 
   return { budgets };
 }
+
+export async function getBrand(name: string) {
+  let data = await fetch(`https://api.logo.dev/search?q=${name}`, {
+    headers: {
+      Bearer: "sk_Mdb9WMB6SnS50euNeYcMKg",
+    },
+  });
+  let brand = await data.json();
+
+  return brand[0].logo_url as string;
+}

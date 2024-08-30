@@ -96,34 +96,30 @@ export default function BudgetsTable({
 
   const topContent = React.useMemo(() => {
     return (
-        <div className="flex items-center justify-between gap-2">
-          <div className="grow flex-1">{category.name}</div>
-          <div className="w-[100px] text-right">
-            <Chip size="lg" variant="light">
-              {formatter.format(budgetSum)}
-            </Chip>
-          </div>
-          <div className="w-[100px] text-right hidden sm:block">
-            <Chip size="lg" variant="light">
-              {formatter.format(actualSum)}
-            </Chip>
-          </div>
-          <div className="w-[100px] text-right">
-            <Chip
-              color={
-                remaingSum > 0
-                  ? "success"
-                  : remaingSum < 0
-                    ? "danger"
-                    : "default"
-              }
-              size="lg"
-              variant="flat"
-            >
-              {formatter.format(remaingSum)}
-            </Chip>
-          </div>
+      <div className="flex items-center justify-between gap-2">
+        <div className="grow flex-1">{category.name}</div>
+        <div className="w-[100px] text-right">
+          <Chip size="lg" variant="light">
+            {formatter.format(budgetSum)}
+          </Chip>
         </div>
+        <div className="w-[100px] text-right hidden sm:block">
+          <Chip size="lg" variant="light">
+            {formatter.format(actualSum)}
+          </Chip>
+        </div>
+        <div className="w-[100px] text-right">
+          <Chip
+            color={
+              remaingSum > 0 ? "success" : remaingSum < 0 ? "danger" : "default"
+            }
+            size="lg"
+            variant="flat"
+          >
+            {formatter.format(remaingSum)}
+          </Chip>
+        </div>
+      </div>
     );
   }, [category, budgetSum, actualSum, remaingSum]);
 

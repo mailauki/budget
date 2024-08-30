@@ -55,6 +55,7 @@ export default function BudgetForm({
       name="budget"
       pattern="[0-9]*[.,]?[0-9]*"
       placeholder="0.00"
+      radius="sm"
       startContent={
         <div className="pointer-events-none flex items-center">
           <span className="text-default-400 text-small">$</span>

@@ -5,6 +5,7 @@ import {
   AccordionItem,
   Button,
   Chip,
+  Divider,
   Selection,
   Table,
   TableBody,
@@ -95,30 +96,34 @@ export default function BudgetsTable({
 
   const topContent = React.useMemo(() => {
     return (
-      <div className="flex items-center justify-between gap-2">
-        <div className="grow flex-1">{category.name}</div>
-        <div className="w-[100px] text-right">
-          <Chip size="lg" variant="light">
-            {formatter.format(budgetSum)}
-          </Chip>
+        <div className="flex items-center justify-between gap-2">
+          <div className="grow flex-1">{category.name}</div>
+          <div className="w-[100px] text-right">
+            <Chip size="lg" variant="light">
+              {formatter.format(budgetSum)}
+            </Chip>
+          </div>
+          <div className="w-[100px] text-right hidden sm:block">
+            <Chip size="lg" variant="light">
+              {formatter.format(actualSum)}
+            </Chip>
+          </div>
+          <div className="w-[100px] text-right">
+            <Chip
+              color={
+                remaingSum > 0
+                  ? "success"
+                  : remaingSum < 0
+                    ? "danger"
+                    : "default"
+              }
+              size="lg"
+              variant="flat"
+            >
+              {formatter.format(remaingSum)}
+            </Chip>
+          </div>
         </div>
-        <div className="w-[100px] text-right hidden sm:block">
-          <Chip size="lg" variant="light">
-            {formatter.format(actualSum)}
-          </Chip>
-        </div>
-        <div className="w-[100px] text-right">
-          <Chip
-            color={
-              remaingSum > 0 ? "success" : remaingSum < 0 ? "danger" : "default"
-            }
-            size="lg"
-            variant="flat"
-          >
-            {formatter.format(remaingSum)}
-          </Chip>
-        </div>
-      </div>
     );
   }, [category, budgetSum, actualSum, remaingSum]);
 
@@ -128,7 +133,7 @@ export default function BudgetsTable({
         {showUnbudgeted ? (
           <Button
             fullWidth
-            className="justify-start"
+            className="justify-start text-default-400"
             startContent={<BsEye />}
             variant="light"
             onClick={() => setShowUnbudgeted(false)}
@@ -138,7 +143,7 @@ export default function BudgetsTable({
         ) : (
           <Button
             fullWidth
-            className="justify-start"
+            className="justify-start text-default-400"
             startContent={<BsEyeSlash />}
             variant="light"
             onClick={() => setShowUnbudgeted(true)}
@@ -154,6 +159,7 @@ export default function BudgetsTable({
     <Accordion
       defaultSelectedKeys={openKeys}
       selectedKeys={openKeys}
+      variant="bordered"
       onSelectionChange={setOpenKeys as (keys: Selection) => void}
     >
       <AccordionItem
@@ -161,8 +167,11 @@ export default function BudgetsTable({
         aria-label={category.name}
         title={topContent}
       >
+        <Divider />
         <Table
           fullWidth
+          hideHeader
+          removeWrapper
           aria-label="Budgets table"
           bottomContent={bottomContent}
           radius="sm"
@@ -181,7 +190,7 @@ export default function BudgetsTable({
               Remaining
             </TableColumn>
           </TableHeader>
-          <TableBody emptyContent={"No rows to display"}>
+          <TableBody>
             {filteredItems.map((label) => (
               <TableRow key={label.id}>
                 <TableCell className="grow flex-1">{label.name}</TableCell>

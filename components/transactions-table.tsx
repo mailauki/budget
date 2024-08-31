@@ -64,15 +64,15 @@ export default function TransactionsTable({
     direction: "descending",
   });
 
-  const sortedTransactions = React.useMemo(() => {
-    return [...transactions].sort((a, b) => {
-      const first = a[sortDescriptor.column as keyof Transaction] as number;
-      const second = b[sortDescriptor.column as keyof Transaction] as number;
-      const cmp = first < second ? -1 : first > second ? 1 : 0;
+  // const sortedTransactions = React.useMemo(() => {
+  //   return [...transactions].sort((a, b) => {
+  //     const first = a[sortDescriptor.column as keyof Transaction] as number;
+  //     const second = b[sortDescriptor.column as keyof Transaction] as number;
+  //     const cmp = first < second ? -1 : first > second ? 1 : 0;
 
-      return sortDescriptor.direction === "descending" ? -cmp : cmp;
-    });
-  }, [sortDescriptor, transactions]);
+  //     return sortDescriptor.direction === "descending" ? -cmp : cmp;
+  //   });
+  // }, [sortDescriptor, transactions]);
 
   const renderCell = React.useCallback(
     (transaction: Transaction, columnKey: React.Key) => {
@@ -86,6 +86,7 @@ export default function TransactionsTable({
         case "category":
           return (
             <Chip
+              classNames={{ base: "pl-1 pr-2", content: "px-2 hidden sm:flex" }}
               // color={
               //   categories.expenses.find(
               //     ({ name }) => name == transaction.category,
@@ -189,14 +190,11 @@ export default function TransactionsTable({
         fullWidth
         hideHeader
         isStriped
-        // removeWrapper
         aria-label="Transactions table"
         radius="sm"
         selectionMode="single"
-        // shadow="none"
         sortDescriptor={sortDescriptor}
         topContent={topContent}
-        // topContentPlacement="outside"
         onRowAction={(key) =>
           handleOpen("", transactions.find(({ name }) => name == key)!)
         }
@@ -205,23 +203,35 @@ export default function TransactionsTable({
         <TableHeader>
           <TableColumn
             key="date"
-            allowsSorting
             align="start"
             className="uppercase"
+            minWidth={140}
+            width="50%"
           >
             Transactions
           </TableColumn>
-          <TableColumn key="category" align="start" className="uppercase">
+          <TableColumn
+            key="category"
+            align="start"
+            className="uppercase"
+            width="20%"
+          >
             Category
           </TableColumn>
           <TableColumn
             key="credit"
             align="center"
             className="uppercase hidden sm:table-cell"
+            width="10%"
           >
             Credit
           </TableColumn>
-          <TableColumn key="amount" align="end" className="uppercase">
+          <TableColumn
+            key="amount"
+            align="end"
+            className="uppercase"
+            width="20%"
+          >
             Amount
           </TableColumn>
         </TableHeader>
@@ -230,7 +240,7 @@ export default function TransactionsTable({
             <TableRow key={item.name}>
               {(columnKey) => (
                 <TableCell
-                  className={`${columnKey == "credit" ? "hidden sm:table-cell" : "table-cell"}`}
+                  className={`${columnKey == "date" ? "w-3/6 sm:w-4/6 min-w-[160px]" : columnKey == "category" ? "w-1/6 sm:w-2/6 min-w-[30px] sm:min-w-[160px]" : "w-1/6 min-w-[120px]"} ${columnKey == "credit" ? "hidden sm:table-cell" : "table-cell"}`}
                 >
                   {renderCell(item, columnKey)}
                 </TableCell>

@@ -13,7 +13,7 @@ export default function Brand({ name, date }: { name: string; date: string }) {
   React.useEffect(() => {
     fetch(`https://api.logo.dev/search?q=${name}`, {
       headers: {
-        Bearer: process.env.NEXT_PUBLIC_API_KEY!,
+        Bearer: process.env.NEXT_PUBLIC_LOGO_API_KEY!,
       },
     })
       .then((res) => res.json())
@@ -26,8 +26,8 @@ export default function Brand({ name, date }: { name: string; date: string }) {
             name?.toLowerCase().includes("haircut")
             ? null
             : name.toLowerCase() == "keurig" || name.toLowerCase() == "subway"
-              ? data[1].logo_url
-              : data[0].logo_url,
+              ? data[1]?.logo_url
+              : data[0]?.logo_url,
         );
       });
   }, [name, date]);

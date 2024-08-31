@@ -123,7 +123,7 @@ export default function Brand({
         fallback: icon,
       }}
       description={
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col">
           <span className="sm:hidden">{category}</span>
           <span>
             {formatter.format(parseDate(`${date}`).toDate(getLocalTimeZone()))}

@@ -2,7 +2,7 @@
 "use server";
 
 import { Budget } from "@/types";
-import { categories } from "@/utils/helpers";
+import { categories } from "@/utils/categories";
 import { createClient } from "@/utils/supabase/server";
 
 export async function addAccount(formData: FormData) {

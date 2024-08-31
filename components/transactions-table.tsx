@@ -28,7 +28,7 @@ import Brand from "./brand";
 
 import { Transaction } from "@/types";
 import { editTransaction } from "@/db/actions";
-import { categories } from "@/utils/helpers";
+import { categories } from "@/utils/categories";
 
 export default function TransactionsTable({
   transactions,

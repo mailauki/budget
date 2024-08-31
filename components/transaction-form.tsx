@@ -13,14 +13,14 @@ import React from "react";
 import { today, getLocalTimeZone, parseDate } from "@internationalized/date";
 
 import { Transaction } from "@/types";
-import { categories } from "@/utils/helpers";
+import { categories } from "@/utils/categories";
 
 export default function TransactionForm({ item }: { item?: Transaction }) {
   const [date, setDate] = React.useState(
     item?.date ? parseDate(`${item.date}`) : today(getLocalTimeZone()),
   );
   const [category, setCategory] = React.useState(
-    item?.category || "Uncategorized",
+    item?.category_label || "Uncategorized",
   );
   const [amount, setAmount] = React.useState(item?.amount || "");
   const [amountNumber, setAmountNumber] = React.useState<number | undefined>(

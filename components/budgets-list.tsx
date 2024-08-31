@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 "use client";
 
 import { Accordion, AccordionItem, type Selection } from "@nextui-org/react";
@@ -44,19 +43,17 @@ export default function BudgetList({
 
   return (
     <>
-      <section className="col-span-2">
+      <section className="md:col-span-12">
         <Accordion
           aria-label="Open calendar options"
-          // classNames={{ base: "px-0" }}
           className="px-0"
-          // variant="splitted"
           selectedKeys={calendarOpen}
           onSelectionChange={setCalendarOpen}
         >
           <AccordionItem
             key="calendar"
             disableIndicatorAnimation
-            classNames={{ base: "px-0" }}
+            classNames={{ base: "px-0", trigger: "items-baseline" }}
             indicator={<BsCalendar />}
             title={<h1 className={title()}>Budget</h1>}
           >
@@ -64,8 +61,8 @@ export default function BudgetList({
           </AccordionItem>
         </Accordion>
       </section>
-      <aside className="col-span-1 row-span-2">
-        <div className="flex flex-col gap-4">
+      <aside className="md:col-span-5 md:order-last">
+        <div className="w-full flex flex-col gap-4">
           <BudgetSummary
             budgets={budgets}
             selectedDate={selectedDate}
@@ -73,7 +70,7 @@ export default function BudgetList({
           />
         </div>
       </aside>
-      <section className="col-span-2">
+      <section className="md:col-span-7">
         <div className="flex flex-col gap-4">
           {categories.income.map((category) => (
             <BudgetsTable

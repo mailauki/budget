@@ -155,7 +155,7 @@ export default function BudgetsTable({
     <Accordion
       defaultSelectedKeys={openKeys}
       selectedKeys={openKeys}
-      variant="bordered"
+      variant="shadow"
       onSelectionChange={setOpenKeys as (keys: Selection) => void}
     >
       <AccordionItem

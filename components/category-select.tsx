@@ -10,7 +10,7 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 
-import { expenses } from "@/utils/helpers";
+import { expenses } from "@/utils/categories";
 // import { Transaction } from "@/types";
 
 export default function CategorySelect({

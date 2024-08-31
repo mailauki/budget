@@ -2,6 +2,7 @@
 "use server";
 
 import { Budget } from "@/types";
+import { categories } from "@/utils/helpers";
 import { createClient } from "@/utils/supabase/server";
 
 export async function addAccount(formData: FormData) {
@@ -52,21 +53,26 @@ export async function editTransaction(formData: FormData) {
 
   const data = {
     amount: parseFloat((formData.get("amount") || 0) as string),
-    category: formData.get("category"),
+    category_label: formData.get("category"),
     name: formData.get("name"),
     date: formData.get("date"),
     credit: formData.get("credit"),
     user_id: user?.id,
   };
   const id = formData.get("id");
+  const category = categories.income
+    .concat(categories.expenses)
+    .find((cat) =>
+      cat.labels.find(({ name }) => name == data.category_label),
+    )?.name;
 
+  console.log({ category });
   console.log({ data });
   const { error } = await supabase
     .from("transactions")
-    .upsert(!id || id == "" ? data : { ...data, id: id })
+    .upsert(!id || id == "" ? data : { ...data, id: id, category })
     .match({ id: id!, user_id: user?.id });
 
-  // if (error) alert(error.message);
   if (error) console.log(error);
 }
 

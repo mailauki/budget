@@ -81,20 +81,25 @@ export default function TransactionsTable({
       switch (columnKey) {
         case "date":
           return (
-            <Brand date={`${transaction.date!}`} name={transaction.name!} />
+            <Brand
+              category={transaction.category!}
+              date={`${transaction.date!}`}
+              name={transaction.name!}
+            />
           );
         case "category":
           return (
             <Chip
-              classNames={{ base: "pl-1 pr-2", content: "px-2 hidden sm:flex" }}
+              // classNames={{ base: "pl-1 pr-2", content: "px-2 hidden sm:flex" }}
               // color={
               //   categories.expenses.find(
               //     ({ name }) => name == transaction.category,
               //   )?.color || "default"
               // }
-              variant="dot"
+              // variant="dot"
+              variant="flat"
             >
-              {transaction.category}
+              {transaction.category_label}
             </Chip>
           );
         case "credit":
@@ -112,7 +117,7 @@ export default function TransactionsTable({
             <Chip
               color={
                 categories.income.find(({ labels }) =>
-                  labels.find(({ name }) => name == transaction.category),
+                  labels.find(({ name }) => name == transaction.category_label),
                 )
                   ? "success"
                   : "danger"
@@ -213,7 +218,7 @@ export default function TransactionsTable({
           <TableColumn
             key="category"
             align="start"
-            className="uppercase"
+            className="uppercase hidden sm:table-cell"
             width="20%"
           >
             Category
@@ -240,7 +245,16 @@ export default function TransactionsTable({
             <TableRow key={item.name}>
               {(columnKey) => (
                 <TableCell
-                  className={`${columnKey == "date" ? "w-3/6 sm:w-4/6 min-w-[160px]" : columnKey == "category" ? "w-1/6 sm:w-2/6 min-w-[30px] sm:min-w-[160px]" : "w-1/6 min-w-[120px]"} ${columnKey == "credit" ? "hidden sm:table-cell" : "table-cell"}`}
+                  className={`${
+                    columnKey == "date"
+                      ? "w-3/6 sm:w-4/6 min-w-[160px]"
+                      : "w-1/6 min-w-[120px]"
+                  } 
+										${
+                      columnKey == "credit" || columnKey == "category"
+                        ? "hidden sm:table-cell"
+                        : "table-cell"
+                    }`}
                 >
                   {renderCell(item, columnKey)}
                 </TableCell>

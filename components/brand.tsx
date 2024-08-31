@@ -2,13 +2,45 @@
 
 import { User } from "@nextui-org/react";
 import { useDateFormatter } from "@react-aria/i18n";
-import React from "react";
+import React, { ReactNode } from "react";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
-import { BsCurrencyDollar } from "react-icons/bs";
+import {
+  BsAirplane,
+  BsBank,
+  BsCart2,
+  BsCashStack,
+  BsCreditCard2Back,
+  BsCupHot,
+  BsCurrencyDollar,
+  BsHeartPulse,
+  BsHouse,
+  BsMortarboard,
+  BsQuestionLg,
+} from "react-icons/bs";
 
-export default function Brand({ name, date }: { name: string; date: string }) {
+export default function Brand({
+  name,
+  date,
+  category,
+}: {
+  name: string;
+  date: string;
+  category: string;
+}) {
   const [data, setData] = React.useState();
   const formatter = useDateFormatter({ dateStyle: "medium" });
+  const [icon, setIcon] = React.useState<ReactNode>(
+    <BsCurrencyDollar size={18} />,
+  );
+  const [color, setColor] = React.useState<
+    | "default"
+    | "success"
+    | "primary"
+    | "warning"
+    | "danger"
+    | "secondary"
+    | undefined
+  >("default");
 
   React.useEffect(() => {
     fetch(`https://api.logo.dev/search?q=${name}`, {
@@ -30,7 +62,54 @@ export default function Brand({ name, date }: { name: string; date: string }) {
               : data[0]?.logo_url,
         );
       });
-  }, [name, date]);
+
+    switch (category) {
+      case "Income":
+        setColor("success");
+        setIcon(<BsCashStack size={18} />);
+        break;
+      case "Housing":
+        setColor("primary");
+        setIcon(<BsHouse size={18} />);
+        break;
+      case "Bills & Utilities":
+        setColor("primary");
+        setIcon(<BsCreditCard2Back size={18} />);
+        break;
+      case "Food & Dining":
+        setColor("warning");
+        setIcon(<BsCupHot size={18} />);
+        break;
+      case "Lifestyle":
+        setColor("danger");
+        setIcon(<BsAirplane size={18} />);
+        break;
+      case "Shopping":
+        setColor("warning");
+        setIcon(<BsCart2 size={18} />);
+        break;
+      case "Education":
+        setColor("secondary");
+        setIcon(<BsMortarboard size={18} />);
+        break;
+      case "Health & Wellness":
+        setColor("danger");
+        setIcon(<BsHeartPulse size={18} />);
+        break;
+      case "Finacial":
+        setColor("secondary");
+        setIcon(<BsBank size={18} />);
+        break;
+      case "Other":
+        setColor("default");
+        setIcon(<BsQuestionLg size={18} />);
+        break;
+      default:
+        setColor("default");
+        setIcon(<BsCurrencyDollar size={18} />);
+        break;
+    }
+  }, [name, date, category]);
 
   return (
     <User
@@ -38,23 +117,19 @@ export default function Brand({ name, date }: { name: string; date: string }) {
         src: `${data}`,
         showFallback: true,
         size: "sm",
-        // isBordered: true,
-        // color: "default",
-        // color={
-        //   categories.expenses.find(({ name }) => name == transaction.category)
-        //     ?.color || "default"
-        // }
-        fallback: (
-          <BsCurrencyDollar
-            // className="w-6 h-6 text-forground"
-            // fill="currentColor"
-            size={18}
-          />
-        ),
+        isBordered: true,
+        color: color,
+        classNames: { base: "bg-default text-forground" },
+        fallback: icon,
       }}
-      description={formatter.format(
-        parseDate(`${date}`).toDate(getLocalTimeZone()),
-      )}
+      description={
+        <div className="flex flex-col gap-1">
+          <span className="sm:hidden">{category}</span>
+          <span>
+            {formatter.format(parseDate(`${date}`).toDate(getLocalTimeZone()))}
+          </span>
+        </div>
+      }
       name={name}
     />
   );

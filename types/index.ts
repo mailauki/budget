@@ -21,14 +21,14 @@ export interface UserType {
 export type UserProps = {
   user?: UserType;
 };
-export interface Categories {
+export interface Category {
   id: number;
   key?: Key;
   name: string;
-  labels: Category[];
+  labels: CategoryLabel[];
 }
 
-export interface Category {
+export interface CategoryLabel {
   id: number;
   key?: Key;
   name: string;
@@ -54,7 +54,6 @@ export interface Transaction {
   category_label: string;
   name?: string;
   credit: boolean;
-  account_id?: UUID;
   user_id?: UUID;
 }
 
@@ -66,6 +65,5 @@ export interface Budget {
   category: string;
   name: string;
   date: string;
-  account_id?: UUID;
   user_id?: UUID;
 }

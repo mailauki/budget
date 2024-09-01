@@ -20,7 +20,7 @@ import { BsEye, BsEyeSlash } from "react-icons/bs";
 
 import BudgetForm from "./budget-form";
 
-import { Budget, Categories, Transaction } from "@/types";
+import { Budget, Category, Transaction } from "@/types";
 import {
   getActualBalance,
   getBudgetBalance,
@@ -34,7 +34,7 @@ export default function BudgetsTable({
   transactions,
 }: {
   budgets: Budget[];
-  category: Categories;
+  category: Category;
   selectedDate: string;
   transactions: Transaction[];
 }) {
@@ -159,7 +159,14 @@ export default function BudgetsTable({
         )}
       </div>
     );
-  }, [category, budgetSum, actualSum, remaingSum, showUnbudgeted]);
+  }, [
+    category,
+    budgetSum,
+    actualSum,
+    remaingSum,
+    showUnbudgeted,
+    selectedDate,
+  ]);
 
   return (
     <Accordion

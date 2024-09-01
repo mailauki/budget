@@ -100,7 +100,7 @@ export const categories = {
       id: 10,
       name: "Savings",
       labels: [
-        { id: 1, name: "House Savings" },
+        { id: 1, name: "Savings" },
         { id: 2, name: "Emergency Fund" },
       ],
     },

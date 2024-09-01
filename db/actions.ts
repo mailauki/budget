@@ -61,7 +61,12 @@ export async function editTransaction(formData: FormData) {
   };
   const id = formData.get("id");
   const category = categories.income
-    .concat(categories.expenses)
+    .concat(
+      categories.expenses,
+      categories.bills,
+      categories.debt,
+      categories.savings,
+    )
     .find((cat) =>
       cat.labels.find(({ name }) => name == data.category_label),
     )?.name;

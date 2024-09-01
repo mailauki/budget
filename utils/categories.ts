@@ -3,7 +3,6 @@ export const categories = {
     {
       id: 1,
       name: "Income",
-      color: "green",
       labels: [
         { id: 1, name: "Paychecks" },
         { id: 2, name: "Interest" },
@@ -15,31 +14,8 @@ export const categories = {
   ],
   expenses: [
     {
-      id: 1,
-      name: "Housing",
-      color: "mint",
-      labels: [
-        { id: 1, name: "Rent" },
-        { id: 2, name: "Mortgage" },
-        { id: 3, name: "Home Improvement" },
-      ],
-    },
-    {
       id: 2,
-      name: "Bills & Utilities",
-      color: "cyan",
-      labels: [
-        { id: 1, name: "Phone" },
-        { id: 2, name: "Garbage" },
-        { id: 3, name: "Water" },
-        { id: 4, name: "Gas & Electric" },
-        { id: 5, name: "Internet & Cable" },
-      ],
-    },
-    {
-      id: 3,
       name: "Food & Dining",
-      color: "orange",
       labels: [
         { id: 1, name: "Restaurants" },
         { id: 2, name: "Groceries" },
@@ -47,9 +23,8 @@ export const categories = {
       ],
     },
     {
-      id: 4,
+      id: 3,
       name: "Lifestyle",
-      color: "pink",
       labels: [
         { id: 1, name: "Entertainment" },
         { id: 2, name: "Vacation" },
@@ -59,9 +34,8 @@ export const categories = {
       ],
     },
     {
-      id: 5,
+      id: 4,
       name: "Shopping",
-      color: "yellow",
       labels: [
         { id: 1, name: "Shopping" },
         { id: 2, name: "Clothing" },
@@ -70,18 +44,8 @@ export const categories = {
       ],
     },
     {
-      id: 6,
-      name: "Education",
-      color: "blue",
-      labels: [
-        { id: 1, name: "Student Loans" },
-        { id: 2, name: "Education" },
-      ],
-    },
-    {
-      id: 7,
+      id: 5,
       name: "Health & Wellness",
-      color: "red",
       labels: [
         { id: 1, name: "Medical" },
         { id: 2, name: "Dentist" },
@@ -89,22 +53,19 @@ export const categories = {
       ],
     },
     {
-      id: 8,
+      id: 6,
       name: "Finacial",
-      color: "violet",
       labels: [
-        { id: 1, name: "Loan Repayment" },
-        { id: 2, name: "Finacial & Legal Services" },
-        { id: 3, name: "Finacial Fees" },
-        { id: 4, name: "Cash & ATM" },
-        { id: 5, name: "Insurance" },
-        { id: 6, name: "Taxes" },
+        { id: 1, name: "Finacial & Legal Services" },
+        { id: 2, name: "Finacial Fees" },
+        { id: 3, name: "Cash & ATM" },
+        { id: 4, name: "Insurance" },
+        { id: 5, name: "Taxes" },
       ],
     },
     {
-      id: 9,
+      id: 7,
       name: "Other",
-      color: "default",
       labels: [
         { id: 1, name: "Miscellaneous" },
         { id: 2, name: "Uncategorized" },
@@ -112,10 +73,61 @@ export const categories = {
       ],
     },
   ],
-  bills: [],
-  savings: [],
-  debt: [],
-  contributions: [{ id: 1, name: "Goals" }],
+  bills: [
+    {
+      id: 8,
+      name: "Housing",
+      labels: [
+        { id: 1, name: "Rent" },
+        { id: 2, name: "Mortgage" },
+        { id: 3, name: "Home Improvement" },
+      ],
+    },
+    {
+      id: 9,
+      name: "Bills & Utilities",
+      labels: [
+        { id: 1, name: "Phone" },
+        { id: 2, name: "Garbage" },
+        { id: 3, name: "Water" },
+        { id: 4, name: "Gas & Electric" },
+        { id: 5, name: "Internet & Cable" },
+      ],
+    },
+  ],
+  savings: [
+    {
+      id: 10,
+      name: "Savings",
+      labels: [
+        { id: 1, name: "House Savings" },
+        { id: 2, name: "Emergency Fund" },
+      ],
+    },
+  ],
+  debt: [
+    {
+      id: 11,
+      name: "Debt",
+      labels: [
+        { id: 1, name: "Student Loans" },
+        { id: 2, name: "Loan Repayment" },
+        { id: 3, name: "Personal Loans" },
+      ],
+    },
+  ],
+  contributions: [
+    {
+      id: 12,
+      name: "Goals",
+      labels: [
+        { id: 1, name: "House Savings" },
+        { id: 2, name: "Emergency Fund" },
+        { id: 3, name: "Student Loans" },
+        { id: 4, name: "Bootcamp Loan" },
+      ],
+    },
+  ],
 }; // update to db
 
 export const expenses = categories.expenses.flatMap(

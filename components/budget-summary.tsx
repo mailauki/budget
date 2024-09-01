@@ -45,12 +45,18 @@ export default function BudgetSummary({
           <p className="text-default-500">Left to spend</p>
           <p className={title()}>
             {formatter.format(
-              getActualTotal(transactions, {
-                categories: categories.income,
+              getActualTotal({
+                transactions,
+                categories: categories.income.map((labels) => labels),
                 date: selectedDate,
               }) -
-                getActualTotal(transactions, {
-                  categories: categories.expenses,
+                getActualTotal({
+                  transactions,
+                  categories: categories.expenses.concat(
+                    categories.bills,
+                    categories.debt,
+                    categories.savings,
+                  ),
                   date: selectedDate,
                 }),
             )}
@@ -62,12 +68,18 @@ export default function BudgetSummary({
           <Divider orientation="vertical" />
           <Chip size="lg" variant="light">
             {formatter.format(
-              getBudgetTotal(budgets, {
+              getBudgetTotal({
+                budgets,
                 categories: categories.income,
                 date: selectedDate,
               }) -
-                getBudgetTotal(budgets, {
-                  categories: categories.expenses,
+                getBudgetTotal({
+                  budgets,
+                  categories: categories.expenses.concat(
+                    categories.bills,
+                    categories.debt,
+                    categories.savings,
+                  ),
                   date: selectedDate,
                 }),
             )}
@@ -96,7 +108,8 @@ export default function BudgetSummary({
             <TableCell>Income</TableCell>
             <TableCell>
               {formatter.format(
-                getBudgetTotal(budgets, {
+                getBudgetTotal({
+                  budgets,
                   categories: categories.income,
                   date: selectedDate,
                 }),
@@ -104,7 +117,8 @@ export default function BudgetSummary({
             </TableCell>
             <TableCell>
               {formatter.format(
-                getActualTotal(transactions, {
+                getActualTotal({
+                  transactions,
                   categories: categories.income,
                   date: selectedDate,
                 }),
@@ -113,24 +127,73 @@ export default function BudgetSummary({
           </TableRow>
           <TableRow>
             <TableCell>Bills</TableCell>
-            <TableCell>$0.00</TableCell>
-            <TableCell>$0.00</TableCell>
+            <TableCell>
+              {formatter.format(
+                getBudgetTotal({
+                  budgets,
+                  categories: categories.bills,
+                  date: selectedDate,
+                }),
+              )}
+            </TableCell>
+            <TableCell>
+              {formatter.format(
+                getActualTotal({
+                  transactions,
+                  categories: categories.bills,
+                  date: selectedDate,
+                }),
+              )}
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>Savings</TableCell>
-            <TableCell>$0.00</TableCell>
-            <TableCell>$0.00</TableCell>
+            <TableCell>
+              {formatter.format(
+                getBudgetTotal({
+                  budgets,
+                  categories: categories.savings,
+                  date: selectedDate,
+                }),
+              )}
+            </TableCell>
+            <TableCell>
+              {formatter.format(
+                getActualTotal({
+                  transactions,
+                  categories: categories.savings,
+                  date: selectedDate,
+                }),
+              )}
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>Debt</TableCell>
-            <TableCell>$0.00</TableCell>
-            <TableCell>$0.00</TableCell>
+            <TableCell>
+              {formatter.format(
+                getBudgetTotal({
+                  budgets,
+                  categories: categories.debt,
+                  date: selectedDate,
+                }),
+              )}
+            </TableCell>
+            <TableCell>
+              {formatter.format(
+                getActualTotal({
+                  transactions,
+                  categories: categories.debt,
+                  date: selectedDate,
+                }),
+              )}
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>Expenses</TableCell>
             <TableCell>
               {formatter.format(
-                getBudgetTotal(budgets, {
+                getBudgetTotal({
+                  budgets,
                   categories: categories.expenses,
                   date: selectedDate,
                 }),
@@ -138,7 +201,8 @@ export default function BudgetSummary({
             </TableCell>
             <TableCell>
               {formatter.format(
-                getActualTotal(transactions, {
+                getActualTotal({
+                  transactions,
                   categories: categories.expenses,
                   date: selectedDate,
                 }),

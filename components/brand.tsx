@@ -72,7 +72,7 @@ export default function Brand({
         setColor("primary");
         setIcon(<BsHouse size={18} />);
         break;
-      case "Bills & Utilities":
+      case "Bills":
         setColor("primary");
         setIcon(<BsCreditCard2Back size={18} />);
         break;
@@ -88,21 +88,21 @@ export default function Brand({
         setColor("warning");
         setIcon(<BsCart2 size={18} />);
         break;
-      case "Education":
-        setColor("secondary");
-        setIcon(<BsMortarboard size={18} />);
-        break;
       case "Health & Wellness":
         setColor("danger");
         setIcon(<BsHeartPulse size={18} />);
         break;
-      case "Finacial":
-        setColor("secondary");
-        setIcon(<BsBank size={18} />);
-        break;
       case "Other":
         setColor("default");
         setIcon(<BsQuestionLg size={18} />);
+        break;
+      case "Debt":
+        setColor("secondary");
+        setIcon(<BsMortarboard size={18} />);
+        break;
+      case "Savings":
+        setColor("secondary");
+        setIcon(<BsBank size={18} />);
         break;
       default:
         setColor("default");

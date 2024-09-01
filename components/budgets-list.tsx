@@ -68,11 +68,38 @@ export default function BudgetList({
             selectedDate={selectedDate}
             transactions={transactions}
           />
+          {categories.debt.map((category) => (
+            <BudgetsTable
+              key={category.id}
+              budgets={budgets}
+              category={category}
+              selectedDate={selectedDate}
+              transactions={transactions}
+            />
+          ))}
+          {categories.savings.map((category) => (
+            <BudgetsTable
+              key={category.id}
+              budgets={budgets}
+              category={category}
+              selectedDate={selectedDate}
+              transactions={transactions}
+            />
+          ))}
         </div>
       </aside>
       <section className="md:col-span-7">
         <div className="flex flex-col gap-4">
           {categories.income.map((category) => (
+            <BudgetsTable
+              key={category.id}
+              budgets={budgets}
+              category={category}
+              selectedDate={selectedDate}
+              transactions={transactions}
+            />
+          ))}
+          {categories.bills.map((category) => (
             <BudgetsTable
               key={category.id}
               budgets={budgets}

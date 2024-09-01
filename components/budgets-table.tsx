@@ -21,7 +21,11 @@ import { BsEye, BsEyeSlash } from "react-icons/bs";
 import BudgetForm from "./budget-form";
 
 import { Budget, Categories, Transaction } from "@/types";
-import { getActualBalance, getBudgetBalance } from "@/utils/helpers";
+import {
+  getActualBalance,
+  getBudgetBalance,
+  getRemainingBalance,
+} from "@/utils/helpers";
 
 export default function BudgetsTable({
   budgets,
@@ -55,14 +59,16 @@ export default function BudgetsTable({
   const [showUnbudgeted, setShowUnbudgeted] = React.useState(true);
 
   React.useEffect(() => {
-    const budget = getBudgetBalance(budgets, {
+    const budget = getBudgetBalance({
+      budgets,
       category: category.name,
       date: selectedDate,
     });
 
     setBudgetSum(budget);
 
-    const actual = getActualBalance(transactions, {
+    const actual = getActualBalance({
+      transactions,
       categories: category,
       date: selectedDate,
     });
@@ -71,7 +77,11 @@ export default function BudgetsTable({
 
     const remaing = budget - actual;
 
-    setRemaingSum(remaing);
+    setRemaingSum(
+      category.name == "Income" && remaing !== budget && remaing <= 0
+        ? -remaing
+        : remaing,
+    );
 
     if (budget > 0) setOpenKeys(new Set([`${category.id}`]));
     else if (budget == 0) setOpenKeys(new Set([""]));
@@ -200,7 +210,8 @@ export default function BudgetsTable({
                 </TableCell>
                 <TableCell className="w-[100px] hidden sm:table-cell">
                   {formatterAcc.format(
-                    getActualBalance(transactions, {
+                    getActualBalance({
+                      transactions,
                       category: label.name,
                       date: selectedDate,
                     }),
@@ -209,29 +220,93 @@ export default function BudgetsTable({
                 <TableCell className="w-[100px] flex-none">
                   <Chip
                     color={
-                      getBudgetBalance(budgets, {
-                        name: label.name,
+                      category.name == "Income" ||
+                      getRemainingBalance({
+                        transactions,
+                        budgets,
+                        category: label.name,
                         date: selectedDate,
-                      }) -
-                        getActualBalance(transactions, {
-                          category: label.name,
+                      }) ==
+                        getBudgetBalance({
+                          budgets,
+                          category: category.name,
                           date: selectedDate,
-                        }) <
-                      0
-                        ? "danger"
-                        : "default"
+                        }) ||
+                      getRemainingBalance({
+                        transactions,
+                        budgets,
+                        category: label.name,
+                        date: selectedDate,
+                      }) >= 0
+                        ? "default"
+                        : "danger"
                     }
                     variant="light"
                   >
+                    {/* {formatterAcc.format(
+                      category.name == "Income"
+                        ? -(
+                            getBudgetBalance(budgets, {
+                              name: label.name,
+                              date: selectedDate,
+                            }) -
+                            getActualBalance(transactions, {
+                              category: label.name,
+                              date: selectedDate,
+                            })
+                          )
+                        : getBudgetBalance(budgets, {
+                            name: label.name,
+                            date: selectedDate,
+                          }) -
+                            getActualBalance(transactions, {
+                              category: label.name,
+                              date: selectedDate,
+                            }),
+                    )} */}
                     {formatterAcc.format(
-                      getBudgetBalance(budgets, {
-                        name: label.name,
+                      // category.name == "Income"
+                      //   ? -getRemainingBalance({
+                      //       transactions,
+                      //       budgets,
+                      //       category: label.name,
+                      //       date: selectedDate,
+                      //     })
+                      //   : getRemainingBalance({
+                      //       transactions,
+                      //       budgets,
+                      //       category: label.name,
+                      //       date: selectedDate,
+                      //     }),
+                      getRemainingBalance({
+                        transactions,
+                        budgets,
+                        category: label.name,
                         date: selectedDate,
-                      }) -
-                        getActualBalance(transactions, {
+                      }) ==
+                        getBudgetBalance({
+                          budgets,
+                          category: category.name,
+                          date: selectedDate,
+                        }) ||
+                        getRemainingBalance({
+                          transactions,
+                          budgets,
                           category: label.name,
                           date: selectedDate,
-                        }),
+                        }) >= 0
+                        ? getRemainingBalance({
+                            transactions,
+                            budgets,
+                            category: label.name,
+                            date: selectedDate,
+                          })
+                        : -getRemainingBalance({
+                            transactions,
+                            budgets,
+                            category: label.name,
+                            date: selectedDate,
+                          }),
                     )}
                   </Chip>
                 </TableCell>

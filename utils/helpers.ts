@@ -19,11 +19,18 @@ export function getDatesBetween(
   return dates;
 }
 
-export function getBudgetBalance(
-  items: Budget[],
-  { date, category, name }: { date: string; category?: string; name?: string },
-) {
-  return items.reduce(
+export function getBudgetBalance({
+  budgets,
+  date,
+  category,
+  name,
+}: {
+  budgets: Budget[];
+  date: string;
+  category?: string;
+  name?: string;
+}) {
+  return budgets.reduce(
     (partialSum, item) =>
       partialSum +
       (item.date == date && (item.category == category || item.name == name)
@@ -33,19 +40,22 @@ export function getBudgetBalance(
   );
 }
 
-export function getActualBalance(
-  items: Transaction[],
-  {
-    date,
-    category,
-    categories,
-  }: { date: string; category?: string; categories?: Categories },
-) {
-  return items.reduce(
+export function getActualBalance({
+  transactions,
+  date,
+  category,
+  categories,
+}: {
+  transactions: Transaction[];
+  date: string;
+  category?: string;
+  categories?: Categories;
+}) {
+  return transactions.reduce(
     (partialSum, item) =>
       partialSum +
       (isSameMonth(parseDate(`${item.date}`), parseDate(`${date}-01`)) &&
-      (item.category == category ||
+      (item.category_label == category ||
         categories?.labels.some(({ name }) => name == item.category_label))
         ? item.amount
         : 0),
@@ -53,33 +63,53 @@ export function getActualBalance(
   );
 }
 
-export function getBudgetTotal(
-  items: Budget[],
-  { date, categories }: { date: string; categories: Category[] },
-) {
+export function getRemainingBalance({
+  transactions,
+  budgets,
+  category,
+  date,
+}: {
+  transactions: Transaction[];
+  budgets: Budget[];
+  category: string;
+  date: string;
+}) {
+  return (
+    getBudgetBalance({ budgets, name: category, date }) -
+    getActualBalance({ transactions, category, date })
+  );
+}
+
+export function getBudgetTotal({
+  budgets,
+  date,
+  categories,
+}: {
+  budgets: Budget[];
+  date: string;
+  categories: Category[];
+}) {
   return categories.reduce(
     (partialSum, category) =>
       partialSum +
-      getBudgetBalance(items, {
-        category: category.name,
-        date: date,
-      }),
+      getBudgetBalance({ budgets, category: category.name, date: date }),
     0,
   );
 }
 
-export function getActualTotal(
-  items: Transaction[],
-  { date, categories }: { date: string; categories: Category[] },
-) {
+export function getActualTotal({
+  transactions,
+  date,
+  categories,
+}: {
+  transactions: Transaction[];
+  date: string;
+  categories: Category[];
+}) {
   return categories.reduce(
     (partialSum, category) =>
       partialSum +
-      getActualBalance(items, {
-        // category: category.name,
-        category: category.name,
-        date: date,
-      }),
+      getActualBalance({ transactions, category: category.name, date: date }),
     0,
   );
 }

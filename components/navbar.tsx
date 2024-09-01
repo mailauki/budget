@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Navbar as NextUINavbar,
   NavbarContent,
@@ -7,40 +9,39 @@ import {
   NavbarItem,
   NavbarMenuItem,
 } from "@nextui-org/navbar";
-import { Kbd } from "@nextui-org/kbd";
 import { Link } from "@nextui-org/link";
-import { Input } from "@nextui-org/input";
 import { link as linkStyles } from "@nextui-org/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
+import { usePathname } from "next/navigation";
 
-import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import { SearchIcon, Logo } from "@/components/icons";
+import { Logo } from "@/components/icons";
+import { siteConfig } from "@/config/site";
 
-export function Navbar() {
-  const searchInput = (
-    <Input
-      aria-label="Search"
-      classNames={{
-        inputWrapper: "bg-default-100",
-        input: "text-sm",
-      }}
-      endContent={
-        <Kbd className="hidden lg:inline-block" keys={["command"]}>
-          K
-        </Kbd>
-      }
-      labelPlacement="outside"
-      placeholder="Search..."
-      startContent={
-        <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
-      }
-      type="search"
-    />
-  );
+export function Navbar({ children }: { children: React.ReactNode }) {
+  const path = usePathname();
 
   return (
+    // <NextUINavbar maxWidth="xl" position="sticky">
+    //   <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
+    //     <NavbarBrand>
+    //       <Link className="flex justify-start items-center gap-1" href="/">
+    //         <Logo />
+    //         <p className="font-bold text-inherit">ACME</p>
+    //       </Link>
+    //     </NavbarBrand>
+    //   </NavbarContent>
+
+    //   <NavbarContent className="hidden sm:flex gap-4" justify="center">
+    //     <NavLinks />
+    //   </NavbarContent>
+
+    //   <NavbarContent as="div" justify="end">
+    //     <ThemeSwitch />
+    //     {children}
+    //   </NavbarContent>
+    // </NextUINavbar>
     <NextUINavbar maxWidth="xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
@@ -49,7 +50,7 @@ export function Navbar() {
             <p className="font-bold text-inherit">ACME</p>
           </NextLink>
         </NavbarBrand>
-        <ul className="hidden lg:flex gap-4 justify-start ml-2">
+        <ul className="hidden sm:flex gap-4 justify-start ml-2">
           {siteConfig.navItems.map((item) => (
             <NavbarItem key={item.href}>
               <NextLink
@@ -71,9 +72,9 @@ export function Navbar() {
         className="hidden sm:flex basis-1/5 sm:basis-full"
         justify="end"
       >
-        <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
         <NavbarItem className="hidden sm:flex gap-2">
           <ThemeSwitch />
+          {children}
         </NavbarItem>
       </NavbarContent>
 
@@ -83,12 +84,11 @@ export function Navbar() {
       </NavbarContent>
 
       <NavbarMenu className="pb-4">
-        {searchInput}
         <div className="mx-4 mt-2 flex flex-col gap-2 grow">
           {siteConfig.navMenuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link
-                color={index === 2 ? "primary" : "foreground"}
+                color={item.href === path ? "primary" : "foreground"}
                 href={item.href}
                 size="lg"
               >

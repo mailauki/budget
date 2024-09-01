@@ -9,6 +9,9 @@ import { Providers } from "./providers";
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
+import NavMenu from "@/components/nav-menu";
+import { getUser } from "@/db/queries";
+// import { NavSidebar } from "@/components/nav-sidebar";
 
 export const metadata: Metadata = {
   title: {
@@ -33,6 +36,8 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const user = await getUser();
+
   return (
     <html suppressHydrationWarning lang="en">
       <head />
@@ -44,8 +49,14 @@ export default async function RootLayout({
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-col h-screen">
-            <Navbar />
+            {/* <Navbar /> */}
+            {/* <Navbar>{user && <UserCard user={user} />}</Navbar> */}
+            <Navbar>{user && <NavMenu user={user} />}</Navbar>
             <main className="container mx-auto max-w-6xl py-3 px-6 flex-grow">
+              {/* <div className="grid grid-cols-12 auto-row-auto h-full">
+                <NavSidebar />
+                <div className="col-span-9">{children}</div>
+              </div> */}
               {children}
             </main>
             <footer className="w-full flex items-center justify-center py-3">

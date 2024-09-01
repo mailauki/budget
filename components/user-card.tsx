@@ -5,6 +5,7 @@ import React from "react";
 import { User as UserType } from "@supabase/supabase-js";
 
 import { logout } from "@/app/auth/actions";
+// import { getUser } from "@/db/queries";
 
 export default async function UserCard({ user }: { user: UserType }) {
   return (

@@ -1,9 +1,8 @@
-import TodayCard from "@/components/today-card";
-
-export default function Home() {
+export default async function Home() {
   return (
-    <section className="max-w-2xl mx-auto flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-      <TodayCard />
+    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+      {/* <TodayCard /> */}
+      <p>Hello World</p>
     </section>
   );
 }

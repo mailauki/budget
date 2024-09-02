@@ -213,7 +213,7 @@ export default function TransactionsTable({
             minWidth={140}
             width="50%"
           >
-            Transactions
+            Name
           </TableColumn>
           <TableColumn
             key="category"

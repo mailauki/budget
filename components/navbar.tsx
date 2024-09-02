@@ -15,6 +15,8 @@ import NextLink from "next/link";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 
+import Logout from "./logout-btn";
+
 import { ThemeSwitch } from "@/components/theme-switch";
 import { Logo } from "@/components/icons";
 import { siteConfig } from "@/config/site";
@@ -66,6 +68,7 @@ export function Navbar({ children }: { children: React.ReactNode }) {
             </NavbarItem>
           ))}
         </ul>
+        <Logout />
       </NavbarContent>
 
       <NavbarContent

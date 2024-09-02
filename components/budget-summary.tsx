@@ -41,7 +41,7 @@ export default function BudgetSummary({
   return (
     <>
       <Card radius="sm">
-        <CardHeader className="flex-col justify-center text-center py-12 gap-1">
+        <CardHeader className="flex-col justify-center text-center py-[3.15rem] gap-1">
           <p className="text-default-500">Left to spend</p>
           <p className={title()}>
             {formatter.format(

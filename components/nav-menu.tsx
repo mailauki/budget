@@ -57,6 +57,7 @@ export default function NavMenu({ user }: { user: User }) {
                   : "default"
             }
             href={item.href}
+            textValue={item.label}
           >
             {item.label === "Logout" ? <Logout /> : item.label}
           </DropdownItem>

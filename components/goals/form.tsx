@@ -1,9 +1,10 @@
 "use client";
 
-import { Button, Input } from "@nextui-org/react";
+import { Button, ButtonGroup, Input } from "@nextui-org/react";
 import React from "react";
 
 import { Goal } from "@/types";
+import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
 export default function GoalForm({ item }: { item?: Goal }) {
   const [goalAmount, setGoalAmount] = React.useState(item?.goal_amount || "");
@@ -17,6 +18,7 @@ export default function GoalForm({ item }: { item?: Goal }) {
     number | undefined
   >(item?.current_amount);
   const [name, setName] = React.useState(item?.name ?? "");
+  const [priority, setPriority] = React.useState(item?.priority ?? 0);
 
   function handleChange() {
     goalAmountNumber && setGoalAmount(`${goalAmountNumber}`);
@@ -35,6 +37,14 @@ export default function GoalForm({ item }: { item?: Goal }) {
 
     setCurrentAmount(value);
     setCurrentAmountNumber(number);
+  }
+
+  function increment() {
+    if (priority >= 0 && priority < 5) setPriority(priority + 1);
+  }
+
+  function decrement() {
+    if (priority > 0) setPriority(priority - 1);
   }
 
   return (
@@ -86,9 +96,27 @@ export default function GoalForm({ item }: { item?: Goal }) {
         onValueChange={handleCurrentOnValueChange}
       />
       <div className="flex py-2 px-1 justify-between">
+        <div className="flex items-center gap-2">
+          <p className="text-tiny text-black/70 dark:text-white/90 font-medium ml-3">
+            Priority
+          </p>
+          <input hidden name="priority" value={priority} />
+          <ButtonGroup radius="sm" variant="ghost">
+            <Button isIconOnly onPress={decrement}>
+              <BsChevronLeft />
+            </Button>
+            <Button disabled isIconOnly variant="bordered">
+              {priority}
+            </Button>
+            <Button isIconOnly onPress={increment}>
+              <BsChevronRight />
+            </Button>
+          </ButtonGroup>
+        </div>
         <Button
           className={`${!item ? "hidden" : "inherit"}`}
           color="danger"
+          radius="sm"
           variant="light"
         >
           Delete

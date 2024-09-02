@@ -45,14 +45,16 @@ export default function GoalCard({ goal }: { goal: Goal }) {
       <Card
         isFooterBlurred
         isPressable
-        className="w-full h-[300px]"
+        className="w-full h-[300px] col-span-12 md:col-span-6 [&:last-child]:col-span-full"
         onPress={() => handleOpen(goal)}
       >
         <CardHeader className="absolute z-10 top-1 flex-col items-start">
-          <p className="text-tiny text-white/60 uppercase font-bold">Goal</p>
+          <p className="text-tiny text-white/60 uppercase font-bold">
+            Goal {goal.priority > 0 && goal.priority}
+          </p>
           <h4 className="text-white/90 font-medium text-xl">{goal.name}</h4>
         </CardHeader>
-        <div className="w-full h-full bg-gradient-to-tr from-pink-500 to-yellow-500" />
+        <div className="w-full h-full bg-gradient-to-tr from-pink-500/80 to-yellow-500/80" />
         <CardFooter className="absolute bg-black/40 bottom-0 z-10">
           <div className="flex flex-grow gap-2 items-center">
             <Chip
@@ -61,7 +63,7 @@ export default function GoalCard({ goal }: { goal: Goal }) {
               size="lg"
               variant="flat"
             >
-              {progress}%
+              {Math.round(progress)}%
             </Chip>
             <Progress
               className="w-10/12"
@@ -71,7 +73,7 @@ export default function GoalCard({ goal }: { goal: Goal }) {
             />
           </div>
           <Chip
-            className="text-tiny text-white bg-black/20"
+            className="text-tiny text-white bg-black/20 ml-2"
             color="default"
             size="md"
             variant="flat"

@@ -1,7 +1,7 @@
 import moment from "moment";
 import { isSameMonth, parseDate } from "@internationalized/date";
 
-import { Budget, Category, Transaction } from "@/types";
+import { Budget, Category, Goal, Transaction } from "@/types";
 
 export function getDatesBetween(
   startDate: moment.MomentInput,
@@ -113,4 +113,20 @@ export function getActualTotal({
       getActualBalance({ transactions, categories: category, date }),
     0,
   );
+}
+
+export function getProgressTotal({ goals }: { goals: Goal[] }) {
+  const current = goals.reduce(
+    (partialSum, item) =>
+      partialSum + (item.current_amount ? item.current_amount : 0),
+    0,
+  );
+  const goal = goals.reduce(
+    (partialSum, item) =>
+      partialSum + (item.goal_amount ? item.goal_amount : 0),
+    0,
+  );
+  const percent = (100 * current) / goal;
+
+  return percent;
 }

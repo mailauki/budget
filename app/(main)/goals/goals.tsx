@@ -5,6 +5,7 @@ import React from "react";
 import { createClient } from "@/utils/supabase/client";
 import { Goal } from "@/types";
 import GoalCard from "@/components/goals/card";
+import TotalProgress from "@/components/goals/total-progress";
 
 export default function RealtimeGoals({
   serverGoals,
@@ -59,10 +60,13 @@ export default function RealtimeGoals({
   }, [serverGoals]);
 
   return (
-    <div className="flex flex-col gap-4">
-      {goals.map((goal) => (
-        <GoalCard key={goal.id} goal={goal} />
-      ))}
-    </div>
+    <>
+      <div className="grid grid-cols-12 gap-3">
+        <TotalProgress goals={goals} />
+        {goals.map((goal) => (
+          <GoalCard key={goal.id} goal={goal} />
+        ))}
+      </div>
+    </>
   );
 }

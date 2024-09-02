@@ -155,11 +155,12 @@ export async function editGoal(formData: FormData) {
     user_id: user?.id,
   };
   const id = formData.get("id");
+  const priority = formData.get("priority");
 
   console.log({ data });
   const { error } = await supabase
     .from("goals")
-    .upsert(!id || id == "" ? data : { ...data, id: id })
+    .upsert(!id || id == "" ? data : { ...data, id: id, priority })
     .match({ id: id!, user_id: user?.id });
 
   if (error) console.log(error);

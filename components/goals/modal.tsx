@@ -40,12 +40,13 @@ export default function GoalModal() {
                 <GoalForm />
               </ModalBody>
               <ModalFooter>
-                <Button variant="bordered" onPress={onClose}>
+                <Button radius="sm" variant="bordered" onPress={onClose}>
                   Close
                 </Button>
                 <Button
                   className="bg-foreground text-background"
                   color="primary"
+                  radius="sm"
                   type="submit"
                   onPress={onClose}
                 >

@@ -14,6 +14,8 @@ import React from "react";
 
 import GoalForm from "./form";
 
+import { editGoal } from "@/db/actions";
+
 export default function GoalModal() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -28,8 +30,7 @@ export default function GoalModal() {
         Add New
       </Button>
       <Modal isOpen={isOpen} radius="sm" onOpenChange={onOpenChange}>
-        <ModalContent as="form">
-          {/* add action */}
+        <ModalContent action={editGoal} as="form">
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">

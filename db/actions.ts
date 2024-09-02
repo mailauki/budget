@@ -141,3 +141,26 @@ export async function editBudget(budget: Budget) {
 
   if (error) console.log(error);
 }
+
+export async function editGoal(formData: FormData) {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const data = {
+    name: formData.get("name"),
+    goal_amount: parseFloat((formData.get("goal_amount") || 0) as string),
+    current_amount: parseFloat((formData.get("current_amount") || 0) as string),
+    user_id: user?.id,
+  };
+  const id = formData.get("id");
+
+  console.log({ data });
+  const { error } = await supabase
+    .from("goals")
+    .upsert(!id || id == "" ? data : { ...data, id: id })
+    .match({ id: id!, user_id: user?.id });
+
+  if (error) console.log(error);
+}

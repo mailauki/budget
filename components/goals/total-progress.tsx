@@ -10,7 +10,7 @@ export default function TotalProgress({ goals }: { goals: Goal[] }) {
         <p className="text-tiny text-default-400 uppercase font-bold">
           Total Progress
         </p>
-        <h4 className="font-medium text-large">
+        <h4 className="font-medium text-xl">
           {Math.round(getProgressTotal({ goals }))}%
         </h4>
       </CardHeader>

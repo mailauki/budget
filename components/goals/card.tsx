@@ -1,15 +1,16 @@
 import {
   Button,
   Card,
+  CardBody,
   CardFooter,
   CardHeader,
   Chip,
+  CircularProgress,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
-  Progress,
   useDisclosure,
 } from "@nextui-org/react";
 import { useNumberFormatter } from "@react-aria/i18n";
@@ -43,37 +44,31 @@ export default function GoalCard({ goal }: { goal: Goal }) {
   return (
     <>
       <Card
-        isFooterBlurred
         isPressable
-        className="w-full h-[300px] col-span-12 md:col-span-6 [&:last-child]:col-span-full"
+        className="w-full col-span-12 md:col-span-6 [&:last-child]:col-span-full"
         onPress={() => handleOpen(goal)}
       >
-        <CardHeader className="absolute z-10 top-1 flex-col items-start">
-          <p className="text-tiny text-white/60 uppercase font-bold">
+        <CardHeader className="flex-col items-start">
+          <p className="text-tiny text-default-400 uppercase font-bold">
             Goal {goal.priority > 0 && goal.priority}
           </p>
-          <h4 className="text-white/90 font-medium text-xl">{goal.name}</h4>
+          <h4 className="text-forground font-medium text-xl">{goal.name}</h4>
         </CardHeader>
-        <div className="w-full h-full bg-gradient-to-tr from-pink-500/80 to-yellow-500/80" />
-        <CardFooter className="absolute bg-black/40 bottom-0 z-10">
-          <div className="flex flex-grow gap-2 items-center">
-            <Chip
-              className="text-md text-white bg-black/20"
-              color="default"
-              size="lg"
-              variant="flat"
-            >
-              {Math.round(progress)}%
-            </Chip>
-            <Progress
-              className="w-10/12"
-              classNames={{ indicator: "bg-foreground" }}
-              color="default"
-              value={progress}
-            />
-          </div>
+        <CardBody className="items-center justify-center">
+          <CircularProgress
+            classNames={{
+              svg: "w-52 h-52",
+              value: "text-3xl text-default-700",
+            }}
+            color="default"
+            showValueLabel={true}
+            size="lg"
+            value={progress}
+          />
+        </CardBody>
+        <CardFooter className="justify-end">
           <Chip
-            className="text-tiny text-white bg-black/20 ml-2"
+            className="text-tiny ml-2"
             color="default"
             size="md"
             variant="flat"

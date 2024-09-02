@@ -12,11 +12,9 @@ import {
 import { BsPlus } from "react-icons/bs";
 import React from "react";
 
-import TransactionForm from "./transaction-form";
+import GoalForm from "./form";
 
-import { editTransaction } from "@/db/actions";
-
-export default function TransactionModal() {
+export default function GoalModal() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
@@ -30,14 +28,15 @@ export default function TransactionModal() {
         Add New
       </Button>
       <Modal isOpen={isOpen} radius="sm" onOpenChange={onOpenChange}>
-        <ModalContent action={editTransaction} as="form">
+        <ModalContent as="form">
+          {/* add action */}
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Add new transaction
+                Add new goal
               </ModalHeader>
               <ModalBody>
-                <TransactionForm />
+                <GoalForm />
               </ModalBody>
               <ModalFooter>
                 <Button variant="bordered" onPress={onClose}>

@@ -4,7 +4,7 @@ import React from "react";
 
 import { Transaction } from "@/types";
 import { createClient } from "@/utils/supabase/client";
-import TransactionsList from "@/components/transactions-list";
+import TransactionsList from "@/components/transactions/list";
 
 export default function RealtimeTransactions({
   serverTransactions,

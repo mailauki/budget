@@ -15,7 +15,7 @@ import NextLink from "next/link";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 
-import Logout from "./logout-btn";
+import Logout from "../logout-btn";
 
 import { ThemeSwitch } from "@/components/theme-switch";
 import { Logo } from "@/components/icons";

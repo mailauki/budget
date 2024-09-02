@@ -1,7 +1,7 @@
 import Transactions from "./transactions";
 
 import { title } from "@/components/primitives";
-import TransactionModal from "@/components/transaction-modal";
+import TransactionModal from "@/components/transactions/modal";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function TransactionsPage() {

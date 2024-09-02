@@ -67,3 +67,12 @@ export interface Budget {
   date: string;
   user_id?: UUID;
 }
+
+export interface Goal {
+  id?: number;
+  key?: Key;
+  name: string;
+  goal_amount: number;
+  current_amount: number;
+  user_id?: UUID;
+}

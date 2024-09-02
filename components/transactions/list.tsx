@@ -1,7 +1,7 @@
 import React from "react";
 import { Table, TableBody, TableColumn, TableHeader } from "@nextui-org/table";
 
-import TransactionsTable from "./transactions-table";
+import TransactionsTable from "./table";
 
 import { Transaction } from "@/types";
 

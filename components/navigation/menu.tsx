@@ -10,7 +10,7 @@ import {
 import { User } from "@supabase/supabase-js";
 import { usePathname } from "next/navigation";
 
-import Logout from "./logout-btn";
+import Logout from "../logout-btn";
 
 import { siteConfig } from "@/config/site";
 

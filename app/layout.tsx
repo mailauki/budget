@@ -8,10 +8,10 @@ import { Providers } from "./providers";
 
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
-import { Navbar } from "@/components/navbar";
-import NavMenu from "@/components/nav-menu";
+import { Navbar } from "@/components/navigation/navbar";
+import NavMenu from "@/components/navigation/menu";
 import { getUser } from "@/db/queries";
-// import { NavSidebar } from "@/components/nav-sidebar";
+// import { NavSidebar } from "@/components/navigation/sidebar";
 
 export const metadata: Metadata = {
   title: {

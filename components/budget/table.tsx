@@ -18,7 +18,7 @@ import React from "react";
 import { useNumberFormatter } from "@react-aria/i18n";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 
-import BudgetForm from "./budget-form";
+import BudgetForm from "./form";
 
 import { Budget, Category, Transaction } from "@/types";
 import {

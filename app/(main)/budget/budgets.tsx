@@ -4,7 +4,7 @@ import React from "react";
 
 import { Budget, Transaction } from "@/types";
 import { createClient } from "@/utils/supabase/client";
-import BudgetsList from "@/components/budgets-list";
+import BudgetsList from "@/components/budget/list";
 
 export default function Budgets({
   serverBudgets,

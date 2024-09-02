@@ -12,6 +12,10 @@ export const siteConfig = {
       label: "Budget",
       href: "/budget",
     },
+    {
+      label: "Goals",
+      href: "/goals",
+    },
   ],
   navMenuItems: [
     {
@@ -29,6 +33,10 @@ export const siteConfig = {
     {
       label: "Budget",
       href: "/budget",
+    },
+    {
+      label: "Goals",
+      href: "/goals",
     },
     {
       label: "Profile",

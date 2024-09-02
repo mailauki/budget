@@ -5,10 +5,11 @@ import moment from "moment";
 import React from "react";
 import { BsCalendar } from "react-icons/bs";
 
-import BudgetsTable from "./budgets-table";
-import BudgetSummary from "./budget-summary";
-import DateSelector from "./date-select";
-import { title } from "./primitives";
+import DateSelector from "../date-select";
+import { title } from "../primitives";
+
+import BudgetSummary from "./summary";
+import BudgetsTable from "./table";
 
 import { categories } from "@/utils/categories";
 import { Budget, Transaction } from "@/types";

@@ -13,7 +13,7 @@ import {
 } from "@nextui-org/react";
 import { useNumberFormatter } from "@react-aria/i18n";
 
-import { title } from "./primitives";
+import { title } from "../primitives";
 
 import { Budget, Transaction } from "@/types";
 import { categories } from "@/utils/categories";

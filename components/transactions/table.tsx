@@ -23,8 +23,9 @@ import React from "react";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
 import { BsCheck2 } from "react-icons/bs";
 
-import TransactionForm from "./transaction-form";
-import Brand from "./brand";
+import Brand from "../brand";
+
+import TransactionForm from "./form";
 
 import { Transaction } from "@/types";
 import { editTransaction } from "@/db/actions";

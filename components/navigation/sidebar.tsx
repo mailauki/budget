@@ -1,7 +1,8 @@
 import { User } from "@nextui-org/user";
 
-import NavList from "./nav-list";
-import Logout from "./logout-btn";
+import Logout from "../logout-btn";
+
+import NavList from "./list";
 
 import { getUser } from "@/db/queries";
 

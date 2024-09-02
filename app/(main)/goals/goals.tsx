@@ -6,6 +6,7 @@ import { createClient } from "@/utils/supabase/client";
 import { Goal } from "@/types";
 import GoalCard from "@/components/goals/card";
 import TotalProgress from "@/components/goals/total-progress";
+import { Card, CardHeader } from "@nextui-org/card";
 
 export default function RealtimeGoals({
   serverGoals,
@@ -58,6 +59,18 @@ export default function RealtimeGoals({
       supabase.removeChannel(channel);
     };
   }, [serverGoals]);
+
+  if (!goals || goals.length === 0) {
+    return (
+      <Card>
+        <CardHeader className="flex-col">
+          <h4 className="text-md text-default-400 uppercase font-bold">
+            No goals yet
+          </h4>
+        </CardHeader>
+      </Card>
+    );
+  }
 
   return (
     <>

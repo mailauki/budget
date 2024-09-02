@@ -89,20 +89,7 @@ export default function TransactionsTable({
             />
           );
         case "category":
-          return (
-            <Chip
-              // classNames={{ base: "pl-1 pr-2", content: "px-2 hidden sm:flex" }}
-              // color={
-              //   categories.expenses.find(
-              //     ({ name }) => name == transaction.category,
-              //   )?.color || "default"
-              // }
-              // variant="dot"
-              variant="flat"
-            >
-              {transaction.category_label}
-            </Chip>
-          );
+          return <Chip variant="flat">{transaction.category_label}</Chip>;
         case "credit":
           return (
             <>

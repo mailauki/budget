@@ -7,6 +7,14 @@ import { Goal } from "@/types";
 import GoalCard from "@/components/goals/card";
 import TotalProgress from "@/components/goals/total-progress";
 import { Card, CardHeader } from "@nextui-org/card";
+import {
+  Table,
+  TableBody,
+  TableColumn,
+  TableHeader,
+  TableRow,
+} from "@nextui-org/react";
+import GoalsSummary from "@/components/goals/summary";
 
 export default function RealtimeGoals({
   serverGoals,
@@ -62,13 +70,14 @@ export default function RealtimeGoals({
 
   if (!goals || goals.length === 0) {
     return (
-      <Card>
-        <CardHeader className="flex-col">
-          <h4 className="text-md text-default-400 uppercase font-bold">
-            No goals yet
-          </h4>
-        </CardHeader>
-      </Card>
+      // <Card>
+      //   <CardHeader className="flex-col">
+      //     <h4 className="text-md text-default-400 uppercase font-bold">
+      //       No goals yet
+      //     </h4>
+      //   </CardHeader>
+      // </Card>
+      <GoalsSummary />
     );
   }
 
@@ -79,6 +88,7 @@ export default function RealtimeGoals({
         {goals.map((goal) => (
           <GoalCard key={goal.id} goal={goal} />
         ))}
+        <GoalsSummary goals={goals} />
       </div>
     </>
   );

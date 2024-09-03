@@ -2,9 +2,9 @@
 
 import { Button, ButtonGroup, Input } from "@nextui-org/react";
 import React from "react";
+import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
 import { Goal } from "@/types";
-import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
 export default function GoalForm({ item }: { item?: Goal }) {
   const [goalAmount, setGoalAmount] = React.useState(item?.goal_amount || "");

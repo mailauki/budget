@@ -6,14 +6,6 @@ import { createClient } from "@/utils/supabase/client";
 import { Goal } from "@/types";
 import GoalCard from "@/components/goals/card";
 import TotalProgress from "@/components/goals/total-progress";
-import { Card, CardHeader } from "@nextui-org/card";
-import {
-  Table,
-  TableBody,
-  TableColumn,
-  TableHeader,
-  TableRow,
-} from "@nextui-org/react";
 import GoalsSummary from "@/components/goals/summary";
 
 export default function RealtimeGoals({

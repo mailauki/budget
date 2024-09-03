@@ -13,24 +13,16 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
-import { useNumberFormatter } from "@react-aria/i18n";
 import React from "react";
 
 import GoalForm from "./form";
 
 import { Goal } from "@/types";
 import { editGoal } from "@/db/actions";
+import { useCurrencyFormatter } from "@/utils/formatters";
 
 export default function GoalCard({ goal }: { goal: Goal }) {
-  const formatter = useNumberFormatter({
-    currency: "USD",
-    currencyDisplay: "symbol",
-    currencySign: "standard",
-    style: "currency",
-    minimumFractionDigits: 0,
-    // trailingZeroDisplay: "stripIfInteger",
-    // roundingPriority: "auto",
-  });
+  const currencyFormatter = useCurrencyFormatter();
   const progress = (100 * goal.current_amount) / goal.goal_amount;
 
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
@@ -56,6 +48,7 @@ export default function GoalCard({ goal }: { goal: Goal }) {
         </CardHeader>
         <CardBody className="items-center justify-center">
           <CircularProgress
+            aria-label="goal progress"
             classNames={{
               svg: "w-52 h-52",
               value: "text-3xl text-default-700",
@@ -65,6 +58,12 @@ export default function GoalCard({ goal }: { goal: Goal }) {
             size="lg"
             value={progress}
           />
+          <p>Left to save</p>
+          <p>
+            {currencyFormatter.format(
+              goal.goal_amount - goal.current_amount || 0,
+            )}
+          </p>
         </CardBody>
         <CardFooter className="justify-end">
           <Chip
@@ -73,8 +72,8 @@ export default function GoalCard({ goal }: { goal: Goal }) {
             size="md"
             variant="flat"
           >
-            {formatter.format(goal.current_amount)} /{" "}
-            {formatter.format(goal.goal_amount)}
+            {currencyFormatter.format(goal.current_amount)} /{" "}
+            {currencyFormatter.format(goal.goal_amount)}
           </Chip>
         </CardFooter>
       </Card>

@@ -15,7 +15,6 @@ import {
   TableRow,
 } from "@nextui-org/react";
 import React from "react";
-import { useNumberFormatter } from "@react-aria/i18n";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 
 import BudgetForm from "./form";
@@ -26,6 +25,10 @@ import {
   getBudgetBalance,
   getRemainingBalance,
 } from "@/utils/helpers";
+import {
+  useAccountingFormatter,
+  useCurrencyFormatter,
+} from "@/utils/formatters";
 
 export default function BudgetsTable({
   budgets,
@@ -38,20 +41,8 @@ export default function BudgetsTable({
   selectedDate: string;
   transactions: Transaction[];
 }) {
-  const formatter = useNumberFormatter({
-    currency: "USD",
-    currencyDisplay: "symbol",
-    currencySign: "standard",
-    style: "currency",
-    minimumFractionDigits: 2,
-  });
-  const formatterAcc = useNumberFormatter({
-    currency: "USD",
-    currencyDisplay: "symbol",
-    currencySign: "accounting",
-    style: "currency",
-    minimumFractionDigits: 2,
-  });
+  const currencyFormatter = useCurrencyFormatter();
+  const accountingFormatter = useAccountingFormatter();
   const [budgetSum, setBudgetSum] = React.useState(0);
   const [actualSum, setActualSum] = React.useState(0);
   const [remaingSum, setRemaingSum] = React.useState(0);
@@ -110,12 +101,12 @@ export default function BudgetsTable({
         <div className="grow flex-1">{category.name}</div>
         <div className="w-[100px] text-right">
           <Chip size="lg" variant="light">
-            {formatter.format(budgetSum)}
+            {currencyFormatter.format(budgetSum)}
           </Chip>
         </div>
         <div className="w-[100px] text-right hidden sm:block">
           <Chip size="lg" variant="light">
-            {formatter.format(actualSum)}
+            {currencyFormatter.format(actualSum)}
           </Chip>
         </div>
         <div className="w-[100px] text-right">
@@ -126,7 +117,7 @@ export default function BudgetsTable({
             size="lg"
             variant="flat"
           >
-            {formatter.format(remaingSum)}
+            {currencyFormatter.format(remaingSum)}
           </Chip>
         </div>
       </div>
@@ -216,7 +207,7 @@ export default function BudgetsTable({
                   />
                 </TableCell>
                 <TableCell className="w-[100px] hidden sm:table-cell">
-                  {formatterAcc.format(
+                  {accountingFormatter.format(
                     getActualBalance({
                       transactions,
                       category: label.name,
@@ -250,41 +241,7 @@ export default function BudgetsTable({
                     }
                     variant="light"
                   >
-                    {/* {formatterAcc.format(
-                      category.name == "Income"
-                        ? -(
-                            getBudgetBalance(budgets, {
-                              name: label.name,
-                              date: selectedDate,
-                            }) -
-                            getActualBalance(transactions, {
-                              category: label.name,
-                              date: selectedDate,
-                            })
-                          )
-                        : getBudgetBalance(budgets, {
-                            name: label.name,
-                            date: selectedDate,
-                          }) -
-                            getActualBalance(transactions, {
-                              category: label.name,
-                              date: selectedDate,
-                            }),
-                    )} */}
-                    {formatterAcc.format(
-                      // category.name == "Income"
-                      //   ? -getRemainingBalance({
-                      //       transactions,
-                      //       budgets,
-                      //       category: label.name,
-                      //       date: selectedDate,
-                      //     })
-                      //   : getRemainingBalance({
-                      //       transactions,
-                      //       budgets,
-                      //       category: label.name,
-                      //       date: selectedDate,
-                      //     }),
+                    {accountingFormatter.format(
                       getRemainingBalance({
                         transactions,
                         budgets,

@@ -18,7 +18,6 @@ import {
   TableRow,
   useDisclosure,
 } from "@nextui-org/react";
-import { useDateFormatter, useNumberFormatter } from "@react-aria/i18n";
 import React from "react";
 import { parseDate, getLocalTimeZone } from "@internationalized/date";
 import { BsCheck2 } from "react-icons/bs";
@@ -30,6 +29,11 @@ import TransactionForm from "./form";
 import { Transaction } from "@/types";
 import { editTransaction } from "@/db/actions";
 import { categories } from "@/utils/categories";
+import {
+  useCurrencyFormatter,
+  useDateFullFormatter,
+  useDateMediumFormatter,
+} from "@/utils/formatters";
 
 export default function TransactionsTable({
   transactions,
@@ -38,18 +42,9 @@ export default function TransactionsTable({
   transactions: Transaction[];
   date: string;
 }) {
-  const formatter = useDateFormatter({ dateStyle: "medium" });
-  const formatterFull = useDateFormatter({ dateStyle: "full" });
-  const formatterAmount = useNumberFormatter({
-    currency: "USD",
-    currencyDisplay: "symbol",
-    currencySign: "standard",
-    style: "currency",
-    minimumFractionDigits: 2,
-    // trailingZeroDisplay: "stripIfInteger",
-    // roundingPriority: "auto",
-  });
-
+  const currencyFormatter = useCurrencyFormatter();
+  const dateFormatter = useDateMediumFormatter();
+  const dateFullFormatter = useDateFullFormatter();
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
   const [openType, setOpenType] = React.useState<string>();
   const [openItem, setOpenItem] = React.useState<Transaction>();
@@ -112,7 +107,7 @@ export default function TransactionsTable({
               }
               variant="light"
             >
-              {formatterAmount.format(transaction.amount)}
+              {currencyFormatter.format(transaction.amount)}
             </Chip>
           );
         default:
@@ -126,7 +121,7 @@ export default function TransactionsTable({
     return (
       <div className="flex flex-col gap-2">
         <p>
-          {formatterFull.format(
+          {dateFullFormatter.format(
             parseDate(`${date}`).toDate(getLocalTimeZone()),
           )}
         </p>
@@ -146,12 +141,12 @@ export default function TransactionsTable({
             </div>
             <div className="flex flex-col">
               <p className="text-xs text-default-500">Amount</p>
-              <p className="text-md">{formatterAmount.format(item.amount)}</p>
+              <p className="text-md">{currencyFormatter.format(item.amount)}</p>
             </div>
             <div className="flex flex-col">
               <p className="text-xs text-default-500">Date</p>
               <p className="text-md">
-                {formatter.format(
+                {dateFormatter.format(
                   parseDate(`${item.date}`).toDate(getLocalTimeZone()),
                 )}
               </p>

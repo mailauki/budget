@@ -7,18 +7,12 @@ import {
   TableRow,
 } from "@nextui-org/react";
 import React from "react";
-import { useNumberFormatter } from "@react-aria/i18n";
 
 import { Goal } from "@/types";
+import { useCurrencyFormatter } from "@/utils/formatters";
 
 export default function GoalsSummary({ goals }: { goals?: Goal[] }) {
-  const formatterAmount = useNumberFormatter({
-    currency: "USD",
-    currencyDisplay: "symbol",
-    currencySign: "standard",
-    style: "currency",
-    minimumFractionDigits: 2,
-  });
+  const currencyFormatter = useCurrencyFormatter();
 
   const renderCell = React.useCallback((goal: Goal, columnKey: React.Key) => {
     const cellValue = goal[columnKey as keyof Goal];
@@ -27,11 +21,11 @@ export default function GoalsSummary({ goals }: { goals?: Goal[] }) {
       case "name":
         return cellValue;
       case "goal":
-        return formatterAmount.format(goal.goal_amount);
+        return currencyFormatter.format(goal.goal_amount || 0);
       case "current":
-        return formatterAmount.format(goal.current_amount);
+        return currencyFormatter.format(goal.current_amount || 0);
       case "remaining":
-        return formatterAmount.format(
+        return currencyFormatter.format(
           goal.goal_amount - goal.current_amount || 0,
         );
       case "progress":

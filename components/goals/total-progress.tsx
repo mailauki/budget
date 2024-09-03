@@ -15,7 +15,11 @@ export default function TotalProgress({ goals }: { goals: Goal[] }) {
         </h4>
       </CardHeader>
       <CardFooter>
-        <Progress size="lg" value={getProgressTotal({ goals })} />
+        <Progress
+          aria-label="goals total progress"
+          size="lg"
+          value={getProgressTotal({ goals })}
+        />
       </CardFooter>
     </Card>
   );

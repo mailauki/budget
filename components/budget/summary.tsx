@@ -11,13 +11,13 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
-import { useNumberFormatter } from "@react-aria/i18n";
 
 import { title } from "../primitives";
 
 import { Budget, Transaction } from "@/types";
 import { categories } from "@/utils/categories";
 import { getActualTotal, getBudgetTotal } from "@/utils/helpers";
+import { useCurrencyFormatter } from "@/utils/formatters";
 
 export default function BudgetSummary({
   budgets,
@@ -28,15 +28,7 @@ export default function BudgetSummary({
   transactions: Transaction[];
   selectedDate: string;
 }) {
-  const formatter = useNumberFormatter({
-    currency: "USD",
-    currencyDisplay: "symbol",
-    currencySign: "standard",
-    style: "currency",
-    minimumFractionDigits: 2,
-    // trailingZeroDisplay: "stripIfInteger",
-    // roundingPriority: "auto",
-  });
+  const currencyFormatter = useCurrencyFormatter();
 
   return (
     <>
@@ -44,7 +36,7 @@ export default function BudgetSummary({
         <CardHeader className="flex-col justify-center text-center py-[3.15rem] gap-1">
           <p className="text-default-500">Left to spend</p>
           <p className={title()}>
-            {formatter.format(
+            {currencyFormatter.format(
               getActualTotal({
                 transactions,
                 categories: categories.income.map((labels) => labels),
@@ -67,7 +59,7 @@ export default function BudgetSummary({
           <p className="text-default-500">Left to budget</p>
           <Divider orientation="vertical" />
           <Chip size="lg" variant="light">
-            {formatter.format(
+            {currencyFormatter.format(
               getBudgetTotal({
                 budgets,
                 categories: categories.income,
@@ -107,7 +99,7 @@ export default function BudgetSummary({
           <TableRow>
             <TableCell>Income</TableCell>
             <TableCell>
-              {formatter.format(
+              {currencyFormatter.format(
                 getBudgetTotal({
                   budgets,
                   categories: categories.income,
@@ -116,7 +108,7 @@ export default function BudgetSummary({
               )}
             </TableCell>
             <TableCell>
-              {formatter.format(
+              {currencyFormatter.format(
                 getActualTotal({
                   transactions,
                   categories: categories.income,
@@ -128,7 +120,7 @@ export default function BudgetSummary({
           <TableRow>
             <TableCell>Bills</TableCell>
             <TableCell>
-              {formatter.format(
+              {currencyFormatter.format(
                 getBudgetTotal({
                   budgets,
                   categories: categories.bills,
@@ -137,7 +129,7 @@ export default function BudgetSummary({
               )}
             </TableCell>
             <TableCell>
-              {formatter.format(
+              {currencyFormatter.format(
                 getActualTotal({
                   transactions,
                   categories: categories.bills,
@@ -149,7 +141,7 @@ export default function BudgetSummary({
           <TableRow>
             <TableCell>Savings</TableCell>
             <TableCell>
-              {formatter.format(
+              {currencyFormatter.format(
                 getBudgetTotal({
                   budgets,
                   categories: categories.savings,
@@ -158,7 +150,7 @@ export default function BudgetSummary({
               )}
             </TableCell>
             <TableCell>
-              {formatter.format(
+              {currencyFormatter.format(
                 getActualTotal({
                   transactions,
                   categories: categories.savings,
@@ -170,7 +162,7 @@ export default function BudgetSummary({
           <TableRow>
             <TableCell>Debt</TableCell>
             <TableCell>
-              {formatter.format(
+              {currencyFormatter.format(
                 getBudgetTotal({
                   budgets,
                   categories: categories.debt,
@@ -179,7 +171,7 @@ export default function BudgetSummary({
               )}
             </TableCell>
             <TableCell>
-              {formatter.format(
+              {currencyFormatter.format(
                 getActualTotal({
                   transactions,
                   categories: categories.debt,
@@ -191,7 +183,7 @@ export default function BudgetSummary({
           <TableRow>
             <TableCell>Expenses</TableCell>
             <TableCell>
-              {formatter.format(
+              {currencyFormatter.format(
                 getBudgetTotal({
                   budgets,
                   categories: categories.expenses,
@@ -200,7 +192,7 @@ export default function BudgetSummary({
               )}
             </TableCell>
             <TableCell>
-              {formatter.format(
+              {currencyFormatter.format(
                 getActualTotal({
                   transactions,
                   categories: categories.expenses,

@@ -152,6 +152,7 @@ export async function editGoal(formData: FormData) {
     name: formData.get("name"),
     goal_amount: parseFloat((formData.get("goal_amount") || 0) as string),
     current_amount: parseFloat((formData.get("current_amount") || 0) as string),
+    contribution: parseFloat((formData.get("contribution") || 0) as string),
     user_id: user?.id,
   };
   const id = formData.get("id");

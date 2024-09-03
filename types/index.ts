@@ -74,6 +74,7 @@ export interface Goal {
   name: string;
   goal_amount: number;
   current_amount: number;
+  contribution: number;
   priority: number;
   user_id?: UUID;
 }

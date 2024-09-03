@@ -14,6 +14,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import React from "react";
+import { BsPencil, BsPlus } from "react-icons/bs";
 
 import GoalForm from "./form";
 
@@ -36,36 +37,89 @@ export default function GoalCard({ goal }: { goal: Goal }) {
   return (
     <>
       <Card
-        isPressable
+        // isPressable
         className="w-full col-span-12 md:col-span-6 [&:last-child]:col-span-full"
         onPress={() => handleOpen(goal)}
       >
-        <CardHeader className="flex-col items-start">
-          <p className="text-tiny text-default-400 uppercase font-bold">
-            Goal {goal.priority > 0 && goal.priority}
-          </p>
-          <h4 className="text-forground font-medium text-xl">{goal.name}</h4>
-        </CardHeader>
-        <CardBody className="items-center justify-center">
-          <CircularProgress
-            aria-label="goal progress"
-            classNames={{
-              svg: "w-52 h-52",
-              value: "text-3xl text-default-700",
-            }}
-            color="default"
-            showValueLabel={true}
+        <CardHeader className="items-start justify-between">
+          <div className="flex flex-col items-start justify-start">
+            <p className="text-tiny text-default-400 uppercase font-bold">
+              Goal {goal.priority > 0 && goal.priority}
+            </p>
+            <h4 className="text-forground font-medium text-xl">{goal.name}</h4>
+          </div>
+          <Button
+            isIconOnly
+            radius="full"
             size="lg"
-            value={progress}
-          />
-          <p>Left to save</p>
-          <p>
-            {currencyFormatter.format(
-              goal.goal_amount - goal.current_amount || 0,
-            )}
-          </p>
+            variant="ghost"
+            onPress={() => handleOpen(goal)}
+          >
+            <BsPencil />
+          </Button>
+        </CardHeader>
+        <CardBody className="flex flex-row items-center justify-between gap-2">
+          {/* <div className="w-full flex justify-between">
+            <p className="text-default-500">Left to save</p>
+            <Divider orientation="vertical" />
+            <p>
+              {currencyFormatter.format(
+                goal.goal_amount - goal.current_amount || 0,
+              )}
+            </p>
+          </div> */}
+          <div className="flex items-center justify-center flex-1">
+            <CircularProgress
+              aria-label="goal progress"
+              classNames={{
+                svg: "w-52 h-52",
+                value: "text-3xl text-default-700",
+              }}
+              color="default"
+              showValueLabel={true}
+              size="lg"
+              value={progress}
+            />
+          </div>
+
+          <div className="flex flex-col gap-3 px-2">
+            <div className="flex flex-col items-start justify-start">
+              <p className="text-tiny text-default-400 uppercase font-bold">
+                Monthly contribution
+              </p>
+              <h4 className="text-forground font-medium">
+                {currencyFormatter.format(goal.contribution)}
+              </h4>
+            </div>
+            <div className="flex flex-col items-start justify-start">
+              <p className="text-tiny text-default-400 uppercase font-bold">
+                Left to save
+              </p>
+              <h4 className="text-forground font-medium">
+                {currencyFormatter.format(
+                  goal.goal_amount - goal.current_amount || 0,
+                )}
+              </h4>
+            </div>
+            <div className="flex flex-col items-start justify-start">
+              <p className="text-tiny text-default-400 uppercase font-bold">
+                Months left
+              </p>
+              <h4 className="text-forground font-medium">
+                {Math.round(
+                  (goal.goal_amount - goal.current_amount || 0) /
+                    goal.contribution,
+                ) === Infinity
+                  ? "N/A"
+                  : Math.round(
+                      (goal.goal_amount - goal.current_amount || 0) /
+                        goal.contribution,
+                    )}
+              </h4>
+            </div>
+          </div>
         </CardBody>
-        <CardFooter className="justify-end">
+        <CardFooter className="items-baseline justify-between">
           <Chip
             className="text-tiny ml-2"
             color="default"
@@ -75,6 +129,14 @@ export default function GoalCard({ goal }: { goal: Goal }) {
             {currencyFormatter.format(goal.current_amount)} /{" "}
             {currencyFormatter.format(goal.goal_amount)}
           </Chip>
+          <Button
+            radius="full"
+            size="md"
+            startContent={<BsPlus size={20} />}
+            variant="ghost"
+          >
+            {currencyFormatter.format(goal.contribution)}
+          </Button>
         </CardFooter>
       </Card>
       <Modal

@@ -61,7 +61,11 @@ export default function GoalsSummary({ goals }: { goals?: Goal[] }) {
         >
           Remaining Amount
         </TableColumn>
-        <TableColumn key="progress" align="end" className="uppercase">
+        <TableColumn
+          key="progress"
+          align="end"
+          className="uppercase hidden sm:table-cell"
+        >
           Progress
         </TableColumn>
       </TableHeader>
@@ -70,7 +74,7 @@ export default function GoalsSummary({ goals }: { goals?: Goal[] }) {
           <TableRow key={item.name}>
             {(columnKey) => (
               <TableCell
-                className={`${columnKey == "priority" ? "hidden md:table-cell" : columnKey == "remaining" ? "hidden sm:table-cell" : "table-cell"}`}
+                className={`${columnKey == "priority" ? "hidden md:table-cell" : columnKey == "remaining" || columnKey == "progress" ? "hidden sm:table-cell" : "table-cell"}`}
               >
                 {renderCell(item, columnKey)}
               </TableCell>

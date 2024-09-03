@@ -17,12 +17,19 @@ export default function GoalForm({ item }: { item?: Goal }) {
   const [currentAmountNumber, setCurrentAmountNumber] = React.useState<
     number | undefined
   >(item?.current_amount);
+  const [contribution, setContribution] = React.useState(
+    item?.contribution || "",
+  );
+  const [contributionNumber, setContributionNumber] = React.useState<
+    number | undefined
+  >(item?.contribution);
   const [name, setName] = React.useState(item?.name ?? "");
   const [priority, setPriority] = React.useState(item?.priority ?? 0);
 
   function handleChange() {
     goalAmountNumber && setGoalAmount(`${goalAmountNumber}`);
     currentAmountNumber && setCurrentAmount(`${currentAmountNumber}`);
+    contributionNumber && setContribution(`${contributionNumber}`);
   }
 
   function handleGoalOnValueChange(value: string) {
@@ -39,6 +46,13 @@ export default function GoalForm({ item }: { item?: Goal }) {
     setCurrentAmountNumber(number);
   }
 
+  function handleContributionOnValueChange(value: string) {
+    const number = parseFloat(parseFloat(value!).toFixed(2));
+
+    setContribution(value);
+    setContributionNumber(number);
+  }
+
   function increment() {
     if (priority >= 0 && priority < 5) setPriority(priority + 1);
   }
@@ -51,7 +65,6 @@ export default function GoalForm({ item }: { item?: Goal }) {
     <div className="flex flex-col gap-3">
       <input hidden defaultValue={item?.id} name="id" />
       <Input
-        id="name"
         label="Name"
         name="name"
         radius="sm"
@@ -60,7 +73,6 @@ export default function GoalForm({ item }: { item?: Goal }) {
         onChange={(event) => setName(event.target.value)}
       />
       <Input
-        id="amount"
         label="Goal Amount"
         name="goal_amount"
         pattern="[0-9]*[.,]?[0-9]*"
@@ -78,7 +90,6 @@ export default function GoalForm({ item }: { item?: Goal }) {
         onValueChange={handleGoalOnValueChange}
       />
       <Input
-        id="amount"
         label="Current Amount"
         name="current_amount"
         pattern="[0-9]*[.,]?[0-9]*"
@@ -94,6 +105,23 @@ export default function GoalForm({ item }: { item?: Goal }) {
         variant="bordered"
         onFocusChange={handleChange}
         onValueChange={handleCurrentOnValueChange}
+      />
+      <Input
+        label="Monthly Contribution"
+        name="contribution"
+        pattern="[0-9]*[.,]?[0-9]*"
+        placeholder="0.00"
+        radius="sm"
+        startContent={
+          <div className="pointer-events-none flex items-center">
+            <span className="text-default-400 text-small">$</span>
+          </div>
+        }
+        type="text"
+        value={`${contribution}`}
+        variant="bordered"
+        onFocusChange={handleChange}
+        onValueChange={handleContributionOnValueChange}
       />
       <div className="flex py-2 px-1 justify-between">
         <div className="flex items-center gap-2">

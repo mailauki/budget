@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 "use server";
 
-import { Budget } from "@/types";
+import { Budget, Goal } from "@/types";
 import { categories } from "@/utils/categories";
 import { createClient } from "@/utils/supabase/server";
 
@@ -163,6 +163,20 @@ export async function editGoal(formData: FormData) {
     .from("goals")
     .upsert(!id || id == "" ? data : { ...data, id: id, priority })
     .match({ id: id!, user_id: user?.id });
+
+  if (error) console.log(error);
+}
+
+export async function updateGoal({ goal }: { goal: Goal }) {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { error } = await supabase
+    .from("goals")
+    .upsert(goal)
+    .match({ id: goal.id!, user_id: user?.id });
 
   if (error) console.log(error);
 }

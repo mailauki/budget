@@ -19,7 +19,7 @@ import { BsPencil, BsPlus } from "react-icons/bs";
 import GoalForm from "./form";
 
 import { Goal } from "@/types";
-import { editGoal } from "@/db/actions";
+import { editGoal, updateGoal } from "@/db/actions";
 import { useCurrencyFormatter } from "@/utils/formatters";
 
 export default function GoalCard({ goal }: { goal: Goal }) {
@@ -52,22 +52,13 @@ export default function GoalCard({ goal }: { goal: Goal }) {
             isIconOnly
             radius="full"
             size="lg"
-            variant="ghost"
+            variant="light"
             onPress={() => handleOpen(goal)}
           >
             <BsPencil />
           </Button>
         </CardHeader>
         <CardBody className="flex flex-row items-center justify-between gap-2">
-          {/* <div className="w-full flex justify-between">
-            <p className="text-default-500">Left to save</p>
-            <Divider orientation="vertical" />
-            <p>
-              {currencyFormatter.format(
-                goal.goal_amount - goal.current_amount || 0,
-              )}
-            </p>
-          </div> */}
           <div className="flex items-center justify-center flex-1">
             <CircularProgress
               aria-label="goal progress"
@@ -130,10 +121,27 @@ export default function GoalCard({ goal }: { goal: Goal }) {
             {currencyFormatter.format(goal.goal_amount)}
           </Chip>
           <Button
+            className="pr-5"
             radius="full"
             size="md"
             startContent={<BsPlus size={20} />}
-            variant="ghost"
+            variant="solid"
+            onPress={() =>
+              // updateGoal({
+              //   ...goal,
+              //   current_amount: goal.current_amount + goal.contribution,
+              // })
+              // updateGoal({
+              //   id: goal.id,
+              //   current_amount: goal.current_amount + goal.contribution,
+              // })
+              updateGoal({
+                goal: {
+                  ...goal,
+                  current_amount: goal.current_amount + goal.contribution,
+                },
+              })
+            }
           >
             {currencyFormatter.format(goal.contribution)}
           </Button>

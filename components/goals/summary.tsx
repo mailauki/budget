@@ -36,7 +36,7 @@ export default function GoalsSummary({ goals }: { goals?: Goal[] }) {
   }, []);
 
   return (
-    <Table className="col-span-full">
+    <Table aria-label="Goals summary table" className="col-span-full">
       <TableHeader>
         <TableColumn key="name" className="uppercase">
           Name

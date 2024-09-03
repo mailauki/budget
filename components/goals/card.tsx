@@ -127,14 +127,6 @@ export default function GoalCard({ goal }: { goal: Goal }) {
             startContent={<BsPlus size={20} />}
             variant="solid"
             onPress={() =>
-              // updateGoal({
-              //   ...goal,
-              //   current_amount: goal.current_amount + goal.contribution,
-              // })
-              // updateGoal({
-              //   id: goal.id,
-              //   current_amount: goal.current_amount + goal.contribution,
-              // })
               updateGoal({
                 goal: {
                   ...goal,

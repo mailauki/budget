@@ -61,25 +61,23 @@ export default function RealtimeGoals({
   }, [serverGoals]);
 
   if (!goals || goals.length === 0) {
-    return (
-      // <Card>
-      //   <CardHeader className="flex-col">
-      //     <h4 className="text-md text-default-400 uppercase font-bold">
-      //       No goals yet
-      //     </h4>
-      //   </CardHeader>
-      // </Card>
-      <GoalsSummary />
-    );
+    return <GoalsSummary />;
   }
 
   return (
     <>
       <div className="grid grid-cols-12 gap-3">
         <TotalProgress goals={goals} />
-        {goals.map((goal) => (
-          <GoalCard key={goal.id} goal={goal} />
-        ))}
+        {goals
+          .sort((a, b) => {
+            if (a.priority === 0) return 1;
+            if (b.priority === 0) return -1;
+
+            return a.priority - b.priority;
+          })
+          .map((goal) => (
+            <GoalCard key={goal.id} goal={goal} />
+          ))}
         <GoalsSummary goals={goals} />
       </div>
     </>

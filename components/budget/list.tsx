@@ -10,10 +10,11 @@ import { title } from "../primitives";
 
 import BudgetSummary from "./summary";
 import BudgetsTable from "./table";
+import CashFlowSummary from "./cash-flow";
 
 import { categories } from "@/utils/categories";
 import { Budget, Transaction } from "@/types";
-import CashFlowSummary from "./cash-flow";
+import NeedsWants from "./50-30-20";
 
 export default function BudgetList({
   budgets,
@@ -45,7 +46,7 @@ export default function BudgetList({
 
   return (
     <>
-      <section className="md:col-span-12">
+      <section className="md:col-span-12 sm:order-0">
         <Accordion
           aria-label="Open calendar options"
           className="px-0"
@@ -63,36 +64,30 @@ export default function BudgetList({
           </AccordionItem>
         </Accordion>
       </section>
-      <aside className="md:col-span-5 md:order-last">
+      <aside className="md:col-span-5 hidden">
         <div className="w-full flex flex-col gap-4">
           <BudgetSummary
             budgets={budgets}
             selectedDate={selectedDate}
             transactions={transactions}
           />
-          {categories.debt.map((category) => (
-            <BudgetsTable
-              key={category.id}
-              budgets={budgets}
-              category={category}
-              selectedDate={selectedDate}
-              transactions={transactions}
-            />
-          ))}
-          {categories.savings.map((category) => (
-            <BudgetsTable
-              key={category.id}
-              budgets={budgets}
-              category={category}
-              selectedDate={selectedDate}
-              transactions={transactions}
-            />
-          ))}
         </div>
       </aside>
       <section className="md:col-span-7">
         <div className="flex flex-col gap-4">
+          <div className="sm:hidden flex flex-col gap-4">
+            <BudgetSummary
+              budgets={budgets}
+              selectedDate={selectedDate}
+              transactions={transactions}
+            />
+          </div>
           <CashFlowSummary
+            budgets={budgets}
+            selectedDate={selectedDate}
+            transactions={transactions}
+          />
+          <NeedsWants
             budgets={budgets}
             selectedDate={selectedDate}
             transactions={transactions}
@@ -115,7 +110,16 @@ export default function BudgetList({
               transactions={transactions}
             />
           ))}
-          {categories.expenses.map((category) => (
+          {categories.debt.map((category) => (
+            <BudgetsTable
+              key={category.id}
+              budgets={budgets}
+              category={category}
+              selectedDate={selectedDate}
+              transactions={transactions}
+            />
+          ))}
+          {categories.savings.map((category) => (
             <BudgetsTable
               key={category.id}
               budgets={budgets}
@@ -126,6 +130,26 @@ export default function BudgetList({
           ))}
         </div>
       </section>
+      <aside className="md:col-span-5 md:order-last">
+        <div className="w-full flex flex-col gap-4">
+          <div className="hidden sm:flex flex-col gap-4">
+            <BudgetSummary
+              budgets={budgets}
+              selectedDate={selectedDate}
+              transactions={transactions}
+            />
+          </div>
+          {categories.expenses.map((category) => (
+            <BudgetsTable
+              key={category.id}
+              budgets={budgets}
+              category={category}
+              selectedDate={selectedDate}
+              transactions={transactions}
+            />
+          ))}
+        </div>
+      </aside>
     </>
   );
 }

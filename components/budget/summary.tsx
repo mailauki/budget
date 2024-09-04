@@ -1,20 +1,8 @@
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Chip,
-  CircularProgress,
-  Divider,
-  Table,
-  TableBody,
-  TableCell,
-  TableColumn,
-  TableHeader,
-  TableRow,
-} from "@nextui-org/react";
+import { Card, CardFooter, CardHeader, Chip, Divider } from "@nextui-org/react";
 
 import { title } from "../primitives";
+
+import AllocationSummary from "./allocation";
 
 import { Budget, Transaction } from "@/types";
 import { categories } from "@/utils/categories";
@@ -80,131 +68,11 @@ export default function BudgetSummary({
           </Chip>
         </CardFooter>
       </Card>
-      <Table radius="sm">
-        <TableHeader>
-          <TableColumn isRowHeader className="uppercase">
-            Name
-          </TableColumn>
-          <TableColumn align="end" className="uppercase">
-            Budget
-          </TableColumn>
-          <TableColumn align="end" className="uppercase">
-            Actual
-          </TableColumn>
-        </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableCell>Rollover</TableCell>
-            <TableCell>$0.00</TableCell>
-            <TableCell>$0.00</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Income</TableCell>
-            <TableCell>
-              {currencyFormatter.format(
-                getBudgetTotal({
-                  budgets,
-                  categories: categories.income,
-                  date: selectedDate,
-                }),
-              )}
-            </TableCell>
-            <TableCell>
-              {currencyFormatter.format(
-                getActualTotal({
-                  transactions,
-                  categories: categories.income,
-                  date: selectedDate,
-                }),
-              )}
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Bills</TableCell>
-            <TableCell>
-              {currencyFormatter.format(
-                getBudgetTotal({
-                  budgets,
-                  categories: categories.bills,
-                  date: selectedDate,
-                }),
-              )}
-            </TableCell>
-            <TableCell>
-              {currencyFormatter.format(
-                getActualTotal({
-                  transactions,
-                  categories: categories.bills,
-                  date: selectedDate,
-                }),
-              )}
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Savings</TableCell>
-            <TableCell>
-              {currencyFormatter.format(
-                getBudgetTotal({
-                  budgets,
-                  categories: categories.savings,
-                  date: selectedDate,
-                }),
-              )}
-            </TableCell>
-            <TableCell>
-              {currencyFormatter.format(
-                getActualTotal({
-                  transactions,
-                  categories: categories.savings,
-                  date: selectedDate,
-                }),
-              )}
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Debt</TableCell>
-            <TableCell>
-              {currencyFormatter.format(
-                getBudgetTotal({
-                  budgets,
-                  categories: categories.debt,
-                  date: selectedDate,
-                }),
-              )}
-            </TableCell>
-            <TableCell>
-              {currencyFormatter.format(
-                getActualTotal({
-                  transactions,
-                  categories: categories.debt,
-                  date: selectedDate,
-                }),
-              )}
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Expenses</TableCell>
-            <TableCell>
-              {currencyFormatter.format(
-                getBudgetTotal({
-                  budgets,
-                  categories: categories.expenses,
-                  date: selectedDate,
-                }),
-              )}
-            </TableCell>
-            <TableCell>
-              {currencyFormatter.format(
-                getActualTotal({
-                  transactions,
-                  categories: categories.expenses,
-                  date: selectedDate,
-                }),
-              )}
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+      <AllocationSummary
+        budgets={budgets}
+        selectedDate={selectedDate}
+        transactions={transactions}
+      />
     </>
   );
 }

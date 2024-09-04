@@ -13,6 +13,7 @@ import BudgetsTable from "./table";
 
 import { categories } from "@/utils/categories";
 import { Budget, Transaction } from "@/types";
+import CashFlowSummary from "./cash-flow";
 
 export default function BudgetList({
   budgets,
@@ -91,6 +92,11 @@ export default function BudgetList({
       </aside>
       <section className="md:col-span-7">
         <div className="flex flex-col gap-4">
+          <CashFlowSummary
+            budgets={budgets}
+            selectedDate={selectedDate}
+            transactions={transactions}
+          />
           {categories.income.map((category) => (
             <BudgetsTable
               key={category.id}

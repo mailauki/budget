@@ -117,7 +117,7 @@ export default function AllocationSummary({
   return (
     <Card radius="sm">
       <CardHeader>
-        <p>Allocation Summary</p>
+        <p>Allocation summary</p>
       </CardHeader>
       <CardBody>
         <DonutChart

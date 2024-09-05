@@ -15,7 +15,13 @@ import {
 
 import { getDatesBetween } from "@/utils/helpers";
 
-export default function DatePicker({ selectedDate }: { selectedDate: string }) {
+export default function DatePicker({
+  selectedDate,
+  changeDate,
+}: {
+  selectedDate: string;
+  changeDate: (date: string) => void;
+}) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const [date, setDate] = React.useState<string>(`${selectedDate}-01`);
@@ -34,6 +40,10 @@ export default function DatePicker({ selectedDate }: { selectedDate: string }) {
     if (date > startDate)
       setDate(moment(date).subtract(1, "months").format("YYYY-MM-DD"));
   }
+
+  React.useEffect(() => {
+    changeDate(moment(date).format("YYYY-MM"));
+  }, [date]);
 
   return (
     <>

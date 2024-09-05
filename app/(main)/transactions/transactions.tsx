@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import moment from "moment";
 
 import { Transaction } from "@/types";
 import { createClient } from "@/utils/supabase/client";
@@ -8,6 +9,10 @@ import TransactionsList from "@/components/transactions/list";
 import ExpenseSummary from "@/components/transactions/expense-summary";
 import Aside from "@/components/layout/aside";
 import Content from "@/components/layout/content";
+import Header from "@/components/layout/header";
+import { title } from "@/components/primitives";
+import DatePicker from "@/components/date-picker";
+import TransactionModal from "@/components/transactions/modal";
 
 export default function RealtimeTransactions({
   serverTransactions,
@@ -17,6 +22,9 @@ export default function RealtimeTransactions({
   const supabase = createClient();
 
   const [transactions, setTransactions] = React.useState(serverTransactions);
+  const [selectedDate, setSelectedDate] = React.useState(
+    moment().format("YYYY-MM"),
+  );
 
   React.useEffect(() => {
     setTransactions(serverTransactions);
@@ -64,8 +72,19 @@ export default function RealtimeTransactions({
     };
   }, [serverTransactions]);
 
+  function handleChangeDate(date: string) {
+    setSelectedDate(date);
+  }
+
   return (
     <>
+      <Header>
+        <div className="flex-1">
+          <h1 className={title()}>Transactions</h1>
+        </div>
+        <DatePicker changeDate={handleChangeDate} selectedDate={selectedDate} />
+        <TransactionModal />
+      </Header>
       <Aside>
         <ExpenseSummary transactions={transactions} />
       </Aside>

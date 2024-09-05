@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import moment from "moment";
 
 import { Budget, Transaction } from "@/types";
 import { createClient } from "@/utils/supabase/client";
@@ -14,6 +15,7 @@ import CashFlowSummary from "@/components/budget/cash-flow";
 import NeedsWants from "@/components/budget/50-30-20";
 import { title } from "@/components/primitives";
 import BudgetExpenses from "@/components/budget/expenses-list";
+import DatePicker from "@/components/date-picker";
 
 export default function Budgets({
   serverBudgets,
@@ -26,6 +28,9 @@ export default function Budgets({
 
   const [budgets, setBudgets] = React.useState(serverBudgets);
   const [transactions, setTransactions] = React.useState(serverTransactions);
+  const [selectedDate, setSelectedDate] = React.useState(
+    moment().format("YYYY-MM"),
+  );
 
   React.useEffect(() => {
     setBudgets(serverBudgets);
@@ -96,35 +101,45 @@ export default function Budgets({
     };
   }, [serverTransactions]);
 
+  function handleChangeDate(date: string) {
+    setSelectedDate(date);
+  }
+
   return (
     <>
+      <Header>
+        <div className="flex-1">
+          <h1 className={title()}>Budgets</h1>
+        </div>
+        <DatePicker changeDate={handleChangeDate} selectedDate={selectedDate} />
+      </Header>
       <Aside>
         <div className="flex sm:hidden flex-col gap-4">
           <LeftToSpend
             budgets={budgets}
-            selectedDate={"2024-09"}
+            selectedDate={selectedDate}
             transactions={transactions}
           />
           <AllocationSummary
             budgets={budgets}
-            selectedDate={"2024-09"}
+            selectedDate={selectedDate}
             transactions={transactions}
           />
         </div>
         <div className="hidden sm:flex flex-col gap-4">
           <LeftToSpend
             budgets={budgets}
-            selectedDate={"2024-09"}
+            selectedDate={selectedDate}
             transactions={transactions}
           />
           <AllocationSummary
             budgets={budgets}
-            selectedDate={"2024-09"}
+            selectedDate={selectedDate}
             transactions={transactions}
           />
           <BudgetExpenses
             budgets={budgets}
-            selectedDate={"2024-09"}
+            selectedDate={selectedDate}
             transactions={transactions}
           />
         </div>
@@ -133,19 +148,19 @@ export default function Budgets({
         <div className="flex flex-col gap-4">
           <CashFlowSummary
             budgets={budgets}
-            selectedDate={"2024-09"}
+            selectedDate={selectedDate}
             transactions={transactions}
           />
           <NeedsWants
             budgets={budgets}
-            selectedDate={"2024-09"}
+            selectedDate={selectedDate}
             transactions={transactions}
           />
           <BudgetsList budgets={budgets} transactions={transactions} />
           <div className="flex sm:hidden flex-col gap-4">
             <BudgetExpenses
               budgets={budgets}
-              selectedDate={"2024-09"}
+              selectedDate={selectedDate}
               transactions={transactions}
             />
           </div>

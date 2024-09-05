@@ -1,3 +1,4 @@
+import DatePicker from "@/components/date-picker";
 import Transactions from "./transactions";
 
 import { title } from "@/components/primitives";
@@ -11,8 +12,11 @@ export default async function TransactionsPage() {
   return (
     <>
       <div className="md:col-span-12">
-        <div className="flex items-center justify-between py-4">
-          <h1 className={title()}>Transactions</h1>
+        <div className="flex items-center justify-between py-4 gap-2">
+          <div className="flex-1">
+            <h1 className={title()}>Transactions</h1>
+          </div>
+          <DatePicker selectedDate={"2024-09"} />
           <TransactionModal />
         </div>
       </div>

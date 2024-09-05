@@ -73,24 +73,15 @@ export default function TransactionsList({
   }
 
   return (
-    <>
-      <section className="md:col-span-12 sm:order-0" />
-      <aside className="md:col-span-5 sm:order-last">
-        <ExpenseSummary transactions={transactions} />
-        <div className="w-full flex flex-col gap-4" />
-      </aside>
-      <section className="md:col-span-7">
-        <div className="flex flex-col gap-4">
-          {dates.map((date) => (
-            <div key={date}>
-              <TransactionsTable
-                date={date}
-                transactions={transactions.filter((ta) => ta.date == date)}
-              />
-            </div>
-          ))}
+    <div className="flex flex-col gap-4">
+      {dates.map((date) => (
+        <div key={date}>
+          <TransactionsTable
+            date={date}
+            transactions={transactions.filter((ta) => ta.date == date)}
+          />
         </div>
-      </section>
-    </>
+      ))}
+    </div>
   );
 }

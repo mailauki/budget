@@ -5,6 +5,9 @@ import React from "react";
 import { Transaction } from "@/types";
 import { createClient } from "@/utils/supabase/client";
 import TransactionsList from "@/components/transactions/list";
+import ExpenseSummary from "@/components/transactions/expense-summary";
+import Aside from "@/components/layout/aside";
+import Content from "@/components/layout/content";
 
 export default function RealtimeTransactions({
   serverTransactions,
@@ -61,5 +64,14 @@ export default function RealtimeTransactions({
     };
   }, [serverTransactions]);
 
-  return <TransactionsList transactions={transactions} />;
+  return (
+    <>
+      <Aside>
+        <ExpenseSummary transactions={transactions} />
+      </Aside>
+      <Content>
+        <TransactionsList transactions={transactions} />
+      </Content>
+    </>
+  );
 }

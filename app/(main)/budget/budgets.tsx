@@ -5,6 +5,15 @@ import React from "react";
 import { Budget, Transaction } from "@/types";
 import { createClient } from "@/utils/supabase/client";
 import BudgetsList from "@/components/budget/list";
+import Aside from "@/components/layout/aside";
+import Content from "@/components/layout/content";
+import Header from "@/components/layout/header";
+import LeftToSpend from "@/components/budget/left-to-spend";
+import AllocationSummary from "@/components/budget/allocation";
+import CashFlowSummary from "@/components/budget/cash-flow";
+import NeedsWants from "@/components/budget/50-30-20";
+import { title } from "@/components/primitives";
+import BudgetExpenses from "@/components/budget/expenses-list";
 
 export default function Budgets({
   serverBudgets,
@@ -87,6 +96,61 @@ export default function Budgets({
     };
   }, [serverTransactions]);
 
-  // return <pre>{JSON.stringify(budgets, null, 2)}</pre>;
-  return <BudgetsList budgets={budgets} transactions={transactions} />;
+  return (
+    <>
+      <Aside>
+        <div className="flex sm:hidden flex-col gap-4">
+          <LeftToSpend
+            budgets={budgets}
+            selectedDate={"2024-09"}
+            transactions={transactions}
+          />
+          <AllocationSummary
+            budgets={budgets}
+            selectedDate={"2024-09"}
+            transactions={transactions}
+          />
+        </div>
+        <div className="hidden sm:flex flex-col gap-4">
+          <LeftToSpend
+            budgets={budgets}
+            selectedDate={"2024-09"}
+            transactions={transactions}
+          />
+          <AllocationSummary
+            budgets={budgets}
+            selectedDate={"2024-09"}
+            transactions={transactions}
+          />
+          <BudgetExpenses
+            budgets={budgets}
+            selectedDate={"2024-09"}
+            transactions={transactions}
+          />
+        </div>
+      </Aside>
+      <Content>
+        <div className="flex flex-col gap-4">
+          <CashFlowSummary
+            budgets={budgets}
+            selectedDate={"2024-09"}
+            transactions={transactions}
+          />
+          <NeedsWants
+            budgets={budgets}
+            selectedDate={"2024-09"}
+            transactions={transactions}
+          />
+          <BudgetsList budgets={budgets} transactions={transactions} />
+          <div className="flex sm:hidden flex-col gap-4">
+            <BudgetExpenses
+              budgets={budgets}
+              selectedDate={"2024-09"}
+              transactions={transactions}
+            />
+          </div>
+        </div>
+      </Content>
+    </>
+  );
 }

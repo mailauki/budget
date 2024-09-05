@@ -3,7 +3,6 @@
 import React from "react";
 import { DonutChart } from "@tremor/react";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
-
 import {
   Chip,
   getKeyValue,
@@ -78,13 +77,9 @@ export default function ExpenseSummary({
     <Card radius="sm">
       <CardHeader className="items-start justify-between">
         <p>Expense summary</p>
-        {/* <Switch onChange={() => setShowComparison(!showComparison)}>
-          Show categories
-        </Switch> */}
         <Switch onChange={() => setShowComparison(!showComparison)} />
       </CardHeader>
       <CardBody className="px-6">
-        {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
         <DonutChart
           category="amount"
           colors={
@@ -109,7 +104,7 @@ export default function ExpenseSummary({
               {/* <TableColumn key="category" isRowHeader className="uppercase">
                 Category
               </TableColumn> */}
-              <TableColumn key="percent" align="center">
+              <TableColumn key="percent" align="center" className="uppercase">
                 Percent
               </TableColumn>
               <TableColumn key="amount" align="end" className="uppercase">
@@ -151,7 +146,7 @@ export default function ExpenseSummary({
               <TableColumn key="name" isRowHeader className="uppercase">
                 Category
               </TableColumn>
-              <TableColumn key="percent" align="center">
+              <TableColumn key="percent" align="center" className="uppercase">
                 Percent
               </TableColumn>
               <TableColumn key="amount" align="end" className="uppercase">

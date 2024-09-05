@@ -45,111 +45,43 @@ export default function BudgetList({
   }, [selectedDate, calendarOpen]);
 
   return (
-    <>
-      <section className="md:col-span-12 sm:order-0">
-        <Accordion
-          aria-label="Open calendar options"
-          className="px-0"
-          selectedKeys={calendarOpen}
-          onSelectionChange={setCalendarOpen}
-        >
-          <AccordionItem
-            key="calendar"
-            disableIndicatorAnimation
-            classNames={{ base: "px-0", trigger: "items-baseline" }}
-            indicator={<BsCalendar />}
-            title={<h1 className={title()}>Budget</h1>}
-          >
-            <DateSelector changeDate={changeDate} selectedDate={selectedDate} />
-          </AccordionItem>
-        </Accordion>
-      </section>
-      <aside className="md:col-span-5 hidden">
-        <div className="w-full flex flex-col gap-4">
-          <BudgetSummary
-            budgets={budgets}
-            selectedDate={selectedDate}
-            transactions={transactions}
-          />
-        </div>
-      </aside>
-      <section className="md:col-span-7">
-        <div className="flex flex-col gap-4">
-          <div className="sm:hidden flex flex-col gap-4">
-            <BudgetSummary
-              budgets={budgets}
-              selectedDate={selectedDate}
-              transactions={transactions}
-            />
-          </div>
-          <CashFlowSummary
-            budgets={budgets}
-            selectedDate={selectedDate}
-            transactions={transactions}
-          />
-          <NeedsWants
-            budgets={budgets}
-            selectedDate={selectedDate}
-            transactions={transactions}
-          />
-          {categories.income.map((category) => (
-            <BudgetsTable
-              key={category.id}
-              budgets={budgets}
-              category={category}
-              selectedDate={selectedDate}
-              transactions={transactions}
-            />
-          ))}
-          {categories.bills.map((category) => (
-            <BudgetsTable
-              key={category.id}
-              budgets={budgets}
-              category={category}
-              selectedDate={selectedDate}
-              transactions={transactions}
-            />
-          ))}
-          {categories.debt.map((category) => (
-            <BudgetsTable
-              key={category.id}
-              budgets={budgets}
-              category={category}
-              selectedDate={selectedDate}
-              transactions={transactions}
-            />
-          ))}
-          {categories.savings.map((category) => (
-            <BudgetsTable
-              key={category.id}
-              budgets={budgets}
-              category={category}
-              selectedDate={selectedDate}
-              transactions={transactions}
-            />
-          ))}
-        </div>
-      </section>
-      <aside className="md:col-span-5 md:order-last">
-        <div className="w-full flex flex-col gap-4">
-          <div className="hidden sm:flex flex-col gap-4">
-            <BudgetSummary
-              budgets={budgets}
-              selectedDate={selectedDate}
-              transactions={transactions}
-            />
-          </div>
-          {categories.expenses.map((category) => (
-            <BudgetsTable
-              key={category.id}
-              budgets={budgets}
-              category={category}
-              selectedDate={selectedDate}
-              transactions={transactions}
-            />
-          ))}
-        </div>
-      </aside>
-    </>
+    <div className="flex flex-col gap-4">
+      {categories.income.map((category) => (
+        <BudgetsTable
+          key={category.id}
+          budgets={budgets}
+          category={category}
+          selectedDate={selectedDate}
+          transactions={transactions}
+        />
+      ))}
+      {categories.bills.map((category) => (
+        <BudgetsTable
+          key={category.id}
+          budgets={budgets}
+          category={category}
+          selectedDate={selectedDate}
+          transactions={transactions}
+        />
+      ))}
+      {categories.debt.map((category) => (
+        <BudgetsTable
+          key={category.id}
+          budgets={budgets}
+          category={category}
+          selectedDate={selectedDate}
+          transactions={transactions}
+        />
+      ))}
+      {categories.savings.map((category) => (
+        <BudgetsTable
+          key={category.id}
+          budgets={budgets}
+          category={category}
+          selectedDate={selectedDate}
+          transactions={transactions}
+        />
+      ))}
+    </div>
   );
 }

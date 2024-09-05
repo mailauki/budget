@@ -225,7 +225,7 @@ export default function TransactionsTable({
         </TableHeader>
         <TableBody emptyContent={"Nothing to display"} items={transactions}>
           {(item) => (
-            <TableRow key={item.name}>
+            <TableRow key={item.id}>
               {(columnKey) => (
                 <TableCell
                   className={`${

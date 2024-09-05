@@ -8,11 +8,9 @@ export default async function BudgetPage() {
   const { data: transactions } = await supabase.from("transactions").select();
 
   return (
-    <>
-      <Budgets
-        serverBudgets={data ?? []}
-        serverTransactions={transactions ?? []}
-      />
-    </>
+    <Budgets
+      serverBudgets={data ?? []}
+      serverTransactions={transactions ?? []}
+    />
   );
 }

@@ -16,6 +16,8 @@ import NeedsWants from "@/components/budget/50-30-20";
 import { title } from "@/components/primitives";
 import BudgetExpenses from "@/components/budget/expenses-list";
 import DatePicker from "@/components/date-picker";
+import { Accordion, AccordionItem } from "@nextui-org/react";
+import DateSelector from "@/components/date-select";
 
 export default function Budgets({
   serverBudgets,
@@ -31,6 +33,17 @@ export default function Budgets({
   const [selectedDate, setSelectedDate] = React.useState(
     moment().format("YYYY-MM"),
   );
+  const [calendarOpen, setCalendarOpen] = React.useState(new Set([""]));
+
+  React.useEffect(() => {
+    let element = document.getElementById(selectedDate);
+
+    element?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+      inline: "center",
+    });
+  }, [selectedDate, calendarOpen]);
 
   React.useEffect(() => {
     setBudgets(serverBudgets);
@@ -104,6 +117,11 @@ export default function Budgets({
   function handleChangeDate(date: string) {
     setSelectedDate(date);
   }
+  function handleOpenCalendar() {
+    calendarOpen.has("date-selector")
+      ? setCalendarOpen(new Set([]))
+      : setCalendarOpen(new Set(["date-selector"]));
+  }
 
   return (
     <>
@@ -111,7 +129,24 @@ export default function Budgets({
         <div className="flex-1">
           <h1 className={title()}>Budgets</h1>
         </div>
-        <DatePicker changeDate={handleChangeDate} selectedDate={selectedDate} />
+        <DatePicker
+          changeDate={handleChangeDate}
+          handleOpenCalendar={handleOpenCalendar}
+          selectedDate={selectedDate}
+        />
+        <Accordion selectedKeys={calendarOpen}>
+          <AccordionItem
+            key="date-selector"
+            hideIndicator
+            aria-label="Open calendar options"
+            classNames={{ trigger: "hidden" }}
+          >
+            <DateSelector
+              changeDate={handleChangeDate}
+              selectedDate={selectedDate}
+            />
+          </AccordionItem>
+        </Accordion>
       </Header>
       <Aside>
         <div className="flex sm:hidden flex-col gap-4">

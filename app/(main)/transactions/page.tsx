@@ -10,7 +10,5 @@ export default async function TransactionsPage() {
   const supabase = createClient();
   const { data } = await supabase.from("transactions").select();
 
-  return (
-      <Transactions serverTransactions={data ?? []} />
-  );
+  return <Transactions serverTransactions={data ?? []} />;
 }

@@ -18,11 +18,13 @@ import { getDatesBetween } from "@/utils/helpers";
 export default function DatePicker({
   selectedDate,
   changeDate,
+  handleOpenCalendar,
 }: {
   selectedDate: string;
   changeDate: (date: string) => void;
+  handleOpenCalendar: () => void;
 }) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpenChange } = useDisclosure();
 
   const [date, setDate] = React.useState<string>(`${selectedDate}-01`);
 
@@ -51,7 +53,10 @@ export default function DatePicker({
         <Button isIconOnly onPress={decrement}>
           <BsChevronLeft />
         </Button>
-        <Popover
+        <Button className="flex-1" onPress={handleOpenCalendar}>
+          {moment(date).format("MMM, YYYY")}
+        </Button>
+        {/* <Popover
           showArrow
           isOpen={isOpen}
           offset={10}
@@ -75,7 +80,7 @@ export default function DatePicker({
               </Listbox>
             </div>
           </PopoverContent>
-        </Popover>
+        </Popover> */}
         <Button isIconOnly onPress={increment}>
           <BsChevronRight />
         </Button>

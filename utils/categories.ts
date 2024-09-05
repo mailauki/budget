@@ -56,11 +56,10 @@ export const categories = {
       id: 6,
       name: "Finacial",
       labels: [
-        { id: 1, name: "Finacial & Legal Services" },
-        { id: 2, name: "Finacial Fees" },
-        { id: 3, name: "Cash & ATM" },
-        { id: 4, name: "Insurance" },
-        { id: 5, name: "Taxes" },
+        { id: 1, name: "Finacial Fees" },
+        { id: 2, name: "Cash & ATM" },
+        { id: 3, name: "Insurance" },
+        { id: 4, name: "Taxes" },
       ],
     },
     {
@@ -80,7 +79,6 @@ export const categories = {
       labels: [
         { id: 1, name: "Rent" },
         { id: 2, name: "Mortgage" },
-        { id: 3, name: "Home Improvement" },
       ],
     },
     {

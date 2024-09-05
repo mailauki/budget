@@ -1,8 +1,14 @@
 "use client";
 
 import React from "react";
-import { BarChart, Switch } from "@tremor/react";
-import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
+import { BarChart } from "@tremor/react";
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Switch,
+} from "@nextui-org/react";
 
 import { Budget, Transaction } from "@/types";
 import { categories } from "@/utils/categories";
@@ -102,7 +108,7 @@ export default function CashFlowSummary({
         />
       </CardBody>
       <CardFooter>
-        <div className="mb-2 flex items-center space-x-3">
+        {/* <div className="mb-2 flex items-center space-x-3">
           <Switch
             id="comparison"
             onChange={() => setShowComparison(!showComparison)}
@@ -113,7 +119,10 @@ export default function CashFlowSummary({
           >
             Show budget
           </label>
-        </div>
+        </div> */}
+        <Switch onChange={() => setShowComparison(!showComparison)}>
+          Show budget
+        </Switch>
       </CardFooter>
     </Card>
   );

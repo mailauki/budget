@@ -72,7 +72,7 @@ export default function Brand({
         setColor("primary");
         setIcon(<BsHouse size={18} />);
         break;
-      case "Bills":
+      case "Bills & Utilities":
         setColor("primary");
         setIcon(<BsCreditCard2Back size={18} />);
         break;

@@ -48,25 +48,25 @@ export default function GoalsSummary({ goals }: { goals?: Goal[] }) {
         >
           Priority
         </TableColumn>
-        <TableColumn key="goal" align="end" className="uppercase">
-          Goal Amount
-        </TableColumn>
-        <TableColumn key="current" align="end" className="uppercase">
-          Current Amount
-        </TableColumn>
-        <TableColumn
-          key="remaining"
-          align="end"
-          className="uppercase hidden sm:table-cell"
-        >
-          Remaining Amount
-        </TableColumn>
         <TableColumn
           key="progress"
-          align="end"
+          align="center"
           className="uppercase hidden sm:table-cell"
         >
           Progress
+        </TableColumn>
+        <TableColumn key="goal" align="end" className="uppercase">
+          Goal Amount
+        </TableColumn>
+        <TableColumn
+          key="current"
+          align="end"
+          className="uppercase hidden sm:table-cell"
+        >
+          Current Amount
+        </TableColumn>
+        <TableColumn key="remaining" align="end" className="uppercase">
+          Remaining Amount
         </TableColumn>
       </TableHeader>
       <TableBody emptyContent={"No goals yet"} items={goals}>
@@ -74,7 +74,7 @@ export default function GoalsSummary({ goals }: { goals?: Goal[] }) {
           <TableRow key={item.name}>
             {(columnKey) => (
               <TableCell
-                className={`${columnKey == "priority" ? "hidden md:table-cell" : columnKey == "remaining" || columnKey == "progress" ? "hidden sm:table-cell" : "table-cell"}`}
+                className={`${columnKey == "priority" ? "hidden md:table-cell" : columnKey == "current" || columnKey == "progress" ? "hidden sm:table-cell" : "table-cell"}`}
               >
                 {renderCell(item, columnKey)}
               </TableCell>

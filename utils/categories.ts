@@ -92,6 +92,7 @@ export const categories = {
         { id: 3, name: "Water" },
         { id: 4, name: "Gas & Electric" },
         { id: 5, name: "Internet & Cable" },
+        { id: 6, name: "Credit Card" },
       ],
     },
   ],

@@ -19,7 +19,8 @@ export default function TransactionForm({ item }: { item?: Transaction }) {
   const [date, setDate] = React.useState(
     item?.date ? parseDate(`${item.date}`) : today(getLocalTimeZone()),
   );
-  const [category, setCategory] = React.useState(
+  const [category, setCategory] = React.useState(item?.category || "Other");
+  const [categoryLabel, setCategoryLabel] = React.useState(
     item?.category_label || "Uncategorized",
   );
   const [amount, setAmount] = React.useState(item?.amount || "");
@@ -44,7 +45,6 @@ export default function TransactionForm({ item }: { item?: Transaction }) {
     <div className="flex flex-col gap-3">
       <input hidden defaultValue={item?.id} name="id" />
       <DatePicker
-        id="date"
         label="Date"
         name="date"
         radius="sm"
@@ -53,7 +53,6 @@ export default function TransactionForm({ item }: { item?: Transaction }) {
         onChange={setDate}
       />
       <Input
-        id="amount"
         label="Amount"
         name="amount"
         pattern="[0-9]*[.,]?[0-9]*"
@@ -72,11 +71,10 @@ export default function TransactionForm({ item }: { item?: Transaction }) {
       />
       <Select
         isMultiline
-        id="category"
         // items={expenses}
         // items={categories}
         label="Select a category"
-        name="category"
+        name="category_label"
         // renderValue={(items: SelectedItems<Category>) => {
         //   return (
         //     <div className="flex flex-wrap gap-2">
@@ -87,10 +85,24 @@ export default function TransactionForm({ item }: { item?: Transaction }) {
         //   );
         // }}
         radius="sm"
-        selectedKeys={[category]}
-        value={category}
+        selectedKeys={[categoryLabel]}
+        value={categoryLabel}
         variant="bordered"
-        onChange={(event) => setCategory(event.target.value)}
+        onChange={(event) => {
+          setCategoryLabel(event.target.value);
+          setCategory(
+            categories.income
+              .concat(
+                categories.expenses,
+                categories.bills,
+                categories.debt,
+                categories.savings,
+              )
+              .find((cat) =>
+                cat.labels.find(({ name }) => name == event.target.value),
+              )?.name!,
+          );
+        }}
       >
         {categories.income
           .concat(
@@ -111,6 +123,7 @@ export default function TransactionForm({ item }: { item?: Transaction }) {
             </SelectSection>
           ))}
       </Select>
+      <input hidden name="category" value={category} />
       <Input
         id="name"
         label="Name"

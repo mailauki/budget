@@ -126,6 +126,7 @@ export default function NeedsWants({
       </CardHeader>
       <CardBody>
         <DonutChart
+          aria-label="50-30-20 chart"
           category="actual"
           colors={["cyan", "blue", "indigo"]}
           data={data}

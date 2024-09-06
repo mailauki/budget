@@ -89,6 +89,7 @@ export default function CashFlowSummary({
       </CardHeader>
       <CardBody className="px-6">
         <BarChart
+          aria-label="Cash flow chart"
           categories={showComparison ? ["budget", "actual"] : ["actual"]}
           className="mt-6 hidden h-60 sm:block"
           colors={showComparison ? ["cyan", "blue"] : ["blue"]}
@@ -98,6 +99,7 @@ export default function CashFlowSummary({
           yAxisWidth={50}
         />
         <BarChart
+          aria-label="Cash flow chart with budget comparison"
           categories={showComparison ? ["budget", "actual"] : ["actual"]}
           className="mt-4 h-56 sm:hidden"
           colors={showComparison ? ["cyan", "blue"] : ["blue"]}

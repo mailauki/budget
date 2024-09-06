@@ -1,15 +1,17 @@
 import React from "react";
 import { Table, TableBody, TableColumn, TableHeader } from "@nextui-org/table";
+import { parseDate, isSameMonth } from "@internationalized/date";
 
 import TransactionsTable from "./table";
 
 import { Transaction } from "@/types";
-import ExpenseSummary from "./expense-summary";
 
 export default function TransactionsList({
   transactions,
+  selectedDate,
 }: {
   transactions: Transaction[];
+  selectedDate: string;
 }) {
   const [dates, setDates] = React.useState<string[]>([]);
 
@@ -28,25 +30,21 @@ export default function TransactionsList({
     !transactions ||
     !dates ||
     transactions.length === 0 ||
-    dates.length === 0
+    dates.length === 0 ||
+    dates.filter((date) =>
+      isSameMonth(parseDate(date), parseDate(`${selectedDate}-01`)),
+    ).length === 0
   ) {
     return (
       <Table aria-label="Empty transactions table">
         <TableHeader>
-          <TableColumn
-            key="date"
-            align="start"
-            className="uppercase"
-            minWidth={140}
-            width="50%"
-          >
+          <TableColumn key="date" align="start" className="uppercase">
             Name
           </TableColumn>
           <TableColumn
             key="category"
             align="start"
             className="uppercase hidden sm:table-cell"
-            width="20%"
           >
             Category
           </TableColumn>
@@ -54,16 +52,10 @@ export default function TransactionsList({
             key="credit"
             align="center"
             className="uppercase hidden sm:table-cell"
-            width="10%"
           >
             Credit
           </TableColumn>
-          <TableColumn
-            key="amount"
-            align="end"
-            className="uppercase"
-            width="20%"
-          >
+          <TableColumn key="amount" align="end" className="uppercase">
             Amount
           </TableColumn>
         </TableHeader>
@@ -74,14 +66,18 @@ export default function TransactionsList({
 
   return (
     <div className="flex flex-col gap-4">
-      {dates.map((date) => (
-        <div key={date}>
-          <TransactionsTable
-            date={date}
-            transactions={transactions.filter((ta) => ta.date == date)}
-          />
-        </div>
-      ))}
+      {dates
+        .filter((date) =>
+          isSameMonth(parseDate(date), parseDate(`${selectedDate}-01`)),
+        )
+        .map((date) => (
+          <div key={date}>
+            <TransactionsTable
+              date={date}
+              transactions={transactions.filter((ta) => ta.date == date)}
+            />
+          </div>
+        ))}
     </div>
   );
 }

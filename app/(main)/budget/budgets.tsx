@@ -2,6 +2,7 @@
 
 import React from "react";
 import moment from "moment";
+import { Accordion, AccordionItem } from "@nextui-org/react";
 
 import { Budget, Transaction } from "@/types";
 import { createClient } from "@/utils/supabase/client";
@@ -16,7 +17,6 @@ import NeedsWants from "@/components/budget/50-30-20";
 import { title } from "@/components/primitives";
 import BudgetExpenses from "@/components/budget/expenses-list";
 import DatePicker from "@/components/date-picker";
-import { Accordion, AccordionItem } from "@nextui-org/react";
 import DateSelector from "@/components/date-select";
 
 export default function Budgets({

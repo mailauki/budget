@@ -136,51 +136,39 @@ export function getCategoryColor(category: string) {
 
   switch (category) {
     case "Income":
-      // color = "success";
       color = "green";
       break;
     case "Housing":
-      // color = "primary";
       color = "cyan";
       break;
     case "Bills & Utilities":
-      // color = "primary";
       color = "blue";
       break;
     case "Food & Dining":
-      // color = "warning";
       color = "orange";
       break;
     case "Lifestyle":
-      // color = "danger";
       color = "pink";
       break;
     case "Shopping":
-      // color = "warning";
       color = "yellow";
       break;
     case "Health & Wellness":
-      // color = "danger";
       color = "red";
       break;
     case "Finacial":
-      // color = "danger";
       color = "purple";
       break;
     case "Other":
-      // color = "default";
       color = "neutral";
       break;
     case "Debt":
-      // color = "secondary";
-      color = "violet";
+      color = "purple";
       break;
     case "Savings":
-      // color = "secondary";
       color = "emerald";
       break;
     default:
-      // color = "default";
       color = "neutral";
       break;
   }
@@ -262,13 +250,13 @@ export function getLabelColor(category: string) {
       color = "rose";
       break;
     case "Finacial Fees":
-      color = "purple";
+      color = "violet";
       break;
     case "Cash & ATM":
-      color = "purple";
+      color = "violet";
       break;
     case "Insurance":
-      color = "purple";
+      color = "violet";
       break;
     case "Taxes":
       color = "purple";
@@ -283,13 +271,13 @@ export function getLabelColor(category: string) {
       color = "stone";
       break;
     case "Student Loans":
-      color = "violet";
+      color = "purple";
       break;
     case "Loan Repayment":
-      color = "violet";
+      color = "purple";
       break;
     case "Personal Loans":
-      color = "violet";
+      color = "purple";
       break;
     case "Debt":
       color = "purple";
@@ -307,3 +295,5 @@ export function getLabelColor(category: string) {
 
   return color;
 }
+
+

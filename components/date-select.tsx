@@ -40,7 +40,7 @@ export default function DateSelector({
                   ? "solid"
                   : "ghost"
               }
-              onClick={() => changeDate(`${moment(date).format("YYYY-MM")}`)}
+              onPress={() => changeDate(moment(date).format("YYYY-MM"))}
             >
               <span className="text-small uppercase">
                 {moment(date).format("MMM")}

@@ -121,6 +121,7 @@ export default function AllocationSummary({
       </CardHeader>
       <CardBody>
         <DonutChart
+          aria-label="Allocation summary chart"
           category="amount"
           colors={["cyan", "blue", "indigo", "violet", "fuchsia"]}
           data={expensesData}
@@ -130,7 +131,7 @@ export default function AllocationSummary({
         />
       </CardBody>
       <CardFooter>
-        <Table removeWrapper>
+        <Table removeWrapper aria-label="Allocation summary table">
           <TableHeader>
             <TableColumn key="name" isRowHeader className="uppercase">
               Name

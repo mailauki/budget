@@ -1,11 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { DonutChart } from "@tremor/react";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import {
   Chip,
   getKeyValue,
+  Skeleton,
   Switch,
   Table,
   TableBody,
@@ -80,23 +81,37 @@ export default function ExpenseSummary({
         <Switch onChange={() => setShowComparison(!showComparison)} />
       </CardHeader>
       <CardBody className="px-6">
-        <DonutChart
-          category="amount"
-          colors={
-            showComparison
-              ? data_label.flatMap((item) => item.color)
-              : data_category.flatMap((item) => item.color)
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center">
+              <Skeleton className="rounded-full w-[164px] h-[164px]" />
+            </div>
           }
-          data={showComparison ? data_label : data_category}
-          index="name"
-          // showLabel={false}
-          // showTooltip={false}
-          valueFormatter={(amount) => currencyFormatter.format(amount)}
-        />
+        >
+          {showComparison ? (
+            <DonutChart
+              aria-label="Expense summary chart"
+              category="amount"
+              colors={data_label.flatMap((item) => item.color)}
+              data={data_label}
+              index="name"
+              valueFormatter={(amount) => currencyFormatter.format(amount)}
+            />
+          ) : (
+            <DonutChart
+              aria-label="Expense summary chart"
+              category="amount"
+              colors={data_category.flatMap((item) => item.color)}
+              data={data_category}
+              index="name"
+              valueFormatter={(amount) => currencyFormatter.format(amount)}
+            />
+          )}
+        </Suspense>
       </CardBody>
       <CardFooter>
         {showComparison ? (
-          <Table removeWrapper>
+          <Table removeWrapper aria-label="Expenses table">
             <TableHeader>
               <TableColumn key="name" isRowHeader className="uppercase">
                 Category
@@ -141,7 +156,7 @@ export default function ExpenseSummary({
             </TableBody>
           </Table>
         ) : (
-          <Table removeWrapper>
+          <Table removeWrapper aria-label="Expenses table">
             <TableHeader>
               <TableColumn key="name" isRowHeader className="uppercase">
                 Category

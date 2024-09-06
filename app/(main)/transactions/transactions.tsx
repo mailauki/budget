@@ -1,11 +1,8 @@
 "use client";
 
-import type { Selection } from "@nextui-org/react";
-
 import React from "react";
 import moment from "moment";
 import { Accordion, AccordionItem } from "@nextui-org/react";
-import { BsCalendar } from "react-icons/bs";
 
 import { Transaction } from "@/types";
 import { createClient } from "@/utils/supabase/client";
@@ -110,7 +107,7 @@ export default function RealtimeTransactions({
           selectedDate={selectedDate}
         />
         <TransactionModal />
-        <Accordion selectedKeys={calendarOpen}>
+        <Accordion className="px-0" selectedKeys={calendarOpen}>
           <AccordionItem
             key="date-selector"
             hideIndicator
@@ -128,7 +125,10 @@ export default function RealtimeTransactions({
         <ExpenseSummary transactions={transactions} />
       </Aside>
       <Content>
-        <TransactionsList transactions={transactions} />
+        <TransactionsList
+          selectedDate={selectedDate}
+          transactions={transactions}
+        />
       </Content>
     </>
   );

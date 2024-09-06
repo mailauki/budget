@@ -25,7 +25,7 @@ export default function NavMenu({ user }: { user: User }) {
           as="button"
           className="transition-transform"
           color="primary"
-          name="Jason Hughes"
+          name={user.user_metadata.name}
           size="sm"
           src={user.user_metadata.avatar_url}
         />

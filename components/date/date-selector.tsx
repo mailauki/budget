@@ -36,33 +36,28 @@ export default function DateSelector({
   }
 
   return (
-    <>
-      <div className="w-full flex flex-col gap-2">
-        <div className="flex items-center justify-between gap-2 flex-wrap">
-          <div className="flex-1">
-            <h2 className={heading()}>{title}</h2>
-          </div>
-          <DatePicker
-            changeDate={changeDate}
-            handleOpenCalendar={handleOpenCalendar}
-            selectedDate={selectedDate}
-          />
-          {endContent}
+    <div className="w-full flex flex-col gap-2">
+      <div className="flex items-center justify-between gap-2 flex-wrap">
+        <div className="hidden sm:flex flex-1">
+          <h2 className={heading()}>{title}</h2>
         </div>
-        <Accordion className="px-0" selectedKeys={calendarOpen}>
-          <AccordionItem
-            key="date-selector"
-            hideIndicator
-            aria-label="Open calendar options"
-            classNames={{ trigger: "hidden" }}
-          >
-            <DateSelection
-              changeDate={changeDate}
-              selectedDate={selectedDate}
-            />
-          </AccordionItem>
-        </Accordion>
+        <DatePicker
+          changeDate={changeDate}
+          handleOpenCalendar={handleOpenCalendar}
+          selectedDate={selectedDate}
+        />
+        {endContent}
       </div>
-    </>
+      <Accordion className="px-0" selectedKeys={calendarOpen}>
+        <AccordionItem
+          key="date-selector"
+          hideIndicator
+          aria-label="Open calendar options"
+          classNames={{ trigger: "hidden" }}
+        >
+          <DateSelection changeDate={changeDate} selectedDate={selectedDate} />
+        </AccordionItem>
+      </Accordion>
+    </div>
   );
 }

@@ -64,7 +64,7 @@ export default function SpendingLimit({
         </p>
         <div className="flex items-center justify-between gap-2">
           <Progress value={percent} />
-          <p className={heading({ variant: "tertiary" })}>{percent || 0}%</p>
+          <p className={heading({ variant: "subtitle" })}>{percent || 0}%</p>
         </div>
       </CardBody>
       <CardFooter>

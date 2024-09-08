@@ -1,26 +1,33 @@
-import { Card, CardFooter, CardHeader, Progress } from "@nextui-org/react";
+import { Card, CardBody, CardHeader } from "@nextui-org/card";
+
+import { heading } from "../primitives";
 
 import { Goal } from "@/types";
 import { getProgressTotal } from "@/utils/helpers";
+import { useCurrencyFormatter } from "@/utils/formatters";
 
-export default function TotalProgress({ goals }: { goals: Goal[] }) {
+export default function TotalProgress({
+  goals,
+  children,
+}: {
+  goals: Goal[];
+  children?: React.ReactNode;
+}) {
+  const currencyFormatter = useCurrencyFormatter();
+
   return (
-    <Card className="col-span-full">
-      <CardHeader className="flex-col items-start">
-        <p className="text-tiny text-default-400 uppercase font-bold">
-          Total Progress
-        </p>
-        <h4 className="font-medium text-xl">
-          {Math.round(getProgressTotal({ goals }))}%
-        </h4>
-      </CardHeader>
-      <CardFooter>
-        <Progress
-          aria-label="goals total progress"
-          size="lg"
-          value={getProgressTotal({ goals })}
-        />
-      </CardFooter>
-    </Card>
+    <>
+      <Card className="py-4" radius="sm">
+        <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+          <div className="flex flex-col">
+            <h2 className={heading({ variant: "secondary" })}>Total savings</h2>
+            <p className={heading({ variant: "title" })}>
+              {currencyFormatter.format(getProgressTotal({ goals }))}
+            </p>
+          </div>
+        </CardHeader>
+        <CardBody>{children}</CardBody>
+      </Card>
+    </>
   );
 }

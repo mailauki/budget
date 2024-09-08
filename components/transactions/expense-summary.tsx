@@ -19,7 +19,7 @@ import {
 import { Transaction } from "@/types";
 import { categories } from "@/utils/categories";
 import { useCurrencyFormatter } from "@/utils/formatters";
-import { getCategoryColor, getLabelColor } from "@/utils/helpers";
+import { getCategoryColor, getLabelColor } from "@/utils/colors";
 
 export default function ExpenseSummary({
   transactions,

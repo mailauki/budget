@@ -39,7 +39,7 @@ export default function DatePicker({
 
   return (
     <>
-      <ButtonGroup className="w-[200px]" radius="sm" variant="ghost">
+      <ButtonGroup className="w-full sm:w-[200px]" radius="sm" variant="ghost">
         <Button isIconOnly onPress={decrement}>
           <BsChevronLeft />
         </Button>

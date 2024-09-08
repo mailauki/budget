@@ -1,4 +1,5 @@
 import {
+  BsBank,
   BsCart2,
   BsCashStack,
   BsCreditCard2Back,
@@ -50,6 +51,20 @@ export function getCategoryIcon(category: string) {
       icon = <BsCurrencyDollar size={18} />;
       break;
   }
+
+  return icon;
+}
+
+export function getGoalIcon(name: string) {
+  let icon = <BsCurrencyDollar size={18} />;
+
+  if (name.toLowerCase().includes("loan")) icon = <BsBank size={18} />;
+  else if (
+    name.toLowerCase().includes("home") ||
+    name.toLowerCase().includes("house")
+  )
+    icon = <BsHouse size={18} />;
+  else icon = <BsCurrencyDollar size={18} />;
 
   return icon;
 }

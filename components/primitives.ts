@@ -59,6 +59,8 @@ export const heading = tv({
       primary: "text-xl",
       secondary: "text-md text-default-500",
       tertiary: "text-sm text-default-500",
+      title: "text-3xl",
+      subtitle: "text-tiny text-default-400 uppercase font-bold",
     },
     fullWidth: {
       true: "w-full block",

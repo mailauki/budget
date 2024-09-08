@@ -1,12 +1,14 @@
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableColumn,
-  TableHeader,
-  TableRow,
+  Card,
+  CardBody,
+  CardHeader,
+  Chip,
+  Listbox,
+  ListboxItem,
 } from "@nextui-org/react";
 import React from "react";
+
+import { heading } from "../primitives";
 
 import { Goal } from "@/types";
 import { useCurrencyFormatter } from "@/utils/formatters";
@@ -14,74 +16,68 @@ import { useCurrencyFormatter } from "@/utils/formatters";
 export default function GoalsSummary({ goals }: { goals?: Goal[] }) {
   const currencyFormatter = useCurrencyFormatter();
 
-  const renderCell = React.useCallback((goal: Goal, columnKey: React.Key) => {
-    const cellValue = goal[columnKey as keyof Goal];
-
-    switch (columnKey) {
-      case "name":
-        return cellValue;
-      case "goal":
-        return currencyFormatter.format(goal.goal_amount || 0);
-      case "current":
-        return currencyFormatter.format(goal.current_amount || 0);
-      case "remaining":
-        return currencyFormatter.format(
-          goal.goal_amount - goal.current_amount || 0,
-        );
-      case "progress":
-        return `${Math.round((100 * goal.current_amount) / goal.goal_amount) || 0}%`;
-      default:
-        return cellValue;
-    }
-  }, []);
-
   return (
-    <Table aria-label="Goals summary table" className="col-span-full">
-      <TableHeader>
-        <TableColumn key="name" className="uppercase">
-          Name
-        </TableColumn>
-        <TableColumn
-          key="priority"
-          align="center"
-          className="uppercase hidden md:table-cell"
-        >
-          Priority
-        </TableColumn>
-        <TableColumn
-          key="progress"
-          align="center"
-          className="uppercase hidden sm:table-cell"
-        >
-          Progress
-        </TableColumn>
-        <TableColumn key="goal" align="end" className="uppercase">
-          Goal Amount
-        </TableColumn>
-        <TableColumn
-          key="current"
-          align="end"
-          className="uppercase hidden sm:table-cell"
-        >
-          Current Amount
-        </TableColumn>
-        <TableColumn key="remaining" align="end" className="uppercase">
-          Remaining Amount
-        </TableColumn>
-      </TableHeader>
-      <TableBody emptyContent={"No goals yet"} items={goals}>
-        {(item) => (
-          <TableRow key={item.name}>
-            {(columnKey) => (
-              <TableCell
-                className={`${columnKey == "priority" ? "hidden md:table-cell" : columnKey == "current" || columnKey == "progress" ? "hidden sm:table-cell" : "table-cell"}`}
-              >
-                {renderCell(item, columnKey)}
-              </TableCell>
-            )}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+    <Card className="hidden sm:flex" radius="sm">
+      <CardHeader>
+        <h2 className={heading()}>Summary</h2>
+      </CardHeader>
+      <CardBody>
+        <Listbox variant="flat">
+          {goals!.map((goal) => (
+            <ListboxItem key={goal.id}>
+              <div className="flex justify-between">
+                <div className="flex flex-col gap-1">
+                  <p className="h-7">
+                    {goal.priority > 0 && (
+                      <span className={heading({ variant: "secondary" })}>
+                        {goal.priority}.{" "}
+                      </span>
+                    )}
+                    <span className="text-base">{goal.name}</span>
+                  </p>
+                  <p>
+                    <span className={heading({ variant: "subtitle" })}>
+                      Left to save:{" "}
+                    </span>
+                    <span className={heading({ variant: "tertiary" })}>
+                      {currencyFormatter.format(
+                        goal.goal_amount - goal.current_amount || 0,
+                      )}
+                    </span>
+                  </p>
+                </div>
+                <div className="flex flex-col gap-1 items-end justify-between">
+                  <Chip
+                    className="text-tiny"
+                    color="default"
+                    size="md"
+                    variant="flat"
+                  >
+                    {currencyFormatter.format(goal.current_amount)} /{" "}
+                    {currencyFormatter.format(goal.goal_amount)}
+                  </Chip>
+                  <p className="mr-1">
+                    <span className={heading({ variant: "subtitle" })}>
+                      Months left:{" "}
+                    </span>
+                    <span className={heading({ variant: "tertiary" })}>
+                      {Math.round(
+                        (goal.goal_amount - goal.current_amount || 0) /
+                          goal.contribution,
+                      ) === Infinity
+                        ? "N/A"
+                        : Math.round(
+                            (goal.goal_amount - goal.current_amount || 0) /
+                              goal.contribution,
+                          )}
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </ListboxItem>
+          ))}
+        </Listbox>
+      </CardBody>
+    </Card>
   );
 }

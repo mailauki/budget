@@ -12,6 +12,7 @@ import Content from "@/components/layout/content";
 import DateSelector from "@/components/date/date-selector";
 import SpendingLimit from "@/components/transactions/spending-limit";
 import TransactionModal from "@/components/transactions/modal";
+import { heading } from "@/components/primitives";
 
 export default function RealtimeTransactions({
   serverBudgets,
@@ -105,6 +106,12 @@ export default function RealtimeTransactions({
     <>
       <Aside>
         <div className="flex flex-col gap-4">
+          <div className="flex sm:hidden">
+            <DateSelector
+              changeDate={handleChangeDate}
+              selectedDate={selectedDate}
+            />
+          </div>
           <SpendingLimit
             budgets={budgets}
             selectedDate={selectedDate}
@@ -115,12 +122,17 @@ export default function RealtimeTransactions({
         </div>
       </Aside>
       <Content>
-        <DateSelector
-          changeDate={handleChangeDate}
-          endContent={<TransactionModal />}
-          selectedDate={selectedDate}
-          title="Transactions"
-        />
+        <div className="hidden sm:flex">
+          <DateSelector
+            changeDate={handleChangeDate}
+            endContent={<TransactionModal />}
+            selectedDate={selectedDate}
+            title="Transactions"
+          />
+        </div>
+        <div className="flex sm:hidden">
+          <h2 className={heading()}>Transactions</h2>
+        </div>
         <TransactionsList
           selectedDate={selectedDate}
           transactions={transactions}

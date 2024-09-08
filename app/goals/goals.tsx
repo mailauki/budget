@@ -4,9 +4,12 @@ import React from "react";
 
 import { createClient } from "@/utils/supabase/client";
 import { Goal } from "@/types";
-import GoalCard from "@/components/goals/card";
 import TotalProgress from "@/components/goals/total-progress";
 import GoalsSummary from "@/components/goals/summary";
+import Header from "@/components/layout/header";
+import Content from "@/components/layout/content";
+import Aside from "@/components/layout/aside";
+import GoalsList from "@/components/goals/list";
 
 export default function RealtimeGoals({
   serverGoals,
@@ -66,20 +69,22 @@ export default function RealtimeGoals({
 
   return (
     <>
-      <div className="grid grid-cols-12 gap-3">
+      <Header>
         <TotalProgress goals={goals} />
-        {goals
-          .sort((a, b) => {
+      </Header>
+      <Content>
+        <GoalsList
+          goals={goals.sort((a, b) => {
             if (a.priority === 0) return 1;
             if (b.priority === 0) return -1;
 
             return a.priority - b.priority;
-          })
-          .map((goal) => (
-            <GoalCard key={goal.id} goal={goal} />
-          ))}
+          })}
+        />
+      </Content>
+      <Aside>
         <GoalsSummary goals={goals} />
-      </div>
+      </Aside>
     </>
   );
 }

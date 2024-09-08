@@ -4,7 +4,7 @@ import { Avatar, Badge } from "@nextui-org/react";
 import React from "react";
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 
-import { getCategoryColor } from "@/utils/helpers";
+import { getCategoryColor } from "@/utils/colors";
 import { getCategoryIcon } from "@/utils/icons";
 import { Transaction } from "@/types";
 import { categories } from "@/utils/categories";

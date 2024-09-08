@@ -30,12 +30,12 @@ export default function CashFlowSummary({
   const expensesData = [
     {
       name: "Bills",
-      budget: getBudgetTotal({
+      Budget: getBudgetTotal({
         budgets,
         categories: categories.bills,
         date: selectedDate,
       }),
-      actual: getActualTotal({
+      Actual: getActualTotal({
         transactions,
         categories: categories.bills,
         date: selectedDate,
@@ -43,12 +43,12 @@ export default function CashFlowSummary({
     },
     {
       name: "Savings",
-      budget: getBudgetTotal({
+      Budget: getBudgetTotal({
         budgets,
         categories: categories.savings,
         date: selectedDate,
       }),
-      actual: getActualTotal({
+      Actual: getActualTotal({
         transactions,
         categories: categories.savings,
         date: selectedDate,
@@ -56,12 +56,12 @@ export default function CashFlowSummary({
     },
     {
       name: "Debt",
-      budget: getBudgetTotal({
+      Budget: getBudgetTotal({
         budgets,
         categories: categories.debt,
         date: selectedDate,
       }),
-      actual: getActualTotal({
+      Actual: getActualTotal({
         transactions,
         categories: categories.debt,
         date: selectedDate,
@@ -69,12 +69,12 @@ export default function CashFlowSummary({
     },
     {
       name: "Expenses",
-      budget: getBudgetTotal({
+      Budget: getBudgetTotal({
         budgets,
         categories: categories.expenses,
         date: selectedDate,
       }),
-      actual: getActualTotal({
+      Actual: getActualTotal({
         transactions,
         categories: categories.expenses,
         date: selectedDate,
@@ -90,7 +90,7 @@ export default function CashFlowSummary({
       <CardBody className="px-6">
         <BarChart
           aria-label="Cash flow chart"
-          categories={showComparison ? ["budget", "actual"] : ["actual"]}
+          categories={showComparison ? ["Budget", "Actual"] : ["Actual"]}
           className="mt-6 hidden h-60 sm:block"
           colors={showComparison ? ["cyan", "blue"] : ["blue"]}
           data={expensesData}

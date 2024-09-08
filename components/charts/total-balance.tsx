@@ -64,7 +64,7 @@ export default function TotalBalanceChart({
           </p>
         </div>
       </CardHeader>
-      <CardBody className="px-6">
+      <CardBody className="px-6 overflow-hidden">
         <AreaChart
           aria-label="Total balance chart"
           categories={["Spent", "Income"]}

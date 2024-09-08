@@ -160,7 +160,7 @@ export default function RealtimeDashboard({
         />
       </Header>
       <Aside>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 hidden sm:flex">
           <ExpenseChart
             budgets={budgets}
             selectedDate={selectedDate}
@@ -198,6 +198,13 @@ export default function RealtimeDashboard({
             selectedDate={selectedDate}
             transactions={transactions}
           />
+          <div className="sm:hidden">
+            <ExpenseChart
+              budgets={budgets}
+              selectedDate={selectedDate}
+              transactions={transactions}
+            />
+          </div>
           <GoalsList
             goals={goals.sort((a, b) => {
               if (a.priority === 0) return 1;

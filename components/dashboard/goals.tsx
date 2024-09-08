@@ -15,7 +15,7 @@ export default function GoalsList({ goals }: { goals: Goal[] }) {
       {active.length === 0 ? (
         <Listbox emptyContent="No goals added yet">{[]}</Listbox>
       ) : (
-        <div className="grid grid-cols-2 auto-rows-auto gap-3 mt-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 auto-rows-auto gap-3 mt-3">
           {active.map((goal) => (
             <GoalCard key={goal.id} goal={goal} />
           ))}

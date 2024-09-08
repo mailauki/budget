@@ -46,7 +46,7 @@ export type AccountProps = {
 };
 
 export interface Transaction {
-  id: number;
+  id?: number;
   key?: Key;
   date: string;
   amount: number;
@@ -58,7 +58,7 @@ export interface Transaction {
 }
 
 export interface Budget {
-  id: number;
+  id?: number;
   key?: Key;
   budget: number;
   actual?: number;
@@ -69,7 +69,7 @@ export interface Budget {
 }
 
 export interface Goal {
-  id: number;
+  id?: number;
   key?: Key;
   name: string;
   goal_amount: number;

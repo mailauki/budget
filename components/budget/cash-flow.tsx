@@ -110,18 +110,6 @@ export default function CashFlowSummary({
         />
       </CardBody>
       <CardFooter>
-        {/* <div className="mb-2 flex items-center space-x-3">
-          <Switch
-            id="comparison"
-            onChange={() => setShowComparison(!showComparison)}
-          />
-          <label
-            className="text-tremor-default text-tremor-content dark:text-dark-tremor-content"
-            htmlFor="comparison"
-          >
-            Show budget
-          </label>
-        </div> */}
         <Switch onChange={() => setShowComparison(!showComparison)}>
           Show budget
         </Switch>

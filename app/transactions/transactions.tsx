@@ -6,13 +6,13 @@ import moment from "moment";
 import { Budget, Transaction } from "@/types";
 import { createClient } from "@/utils/supabase/client";
 import TransactionsList from "@/components/transactions/list";
-import ExpenseSummary from "@/components/transactions/expense-summary";
 import Aside from "@/components/layout/aside";
 import Content from "@/components/layout/content";
 import DateSelector from "@/components/date/date-selector";
 import SpendingLimit from "@/components/transactions/spending-limit";
 import TransactionModal from "@/components/transactions/modal";
 import { heading } from "@/components/primitives";
+import ExpenseChart from "@/components/charts/expenses";
 
 export default function RealtimeTransactions({
   serverBudgets,
@@ -117,8 +117,11 @@ export default function RealtimeTransactions({
             selectedDate={selectedDate}
             transactions={transactions}
           />
-          {/* <Spent selectedDate={selectedDate} transactions={transactions} /> */}
-          <ExpenseSummary transactions={transactions} />
+          <ExpenseChart
+            budgets={budgets}
+            selectedDate={selectedDate}
+            transactions={transactions}
+          />
         </div>
       </Aside>
       <Content>

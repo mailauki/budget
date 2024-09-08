@@ -3,29 +3,33 @@
 import React from "react";
 import moment from "moment";
 
-import { Budget, Transaction } from "@/types";
+import { Budget, Goal, Transaction } from "@/types";
 import { createClient } from "@/utils/supabase/client";
-import BudgetsList from "@/components/budget/list";
+import TransactionsList from "@/components/transactions/list";
 import Aside from "@/components/layout/aside";
 import Content from "@/components/layout/content";
-import Header from "@/components/layout/header";
-import LeftToSpend from "@/components/budget/left-to-spend";
-import CashFlowSummary from "@/components/budget/cash-flow";
-import BudgetExpenses from "@/components/budget/expenses-list";
 import DateSelector from "@/components/date/date-selector";
+import { heading } from "@/components/primitives";
 import ExpenseChart from "@/components/charts/expenses";
+import ThisMonth from "@/components/dashboard/this-month-card";
+import Header from "@/components/layout/header";
+import TotalBalanceChart from "@/components/charts/total-balance";
+import GoalsList from "@/components/dashboard/goals";
 
-export default function Budgets({
+export default function RealtimeDashboard({
   serverBudgets,
   serverTransactions,
+  serverGoals,
 }: {
   serverBudgets: Budget[];
   serverTransactions: Transaction[];
+  serverGoals: Goal[];
 }) {
   const supabase = createClient();
 
   const [budgets, setBudgets] = React.useState(serverBudgets);
   const [transactions, setTransactions] = React.useState(serverTransactions);
+  const [goals, setGoals] = React.useState(serverGoals);
   const [selectedDate, setSelectedDate] = React.useState(
     moment().format("YYYY-MM"),
   );
@@ -33,6 +37,14 @@ export default function Budgets({
   React.useEffect(() => {
     setBudgets(serverBudgets);
   }, [serverBudgets]);
+
+  React.useEffect(() => {
+    setTransactions(serverTransactions);
+  }, [serverTransactions]);
+
+  React.useEffect(() => {
+    setGoals(serverGoals);
+  }, [serverGoals]);
 
   React.useEffect(() => {
     const channel = supabase
@@ -52,10 +64,6 @@ export default function Budgets({
       supabase.removeChannel(channel);
     };
   }, [serverBudgets]);
-
-  React.useEffect(() => {
-    setTransactions(serverTransactions);
-  }, [serverTransactions]);
 
   React.useEffect(() => {
     const channel = supabase
@@ -99,6 +107,45 @@ export default function Budgets({
     };
   }, [serverTransactions]);
 
+  React.useEffect(() => {
+    const channel = supabase
+      .channel("realtime-goals")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "goals",
+        },
+        (payload) => {
+          const eventType = payload.eventType;
+
+          if (eventType === "INSERT") {
+            setGoals((goals: Goal[]) => [...goals, payload.new as Goal]);
+          }
+
+          if (eventType === "UPDATE") {
+            setGoals(
+              goals.map((goal) =>
+                goal.id === payload.new.id ? (payload.new as Goal) : goal,
+              ),
+            );
+          }
+
+          if (eventType === "DELETE") {
+            setGoals(
+              goals.filter((goal) => goal.id !== payload.old.id ?? goal),
+            );
+          }
+        },
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [serverGoals]);
+
   function handleChangeDate(date: string) {
     setSelectedDate(date);
   }
@@ -109,59 +156,56 @@ export default function Budgets({
         <DateSelector
           changeDate={handleChangeDate}
           selectedDate={selectedDate}
-          title="Budgets"
+          title="Overview"
         />
       </Header>
       <Aside>
-        <div className="flex sm:hidden flex-col gap-4">
-          <LeftToSpend
-            budgets={budgets}
-            selectedDate={selectedDate}
-            transactions={transactions}
-          />
-          <ExpenseChart
-            budgets={budgets}
-            selectedDate={selectedDate}
-            transactions={transactions}
-          />
-        </div>
-        <div className="hidden sm:flex flex-col gap-4">
-          <LeftToSpend
-            budgets={budgets}
-            selectedDate={selectedDate}
-            transactions={transactions}
-          />
-          <ExpenseChart
-            budgets={budgets}
-            selectedDate={selectedDate}
-            transactions={transactions}
-          />
-          <BudgetExpenses
-            budgets={budgets}
-            selectedDate={selectedDate}
-            transactions={transactions}
-          />
-        </div>
-      </Aside>
-      <Content>
         <div className="flex flex-col gap-4">
-          <CashFlowSummary
+          <ExpenseChart
             budgets={budgets}
             selectedDate={selectedDate}
             transactions={transactions}
           />
-          <BudgetsList
-            budgets={budgets}
-            selectedDate={selectedDate}
-            transactions={transactions}
-          />
-          <div className="flex sm:hidden flex-col gap-4">
-            <BudgetExpenses
-              budgets={budgets}
+          <div>
+            <h2 className={heading()}>Transactions</h2>
+            <TransactionsList
               selectedDate={selectedDate}
               transactions={transactions}
             />
           </div>
+        </div>
+      </Aside>
+      <Content>
+        <div className="flex flex-col gap-4">
+          <div className="flex gap-3 justify-between">
+            <ThisMonth
+              category="Income"
+              selectedDate={selectedDate}
+              transactions={transactions}
+            />
+            <ThisMonth
+              category="Expenses"
+              selectedDate={selectedDate}
+              transactions={transactions}
+            />
+            <ThisMonth
+              category="Savings"
+              selectedDate={selectedDate}
+              transactions={transactions}
+            />
+          </div>
+          <TotalBalanceChart
+            selectedDate={selectedDate}
+            transactions={transactions}
+          />
+          <GoalsList
+            goals={goals.sort((a, b) => {
+              if (a.priority === 0) return 1;
+              if (b.priority === 0) return -1;
+
+              return a.priority - b.priority;
+            })}
+          />
         </div>
       </Content>
     </>

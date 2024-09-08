@@ -2,7 +2,6 @@
 
 import React from "react";
 import moment from "moment";
-import { Accordion, AccordionItem } from "@nextui-org/react";
 
 import { Budget, Transaction } from "@/types";
 import { createClient } from "@/utils/supabase/client";
@@ -10,11 +9,9 @@ import TransactionsList from "@/components/transactions/list";
 import ExpenseSummary from "@/components/transactions/expense-summary";
 import Aside from "@/components/layout/aside";
 import Content from "@/components/layout/content";
-import { heading } from "@/components/primitives";
-import DatePicker from "@/components/date-picker";
-import TransactionModal from "@/components/transactions/modal";
-import DateSelector from "@/components/date-select";
+import DateSelector from "@/components/date/date-selector";
 import SpendingLimit from "@/components/transactions/spending-limit";
+import TransactionModal from "@/components/transactions/modal";
 
 export default function RealtimeTransactions({
   serverBudgets,
@@ -30,17 +27,6 @@ export default function RealtimeTransactions({
   const [selectedDate, setSelectedDate] = React.useState(
     moment().format("YYYY-MM"),
   );
-  const [calendarOpen, setCalendarOpen] = React.useState(new Set([""]));
-
-  React.useEffect(() => {
-    let element = document.getElementById(selectedDate);
-
-    element?.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-      inline: "center",
-    });
-  }, [selectedDate, calendarOpen]);
 
   React.useEffect(() => {
     setBudgets(serverBudgets);
@@ -115,38 +101,8 @@ export default function RealtimeTransactions({
     setSelectedDate(date);
   }
 
-  function handleOpenCalendar() {
-    calendarOpen.has("date-selector")
-      ? setCalendarOpen(new Set([]))
-      : setCalendarOpen(new Set(["date-selector"]));
-  }
-
   return (
     <>
-      {/* <Header>
-        <div className="flex-1">
-          <h1 className={title()}>Transactions</h1>
-        </div>
-        <DatePicker
-          changeDate={handleChangeDate}
-          handleOpenCalendar={handleOpenCalendar}
-          selectedDate={selectedDate}
-        />
-        <TransactionModal />
-        <Accordion className="px-0" selectedKeys={calendarOpen}>
-          <AccordionItem
-            key="date-selector"
-            hideIndicator
-            aria-label="Open calendar options"
-            classNames={{ trigger: "hidden" }}
-          >
-            <DateSelector
-              changeDate={handleChangeDate}
-              selectedDate={selectedDate}
-            />
-          </AccordionItem>
-        </Accordion>
-      </Header> */}
       <Aside>
         <div className="flex flex-col gap-4">
           <SpendingLimit
@@ -159,30 +115,12 @@ export default function RealtimeTransactions({
         </div>
       </Aside>
       <Content>
-        <div className="flex items-center justify-between gap-2 flex-wrap">
-          <div className="flex-1">
-            <h2 className={heading()}>Transactions</h2>
-          </div>
-          <DatePicker
-            changeDate={handleChangeDate}
-            handleOpenCalendar={handleOpenCalendar}
-            selectedDate={selectedDate}
-          />
-          <TransactionModal />
-          <Accordion className="px-0" selectedKeys={calendarOpen}>
-            <AccordionItem
-              key="date-selector"
-              hideIndicator
-              aria-label="Open calendar options"
-              classNames={{ trigger: "hidden" }}
-            >
-              <DateSelector
-                changeDate={handleChangeDate}
-                selectedDate={selectedDate}
-              />
-            </AccordionItem>
-          </Accordion>
-        </div>
+        <DateSelector
+          changeDate={handleChangeDate}
+          endContent={<TransactionModal />}
+          selectedDate={selectedDate}
+          title="Transactions"
+        />
         <TransactionsList
           selectedDate={selectedDate}
           transactions={transactions}

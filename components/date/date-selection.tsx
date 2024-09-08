@@ -4,7 +4,7 @@ import { Card } from "@nextui-org/card";
 
 import { getDatesBetween } from "@/utils/helpers";
 
-export default function DateSelector({
+export default function DateSelection({
   selectedDate,
   changeDate,
 }: {

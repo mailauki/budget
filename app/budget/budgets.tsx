@@ -191,7 +191,11 @@ export default function Budgets({
             selectedDate={selectedDate}
             transactions={transactions}
           />
-          <BudgetsList budgets={budgets} transactions={transactions} />
+          <BudgetsList
+            budgets={budgets}
+            selectedDate={selectedDate}
+            transactions={transactions}
+          />
           <div className="flex sm:hidden flex-col gap-4">
             <BudgetExpenses
               budgets={budgets}

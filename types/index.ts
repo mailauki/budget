@@ -46,7 +46,7 @@ export type AccountProps = {
 };
 
 export interface Transaction {
-  id?: number;
+  id: number;
   key?: Key;
   date: string;
   amount: number;

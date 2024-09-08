@@ -51,3 +51,20 @@ export const subtitle = tv({
     fullWidth: true,
   },
 });
+
+export const heading = tv({
+  base: "tracking-tight inline",
+  variants: {
+    variant: {
+      primary: "text-xl",
+      secondary: "text-md text-default-500",
+      tertiary: "text-sm text-default-500",
+    },
+    fullWidth: {
+      true: "w-full block",
+    },
+  },
+  defaultVariants: {
+    variant: "primary",
+  },
+});

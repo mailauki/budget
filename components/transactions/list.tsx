@@ -1,10 +1,35 @@
-import React from "react";
-import { Table, TableBody, TableColumn, TableHeader } from "@nextui-org/table";
-import { parseDate, isSameMonth } from "@internationalized/date";
+"use client";
 
-import TransactionsTable from "./table";
+import React from "react";
+import {
+  parseDate,
+  isSameMonth,
+  getLocalTimeZone,
+} from "@internationalized/date";
+import { Listbox, ListboxItem, ListboxSection } from "@nextui-org/listbox";
+import { BsCreditCard2Front } from "react-icons/bs";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
+} from "@nextui-org/react";
+
+import { heading } from "../primitives";
+
+import Brand from "./brand";
+import TransactionForm from "./form";
 
 import { Transaction } from "@/types";
+import { categories } from "@/utils/categories";
+import {
+  useAccountingFormatter,
+  useDateMediumFormatter,
+} from "@/utils/formatters";
+import { editTransaction } from "@/db/actions";
 
 export default function TransactionsList({
   transactions,
@@ -13,7 +38,17 @@ export default function TransactionsList({
   transactions: Transaction[];
   selectedDate: string;
 }) {
+  const dateMediumFormatter = useDateMediumFormatter();
+  const accountingFormatter = useAccountingFormatter();
   const [dates, setDates] = React.useState<string[]>([]);
+  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+  const [openItem, setOpenItem] = React.useState<Transaction>();
+
+  function handleOpen(item: Transaction) {
+    setOpenItem(item);
+    // setOpenItem(transactions.find(({ id }) => id === item.id));
+    onOpen();
+  }
 
   React.useEffect(() => {
     setDates(
@@ -36,48 +71,105 @@ export default function TransactionsList({
     ).length === 0
   ) {
     return (
-      <Table aria-label="Empty transactions table">
-        <TableHeader>
-          <TableColumn key="date" align="start" className="uppercase">
-            Name
-          </TableColumn>
-          <TableColumn
-            key="category"
-            align="start"
-            className="uppercase hidden sm:table-cell"
-          >
-            Category
-          </TableColumn>
-          <TableColumn
-            key="credit"
-            align="center"
-            className="uppercase hidden sm:table-cell"
-          >
-            Credit
-          </TableColumn>
-          <TableColumn key="amount" align="end" className="uppercase">
-            Amount
-          </TableColumn>
-        </TableHeader>
-        <TableBody emptyContent={"No transactions yet"}>{[]}</TableBody>
-      </Table>
+      <Listbox
+        aria-label="Empty transactions table"
+        emptyContent={
+          <div className="mt-3">
+            <p className={heading({ variant: "secondary" })}>
+              No transactions yet
+            </p>
+          </div>
+        }
+      >
+        {[]}
+      </Listbox>
     );
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      {dates
-        .filter((date) =>
-          isSameMonth(parseDate(date), parseDate(`${selectedDate}-01`)),
-        )
-        .map((date) => (
-          <div key={date}>
-            <TransactionsTable
-              date={date}
-              transactions={transactions.filter((ta) => ta.date == date)}
-            />
-          </div>
-        ))}
-    </div>
+    <>
+      <Listbox aria-label="List of transactions" variant="flat">
+        {dates
+          .filter((date) =>
+            isSameMonth(parseDate(date), parseDate(`${selectedDate}-01`)),
+          )
+          .map((date) => (
+            <ListboxSection
+              key={date}
+              className="mt-3"
+              classNames={{
+                heading: heading({ variant: "secondary" }),
+                group: "mt-1",
+              }}
+              title={dateMediumFormatter.format(
+                parseDate(`${date}`).toDate(getLocalTimeZone()),
+              )}
+            >
+              {transactions
+                .filter((item) => item.date === date)
+                .map((item) => (
+                  <ListboxItem
+                    key={`${item.id}-${item.name}`}
+                    classNames={{
+                      title: `${item.credit && <BsCreditCard2Front />}`,
+                    }}
+                    description={`${item.category} • ${item.category_label}`}
+                    endContent={
+                      <div
+                        className={`${
+                          categories.income.find(({ labels }) =>
+                            labels.find(
+                              ({ name }) => name == item.category_label,
+                            ),
+                          ) && "text-green-600 dark:text-green-400"
+                        }`}
+                      >
+                        {accountingFormatter.format(item.amount)}
+                      </div>
+                    }
+                    startContent={
+                      <div className="pr-2">
+                        <Brand transaction={item} />
+                      </div>
+                    }
+                    title={item.name}
+                    onPress={() => handleOpen(item)}
+                  />
+                ))}
+            </ListboxSection>
+          ))}
+      </Listbox>
+      <Modal
+        isOpen={isOpen}
+        radius="sm"
+        onClose={onClose}
+        onOpenChange={onOpenChange}
+      >
+        <ModalContent action={editTransaction} as="form">
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                {openItem?.name} transaction
+              </ModalHeader>
+              <ModalBody>{<TransactionForm item={openItem} />}</ModalBody>
+              <ModalFooter>
+                <Button radius="sm" variant="bordered" onPress={onClose}>
+                  Close
+                </Button>
+                <Button
+                  className="bg-foreground text-background"
+                  color="primary"
+                  radius="sm"
+                  type="submit"
+                  onPress={onClose}
+                >
+                  Update
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+    </>
   );
 }

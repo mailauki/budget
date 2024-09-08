@@ -75,7 +75,7 @@ export default function ExpenseSummary({
     );
 
   return (
-    <Card radius="sm">
+    <Card className="hidden sm:flex" radius="sm">
       <CardHeader className="items-start justify-between">
         <p>Expense summary</p>
         <Switch onChange={() => setShowComparison(!showComparison)} />

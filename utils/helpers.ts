@@ -295,5 +295,3 @@ export function getLabelColor(category: string) {
 
   return color;
 }
-
-

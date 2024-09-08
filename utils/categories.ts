@@ -9,6 +9,7 @@ export const categories = {
         { id: 3, name: "Business Income" },
         { id: 4, name: "Other Income" },
         { id: 5, name: "Dividens & Capital Gains" },
+        { id: 6, name: "Rollover" },
       ],
     },
   ],

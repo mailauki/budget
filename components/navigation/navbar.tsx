@@ -15,7 +15,7 @@ import NextLink from "next/link";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 
-import Logout from "../logout-btn";
+import Logout from "../logout-link";
 
 import { ThemeSwitch } from "@/components/theme-switch";
 import { Logo } from "@/components/icons";
@@ -52,7 +52,7 @@ export function Navbar({ children }: { children: React.ReactNode }) {
             <p className="font-bold text-inherit">ACME</p>
           </NextLink>
         </NavbarBrand>
-        <ul className="hidden sm:flex gap-4 justify-start ml-2">
+        <ul className="hidden lg:hidden md:flex gap-4 justify-start ml-2">
           {siteConfig.navItems.map((item) => (
             <NavbarItem key={item.href}>
               <NextLink
@@ -67,8 +67,8 @@ export function Navbar({ children }: { children: React.ReactNode }) {
               </NextLink>
             </NavbarItem>
           ))}
+          <Logout />
         </ul>
-        <Logout />
       </NavbarContent>
 
       <NavbarContent

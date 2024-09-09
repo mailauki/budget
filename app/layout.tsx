@@ -12,7 +12,7 @@ import { Navbar } from "@/components/navigation/navbar";
 import NavMenu from "@/components/navigation/menu";
 import { getUser } from "@/db/queries";
 import { NavSidebar } from "@/components/navigation/sidebar";
-// import { NavSidebar } from "@/components/navigation/sidebar";
+import NavUser from "@/components/navigation/user";
 
 export const metadata: Metadata = {
   title: {
@@ -50,19 +50,11 @@ export default async function RootLayout({
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-col h-screen">
-            {/* <Navbar /> */}
-            {/* <Navbar>{user && <UserCard user={user} />}</Navbar> */}
-            <Navbar>{user && <NavMenu user={user} />}</Navbar>
+            <Navbar>{user && <NavUser user={user} />}</Navbar>
             <main className="container mx-auto max-w-7xl py-3 px-6 flex-grow">
-              {/* <div className="hidden lg:grid grid-cols-11 auto-row-auto h-full gap-3">
-                <div className="col-span-3">
-                  <NavSidebar />
-                </div>
-                <div className="col-span-8">{children}</div>
-              </div> */}
               <div className="hidden lg:flex gap-3">
                 <NavSidebar />
-                <div className="ml-60">{children}</div>
+                <div className="w-full ml-60">{children}</div>
               </div>
               <div className="flex lg:hidden">{children}</div>
             </main>

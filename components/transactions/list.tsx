@@ -30,6 +30,7 @@ import {
   useDateMediumFormatter,
 } from "@/utils/formatters";
 import { editTransaction } from "@/db/actions";
+import { usePathname } from "next/navigation";
 
 export default function TransactionsList({
   transactions,
@@ -38,6 +39,7 @@ export default function TransactionsList({
   transactions: Transaction[];
   selectedDate: string;
 }) {
+  const pathname = usePathname();
   const dateMediumFormatter = useDateMediumFormatter();
   const accountingFormatter = useAccountingFormatter();
   const [dates, setDates] = React.useState<string[]>([]);
@@ -133,7 +135,7 @@ export default function TransactionsList({
                       </div>
                     }
                     title={item.name}
-                    onPress={() => handleOpen(item)}
+                    onPress={() => (pathname == "/" ? null : handleOpen(item))}
                   />
                 ))}
             </ListboxSection>

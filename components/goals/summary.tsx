@@ -24,7 +24,7 @@ export default function GoalsSummary({ goals }: { goals?: Goal[] }) {
       <CardBody>
         <Listbox variant="flat">
           {goals!.map((goal) => (
-            <ListboxItem key={goal.id}>
+            <ListboxItem key={goal.name}>
               <div className="flex justify-between">
                 <div className="flex flex-col gap-1">
                   <p className="h-7">

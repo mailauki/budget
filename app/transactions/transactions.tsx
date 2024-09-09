@@ -109,6 +109,7 @@ export default function RealtimeTransactions({
           <div className="flex sm:hidden">
             <DateSelector
               changeDate={handleChangeDate}
+              endContent={<TransactionModal />}
               selectedDate={selectedDate}
             />
           </div>

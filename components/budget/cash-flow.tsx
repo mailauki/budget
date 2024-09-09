@@ -100,7 +100,7 @@ export default function CashFlowSummary({
         />
         <BarChart
           aria-label="Cash flow chart with budget comparison"
-          categories={showComparison ? ["budget", "actual"] : ["actual"]}
+          categories={showComparison ? ["Budget", "Actual"] : ["Actual"]}
           className="mt-4 h-56 sm:hidden"
           colors={showComparison ? ["cyan", "blue"] : ["blue"]}
           data={expensesData}

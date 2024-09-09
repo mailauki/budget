@@ -22,13 +22,23 @@ export default function GoalModal() {
   return (
     <>
       <Button
-        className="bg-foreground text-background"
-        endContent={<BsPlus />}
+        className="hidden sm:flex bg-foreground text-background"
+        endContent={<BsPlus size={18} />}
         radius="sm"
         onPress={onOpen}
       >
         Add New
       </Button>
+      <div className="fixed sm:hidden bottom-0 right-0 m-6">
+        <Button
+          isIconOnly
+          className="bg-foreground text-background"
+          radius="full"
+          onPress={onOpen}
+        >
+          <BsPlus size={18} />
+        </Button>
+      </div>
       <Modal isOpen={isOpen} radius="sm" onOpenChange={onOpenChange}>
         <ModalContent action={editGoal} as="form">
           {(onClose) => (

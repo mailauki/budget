@@ -1,18 +1,15 @@
-import { Button } from "@nextui-org/button";
-
 import { logout } from "@/app/auth/actions";
 
 export default function Logout() {
   return (
     <form action={logout} className="w-full">
-      <Button
-        className="w-full text-sm justify-start"
-        size="sm"
+      <button
+        // className="text-sm text-gray-400 hover:underline hover:text-gray-300"
+        className="hover:underline"
         type="submit"
-        variant="light"
       >
         Logout
-      </Button>
+      </button>
     </form>
   );
 }

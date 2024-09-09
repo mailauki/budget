@@ -7,6 +7,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Tooltip,
   useDisclosure,
 } from "@nextui-org/react";
 import { BsPlus } from "react-icons/bs";
@@ -29,15 +30,19 @@ export default function TransactionModal() {
       >
         Add New
       </Button>
-      <div className="fixed sm:hidden bottom-0 right-0 m-6">
-        <Button
-          isIconOnly
-          className="bg-foreground text-background"
-          radius="full"
-          onPress={onOpen}
-        >
-          <BsPlus size={18} />
-        </Button>
+      <div className="fixed sm:hidden bottom-0 right-0 m-6 z-50">
+        <Tooltip content="Add New">
+          <Button
+            isIconOnly
+            className="bg-foreground text-background"
+            radius="full"
+            size="lg"
+            variant="shadow"
+            onPress={onOpen}
+          >
+            <BsPlus size={18} />
+          </Button>
+        </Tooltip>
       </div>
       <Modal isOpen={isOpen} radius="sm" onOpenChange={onOpenChange}>
         <ModalContent action={editTransaction} as="form">

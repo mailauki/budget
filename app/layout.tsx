@@ -11,6 +11,7 @@ import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navigation/navbar";
 import NavMenu from "@/components/navigation/menu";
 import { getUser } from "@/db/queries";
+import { NavSidebar } from "@/components/navigation/sidebar";
 // import { NavSidebar } from "@/components/navigation/sidebar";
 
 export const metadata: Metadata = {
@@ -52,12 +53,18 @@ export default async function RootLayout({
             {/* <Navbar /> */}
             {/* <Navbar>{user && <UserCard user={user} />}</Navbar> */}
             <Navbar>{user && <NavMenu user={user} />}</Navbar>
-            <main className="container mx-auto max-w-6xl py-3 px-6 flex-grow">
-              {/* <div className="grid grid-cols-12 auto-row-auto h-full">
-                <NavSidebar />
-                <div className="col-span-9">{children}</div>
+            <main className="container mx-auto max-w-7xl py-3 px-6 flex-grow">
+              {/* <div className="hidden lg:grid grid-cols-11 auto-row-auto h-full gap-3">
+                <div className="col-span-3">
+                  <NavSidebar />
+                </div>
+                <div className="col-span-8">{children}</div>
               </div> */}
-              {children}
+              <div className="hidden lg:flex gap-3">
+                <NavSidebar />
+                <div className="ml-60">{children}</div>
+              </div>
+              <div className="flex lg:hidden">{children}</div>
             </main>
             <footer className="w-full flex items-center justify-center py-3">
               <Link

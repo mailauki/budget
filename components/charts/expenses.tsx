@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader, Chip, Tab, Tabs } from "@nextui-org/react";
+import { Card, CardBody, Chip, Tab, Tabs } from "@nextui-org/react";
 import { DonutChart } from "@tremor/react";
 
 import { Budget, Transaction } from "@/types";
@@ -166,8 +166,6 @@ export default function ExpenseChart({
     },
   ];
 
-  // const data_category = categories.bills
-  // .concat(categories.debt, categories.savings, categories.expenses)
   const data_category = categories.expenses.flatMap((category) =>
     Object.assign({
       name: category.name,
@@ -189,9 +187,8 @@ export default function ExpenseChart({
 
   return (
     <Card radius="sm">
-      <CardHeader>Allocation summary</CardHeader>
-      <CardBody className="">
-        <Tabs fullWidth>
+      <CardBody>
+        <Tabs fullWidth radius="sm">
           <Tab key="allocation" title="Allocation">
             <div
               className="flex justify-evenly items-center"
@@ -206,7 +203,7 @@ export default function ExpenseChart({
                 showLabel={false}
                 valueFormatter={(amount) => currencyFormatter.format(amount)}
               />
-              <div className="w-2/5 min-w-[160px] flex flex-col">
+              <div className="w-2/5 min-w-[160px] flex flex-col px-2">
                 {data_allocation.map((item) => (
                   <Chip
                     key={item.name}
@@ -236,7 +233,7 @@ export default function ExpenseChart({
                 showLabel={false}
                 valueFormatter={(amount) => `${amount}%`}
               />
-              <div className="w-2/5 min-w-[160px] flex flex-col">
+              <div className="w-2/5 min-w-[160px] flex flex-col px-2">
                 {data_needs.map((item) => (
                   <Chip
                     key={item.name}
@@ -266,7 +263,7 @@ export default function ExpenseChart({
                 showLabel={false}
                 valueFormatter={(amount) => currencyFormatter.format(amount)}
               />
-              <div className="w-2/5 min-w-[160px] flex flex-col">
+              <div className="w-2/5 min-w-[160px] flex flex-col px-2">
                 {data_category.map((item) => (
                   <Chip
                     key={item.name}

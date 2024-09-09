@@ -1,109 +1,184 @@
 "use client";
 
-import { Button } from "@nextui-org/button";
 import React from "react";
-// import { Button, Card, CardBody, Input } from "@nextui-org/react";
-// import { BsFillEyeFill, BsFillEyeSlashFill, BsGithub } from "react-icons/bs";
-import { BsGithub, BsGoogle } from "react-icons/bs";
+import { Button, Divider, Input, Link, Tab, Tabs } from "@nextui-org/react";
+import {
+  BsFillEyeFill,
+  BsFillEyeSlashFill,
+  BsGithub,
+  BsGoogle,
+} from "react-icons/bs";
 
-// import { login, signInWithGithub, signup } from "@/app/auth/actions";
-import { signInWithGithub, signInWithGoogle } from "@/app/auth/actions";
+import {
+  login,
+  signInWithGithub,
+  signInWithGoogle,
+  signup,
+} from "@/app/auth/actions";
+import { heading } from "@/components/primitives";
 
 export default function LoginPage() {
-  // const [isVisible, setIsVisible] = React.useState(false);
-  // const [isRegister, setIsRegister] = React.useState(false);
+  const [isVisible, setIsVisible] = React.useState(false);
+  const [selected, setSelected] = React.useState<string | number>("login");
 
-  // const toggleVisibility = () => setIsVisible(!isVisible);
+  const toggleVisibility = () => setIsVisible(!isVisible);
 
   return (
-    <section className="mx-auto max-w-sm">
-      <div className="flex flex-col gap-4">
-        {/* <Card radius="sm">
-        <CardBody className="flex flex-row gap-2 p-2">
-          <Button
-            fullWidth
-            radius="sm"
-            variant={isRegister === false ? "solid" : "light"}
-            onClick={() => setIsRegister(false)}
-          >
-            Sign In
-          </Button>
-          <Button
-            fullWidth
-            radius="sm"
-            variant={isRegister === true ? "solid" : "light"}
-            onClick={() => setIsRegister(true)}
-          >
-            Register
-          </Button>
-        </CardBody>
-      </Card> */}
-        {/* <form className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-        <Input id="email" label="Email" name="email" radius="sm" type="email" />
-        <Input
-          endContent={
-            <button
-              aria-label="toggle password visibility"
-              className="focus:outline-none"
-              type="button"
-              onClick={toggleVisibility}
-            >
-              {isVisible ? (
-                <p className="text-2xl text-default-400 pointer-events-none pb-1.5">
-                  <BsFillEyeSlashFill />
-                </p>
-              ) : (
-                <p className="text-2xl text-default-400 pointer-events-none pb-1.5">
-                  <BsFillEyeFill />
-                </p>
-              )}
-            </button>
-          }
-          id="password"
-          label="Password"
-          name="password"
-          radius="sm"
-          type={isVisible ? "text" : "password"}
-        />
-        {isRegister ? (
-          <Button
-            fullWidth
-            color="primary"
-            formAction={signup}
-            radius="sm"
-            size="lg"
-            type="submit"
-            variant="solid"
-          >
-            Sign up
-          </Button>
-        ) : (
-          <Button
-            fullWidth
-            color="primary"
-            formAction={login}
-            radius="sm"
-            size="lg"
-            type="submit"
-            variant="solid"
-          >
-            Log in
-          </Button>
-        )}
-      </form> */}
-        <form action={signInWithGithub}>
-          <Button fullWidth radius="sm" size="lg" type="submit">
-            <BsGithub />
-            Login using Github
-          </Button>
-        </form>
-        <form action={signInWithGoogle}>
-          <Button fullWidth radius="sm" size="lg" type="submit">
-            <BsGoogle />
-            Login using Google
-          </Button>
-        </form>
+    <div className="w-full flex flex-col gap-4">
+      <Tabs
+        fullWidth
+        aria-label="Tabs form"
+        radius="sm"
+        selectedKey={selected}
+        size="md"
+        onSelectionChange={setSelected}
+      >
+        <Tab key="login" title="Login">
+          <form action={login} className="flex flex-col gap-4">
+            <Input
+              isRequired
+              label="Email"
+              name="email"
+              placeholder="Enter your email"
+              radius="sm"
+              type="email"
+            />
+            <Input
+              isRequired
+              endContent={
+                <button
+                  aria-label="toggle password visibility"
+                  className="focus:outline-none"
+                  type="button"
+                  onClick={toggleVisibility}
+                >
+                  {isVisible ? (
+                    <p className="text-2xl text-default-400 pointer-events-none pb-1.5">
+                      <BsFillEyeSlashFill />
+                    </p>
+                  ) : (
+                    <p className="text-2xl text-default-400 pointer-events-none pb-1.5">
+                      <BsFillEyeFill />
+                    </p>
+                  )}
+                </button>
+              }
+              label="Password"
+              name="password"
+              placeholder="Enter your password"
+              radius="sm"
+              type={isVisible ? "text" : "password"}
+            />
+            <p className="text-center text-small">
+              Need to create an account?{" "}
+              <Link
+                className="cursor-pointer"
+                size="sm"
+                underline="hover"
+                onPress={() => setSelected("sign-up")}
+              >
+                Sign up
+              </Link>
+            </p>
+            <div className="flex gap-2 justify-end">
+              <Button
+                fullWidth
+                color="primary"
+                radius="sm"
+                size="lg"
+                type="submit"
+              >
+                Login
+              </Button>
+            </div>
+          </form>
+        </Tab>
+        <Tab key="sign-up" title="Sign up">
+          <form action={signup} className="flex flex-col gap-4 h-[300px]">
+            <Input
+              isRequired
+              label="Name"
+              name="name"
+              placeholder="Enter your name"
+              radius="sm"
+              type="text"
+            />
+            <Input
+              isRequired
+              label="Email"
+              name="email"
+              placeholder="Enter your email"
+              radius="sm"
+              type="email"
+            />
+            <Input
+              isRequired
+              endContent={
+                <button
+                  aria-label="toggle password visibility"
+                  className="focus:outline-none"
+                  type="button"
+                  onClick={toggleVisibility}
+                >
+                  {isVisible ? (
+                    <p className="text-2xl text-default-400 pointer-events-none pb-1.5">
+                      <BsFillEyeSlashFill />
+                    </p>
+                  ) : (
+                    <p className="text-2xl text-default-400 pointer-events-none pb-1.5">
+                      <BsFillEyeFill />
+                    </p>
+                  )}
+                </button>
+              }
+              label="Password"
+              name="password"
+              placeholder="Enter your password"
+              radius="sm"
+              type={isVisible ? "text" : "password"}
+            />
+            <p className="text-center text-small">
+              Already have an account?{" "}
+              <Link
+                className="cursor-pointer"
+                size="sm"
+                underline="hover"
+                onPress={() => setSelected("login")}
+              >
+                Login
+              </Link>
+            </p>
+            <div className="flex gap-2 justify-end">
+              <Button
+                fullWidth
+                color="primary"
+                radius="sm"
+                size="lg"
+                type="submit"
+              >
+                Sign up
+              </Button>
+            </div>
+          </form>
+        </Tab>
+      </Tabs>
+      <div className="w-full flex items-center justify-evenly gap-2">
+        <Divider className="w-2/5" />
+        <p className={heading({ variant: "subtitle" })}>or</p>
+        <Divider className="w-2/5" />
       </div>
-    </section>
+      <form action={signInWithGoogle}>
+        <Button fullWidth radius="sm" size="lg" type="submit">
+          <BsGoogle />
+          {selected == "login" ? "Login" : "Sign up"} using Google
+        </Button>
+      </form>
+      <form action={signInWithGithub}>
+        <Button fullWidth radius="sm" size="lg" type="submit">
+          <BsGithub />
+          {selected == "login" ? "Login" : "Sign up"} using Github
+        </Button>
+      </form>
+    </div>
   );
 }

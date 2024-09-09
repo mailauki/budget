@@ -39,14 +39,30 @@ export default function DatePicker({
 
   return (
     <>
-      <ButtonGroup className="w-full sm:w-[200px]" radius="sm" variant="ghost">
-        <Button isIconOnly onPress={decrement}>
+      <ButtonGroup
+        className="w-full sm:w-[200px]"
+        radius="full"
+        size="sm"
+        variant="solid"
+      >
+        <Button
+          isIconOnly
+          className="bg-foreground text-background"
+          onPress={decrement}
+        >
           <BsChevronLeft />
         </Button>
-        <Button className="flex-1" onPress={handleOpenCalendar}>
+        <Button
+          className="flex-1 bg-foreground text-background"
+          onPress={handleOpenCalendar}
+        >
           {moment(date).format("MMM, YYYY")}
         </Button>
-        <Button isIconOnly onPress={increment}>
+        <Button
+          isIconOnly
+          className="bg-foreground text-background"
+          onPress={increment}
+        >
           <BsChevronRight />
         </Button>
       </ButtonGroup>

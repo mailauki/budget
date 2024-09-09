@@ -161,6 +161,7 @@ export default function BudgetsTable({
 
   return (
     <Accordion
+      className="rounded-small"
       defaultSelectedKeys={openKeys}
       selectedKeys={openKeys}
       variant="shadow"

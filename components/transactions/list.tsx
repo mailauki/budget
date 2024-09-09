@@ -17,6 +17,7 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
+import { usePathname } from "next/navigation";
 
 import { heading } from "../primitives";
 
@@ -30,7 +31,6 @@ import {
   useDateMediumFormatter,
 } from "@/utils/formatters";
 import { editTransaction } from "@/db/actions";
-import { usePathname } from "next/navigation";
 
 export default function TransactionsList({
   transactions,

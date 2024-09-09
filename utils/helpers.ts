@@ -33,6 +33,7 @@ export function getBudgetBalance({
   return budgets.reduce(
     (partialSum, item) =>
       partialSum +
+      // isSameMonth(parseDate(`${item.date}-01`), parseDate(`${date}-01`)) &&
       (item.date == date && (item.category == category || item.name == name)
         ? item.budget
         : 0),
@@ -56,7 +57,7 @@ export function getActualBalance({
       partialSum +
       (isSameMonth(parseDate(`${item.date}`), parseDate(`${date}-01`)) &&
       (item.category == category ||
-        // item.category_label == category ||
+        item.category_label == category ||
         categories?.labels.some(({ name }) => name == item.category_label))
         ? item.amount
         : 0),

@@ -1,6 +1,6 @@
-import { Card, CardFooter, CardHeader, Chip, Divider } from "@nextui-org/react";
+import { Card, CardBody, CardFooter, Chip, Divider } from "@nextui-org/react";
 
-import { title } from "../primitives";
+import { heading, title } from "../primitives";
 
 import { Budget, Transaction } from "@/types";
 import { categories } from "@/utils/categories";
@@ -20,8 +20,8 @@ export default function LeftToSpend({
 
   return (
     <Card radius="sm">
-      <CardHeader className="flex-col justify-center text-center py-[3.15rem] gap-1">
-        <p className="text-default-500">Left to spend</p>
+      <CardBody className="flex-col justify-center text-center py-[3.15rem] gap-1">
+        <p className={heading({ variant: "secondary" })}>Left to spend</p>
         <p className={title()}>
           {currencyFormatter.format(
             getActualTotal({
@@ -30,7 +30,9 @@ export default function LeftToSpend({
               date: selectedDate,
             }) -
               getActualTotal({
-                transactions,
+                transactions: transactions.filter(
+                  (item) => item.credit === false,
+                ),
                 categories: categories.expenses.concat(
                   categories.bills,
                   categories.debt,
@@ -40,10 +42,15 @@ export default function LeftToSpend({
               }),
           )}
         </p>
-      </CardHeader>
+        <div className="absolute bottom-0 right-0 py-2 px-3">
+          <p className="text-tiny text-default-500 uppercase">
+            excludes credit
+          </p>
+        </div>
+      </CardBody>
       <Divider />
       <CardFooter className="h-14 text-small items-center justify-between space-x-4">
-        <p className="text-default-500">Left to budget</p>
+        <p className={heading({ variant: "secondary" })}>Left to budget</p>
         <Divider orientation="vertical" />
         <Chip size="lg" variant="light">
           {currencyFormatter.format(

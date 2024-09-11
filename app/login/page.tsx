@@ -8,6 +8,7 @@ import {
   BsGithub,
   BsGoogle,
 } from "react-icons/bs";
+import { usePathname } from "next/navigation";
 
 import {
   login,
@@ -18,10 +19,15 @@ import {
 import { heading } from "@/components/primitives";
 
 export default function LoginPage() {
+  const pathname = usePathname();
   const [isVisible, setIsVisible] = React.useState(false);
   const [selected, setSelected] = React.useState<string | number>("login");
 
   const toggleVisibility = () => setIsVisible(!isVisible);
+
+  const isInvalid = React.useMemo(() => {
+    return pathname === "/error" && true;
+  }, [pathname]);
 
   return (
     <div className="w-full flex flex-col gap-4">
@@ -37,6 +43,7 @@ export default function LoginPage() {
           <form action={login} className="flex flex-col gap-4">
             <Input
               isRequired
+              isInvalid={isInvalid}
               label="Email"
               name="email"
               placeholder="Enter your email"
@@ -63,11 +70,11 @@ export default function LoginPage() {
                   )}
                 </button>
               }
+              isInvalid={isInvalid}
               label="Password"
               name="password"
               placeholder="Enter your password"
               radius="sm"
-              type={isVisible ? "text" : "password"}
             />
             <p className="text-center text-small">
               Need to create an account?{" "}
@@ -97,6 +104,7 @@ export default function LoginPage() {
           <form action={signup} className="flex flex-col gap-4 h-[300px]">
             <Input
               isRequired
+              isInvalid={isInvalid}
               label="Name"
               name="name"
               placeholder="Enter your name"
@@ -105,6 +113,7 @@ export default function LoginPage() {
             />
             <Input
               isRequired
+              isInvalid={isInvalid}
               label="Email"
               name="email"
               placeholder="Enter your email"
@@ -131,11 +140,11 @@ export default function LoginPage() {
                   )}
                 </button>
               }
+              isInvalid={isInvalid}
               label="Password"
               name="password"
               placeholder="Enter your password"
               radius="sm"
-              type={isVisible ? "text" : "password"}
             />
             <p className="text-center text-small">
               Already have an account?{" "}
@@ -167,18 +176,20 @@ export default function LoginPage() {
         <p className={heading({ variant: "subtitle" })}>or</p>
         <Divider className="w-2/5" />
       </div>
-      <form action={signInWithGoogle}>
-        <Button fullWidth radius="sm" size="lg" type="submit">
-          <BsGoogle />
-          {selected == "login" ? "Login" : "Sign up"} using Google
-        </Button>
-      </form>
-      <form action={signInWithGithub}>
-        <Button fullWidth radius="sm" size="lg" type="submit">
-          <BsGithub />
-          {selected == "login" ? "Login" : "Sign up"} using Github
-        </Button>
-      </form>
+      <div className="w-full flex flex-col gap-4 py-3">
+        <form action={signInWithGoogle}>
+          <Button fullWidth radius="sm" size="lg" type="submit">
+            <BsGoogle />
+            {selected == "login" ? "Login" : "Sign up"} using Google
+          </Button>
+        </form>
+        <form action={signInWithGithub}>
+          <Button fullWidth radius="sm" size="lg" type="submit">
+            <BsGithub />
+            {selected == "login" ? "Login" : "Sign up"} using Github
+          </Button>
+        </form>
+      </div>
     </div>
   );
 }

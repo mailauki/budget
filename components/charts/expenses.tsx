@@ -188,7 +188,7 @@ export default function ExpenseChart({
   return (
     <Card radius="sm">
       <CardBody>
-        <Tabs fullWidth radius="sm">
+        <Tabs fullWidth radius="full">
           <Tab key="allocation" title="Allocation">
             <div
               className="flex justify-evenly items-center"

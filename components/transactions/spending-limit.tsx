@@ -49,7 +49,7 @@ export default function SpendingLimit({
   const percent = Math.round((100 * spent) / limit);
 
   return (
-    <Card>
+    <Card radius="sm">
       <CardHeader>Spending limit</CardHeader>
       <CardBody>
         <p className={heading({ variant: "secondary" })}>

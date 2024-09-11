@@ -19,12 +19,8 @@ export const siteConfig = {
   ],
   navMenuItems: [
     {
-      label: "Home",
+      label: "Overview",
       href: "/",
-    },
-    {
-      label: "Accounts",
-      href: "/accounts",
     },
     {
       label: "Transactions",
@@ -37,18 +33,6 @@ export const siteConfig = {
     {
       label: "Goals",
       href: "/goals",
-    },
-    {
-      label: "Profile",
-      href: "/profile",
-    },
-    {
-      label: "Dashboard",
-      href: "/dashboard",
-    },
-    {
-      label: "Projects",
-      href: "/projects",
     },
     {
       label: "Calendar",

@@ -9,7 +9,6 @@ import { Providers } from "./providers";
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navigation/navbar";
-import NavMenu from "@/components/navigation/menu";
 import { getUser } from "@/db/queries";
 import { NavSidebar } from "@/components/navigation/sidebar";
 import NavUser from "@/components/navigation/user";
@@ -52,11 +51,7 @@ export default async function RootLayout({
           <div className="relative flex flex-col h-screen">
             <Navbar>{user && <NavUser user={user} />}</Navbar>
             <main className="container mx-auto max-w-7xl py-3 px-6 flex-grow">
-              <div className="hidden lg:flex gap-3">
-                <NavSidebar />
-                <div className="w-full ml-60">{children}</div>
-              </div>
-              <div className="flex lg:hidden">{children}</div>
+              <NavSidebar>{children}</NavSidebar>
             </main>
             <footer className="w-full flex items-center justify-center py-3">
               <Link

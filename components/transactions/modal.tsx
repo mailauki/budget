@@ -23,9 +23,10 @@ export default function TransactionModal() {
   return (
     <>
       <Button
-        className="hidden sm:flex bg-foreground text-background"
+        className="hidden sm:flex bg-foreground text-background pl-5"
         endContent={<BsPlus size={18} />}
-        radius="sm"
+        radius="full"
+        size="sm"
         onPress={onOpen}
       >
         Add New
@@ -40,7 +41,7 @@ export default function TransactionModal() {
             variant="shadow"
             onPress={onOpen}
           >
-            <BsPlus size={18} />
+            <BsPlus size={20} />
           </Button>
         </Tooltip>
       </div>

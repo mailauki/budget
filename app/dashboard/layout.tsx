@@ -1,6 +1,6 @@
 import LayoutWrapper from "@/components/layout/wrapper";
 
-export default function BudgetLayout({
+export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;

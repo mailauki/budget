@@ -6,7 +6,7 @@ import NavList from "./list";
 
 export function NavSidebar({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-	console.log(pathname)
+  // console.log(pathname)
 
   return (
     <>

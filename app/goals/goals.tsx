@@ -6,7 +6,6 @@ import { createClient } from "@/utils/supabase/client";
 import { Goal } from "@/types";
 import TotalProgress from "@/components/goals/total-progress";
 import GoalsSummary from "@/components/goals/summary";
-import Header from "@/components/layout/header";
 import Content from "@/components/layout/content";
 import Aside from "@/components/layout/aside";
 import GoalsList from "@/components/goals/list";
@@ -69,9 +68,6 @@ export default function RealtimeGoals({
 
   return (
     <>
-      <Header>
-        <TotalProgress goals={goals} />
-      </Header>
       <Content>
         <GoalsList
           goals={goals.sort((a, b) => {
@@ -83,6 +79,7 @@ export default function RealtimeGoals({
         />
       </Content>
       <Aside>
+        <TotalProgress goals={goals} />
         <GoalsSummary goals={goals} />
       </Aside>
     </>

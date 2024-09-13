@@ -10,7 +10,6 @@ import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navigation/navbar";
 import { getUser } from "@/db/queries";
-import { NavSidebar } from "@/components/navigation/sidebar";
 import NavUser from "@/components/navigation/user";
 
 export const metadata: Metadata = {
@@ -49,9 +48,10 @@ export default async function RootLayout({
       >
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-col h-screen">
-            <Navbar>{user && <NavUser user={user} />}</Navbar>
+            <Navbar user={user && <NavUser user={user} />} />
             <main className="container mx-auto max-w-7xl py-3 px-6 flex-grow">
-              <NavSidebar>{children}</NavSidebar>
+              {/* <NavSidebar>{children}</NavSidebar> */}
+              {children}
             </main>
             <footer className="w-full flex items-center justify-center py-3">
               <Link

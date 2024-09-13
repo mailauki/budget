@@ -36,8 +36,8 @@ export default function DateSelector({
   }
 
   return (
-    <div className="w-full flex flex-col gap-2">
-      <div className="flex items-center justify-between gap-2 flex-wrap">
+    <>
+      <div className="flex items-center justify-between min-h-14">
         <div className="hidden sm:flex flex-1">
           <h2 className={heading()}>{title}</h2>
         </div>
@@ -53,11 +53,11 @@ export default function DateSelector({
           key="date-selector"
           hideIndicator
           aria-label="Open calendar options"
-          classNames={{ trigger: "hidden" }}
+          classNames={{ trigger: "hidden", content: "mt-1" }}
         >
           <DateSelection changeDate={changeDate} selectedDate={selectedDate} />
         </AccordionItem>
       </Accordion>
-    </div>
+    </>
   );
 }

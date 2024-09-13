@@ -21,7 +21,7 @@ export default function ThisMonth({
   return (
     <Card fullWidth radius="sm">
       <CardBody>
-        <div className="flex flex-col">
+        <div className="h-full flex flex-col justify-evenly">
           <h2 className={heading({ variant: "tertiary" })}>
             {category} this month
           </h2>

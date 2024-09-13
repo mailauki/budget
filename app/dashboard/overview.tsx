@@ -12,7 +12,6 @@ import DateSelector from "@/components/date/date-selector";
 import { heading } from "@/components/primitives";
 import ExpenseChart from "@/components/charts/expenses";
 import ThisMonth from "@/components/dashboard/this-month-card";
-import Header from "@/components/layout/header";
 import TotalBalanceChart from "@/components/charts/total-balance";
 import GoalsList from "@/components/dashboard/goals";
 
@@ -152,32 +151,19 @@ export default function RealtimeDashboard({
 
   return (
     <>
-      <Header>
-        <DateSelector
-          changeDate={handleChangeDate}
-          selectedDate={selectedDate}
-          title="Overview"
-        />
-      </Header>
-      <Aside>
-        <div className="flex flex-col gap-4 hidden sm:flex">
-          <ExpenseChart
-            budgets={budgets}
+      {/* sm - mobile */}
+      <div className="col-span-full sm:hidden flex flex-col gap-3">
+        <div className="min-h-14 sticky top-14 z-40">
+          <DateSelector
+            changeDate={handleChangeDate}
             selectedDate={selectedDate}
-            transactions={transactions}
           />
-          <div>
-            <h2 className={heading()}>Transactions</h2>
-            <TransactionsList
-              selectedDate={selectedDate}
-              transactions={transactions}
-            />
-          </div>
         </div>
-      </Aside>
-      <Content>
-        <div className="flex flex-col gap-4">
-          <div className="flex gap-3 justify-between">
+        <div>
+          <div className="h-14 flex items-center mb-1">
+            <h2 className={heading()}>Overview</h2>
+          </div>
+          <div className="flex gap-3 justify-between py-2 h-32">
             <ThisMonth
               category="Income"
               selectedDate={selectedDate}
@@ -194,17 +180,70 @@ export default function RealtimeDashboard({
               transactions={transactions}
             />
           </div>
+        </div>
+        <div>
           <TotalBalanceChart
             selectedDate={selectedDate}
             transactions={transactions}
           />
-          <div className="sm:hidden">
-            <ExpenseChart
-              budgets={budgets}
+        </div>
+        <div>
+          <ExpenseChart
+            budgets={budgets}
+            selectedDate={selectedDate}
+            transactions={transactions}
+          />
+        </div>
+        <div>
+          <GoalsList
+            goals={goals.sort((a, b) => {
+              if (a.priority === 0) return 1;
+              if (b.priority === 0) return -1;
+
+              return a.priority - b.priority;
+            })}
+          />
+        </div>
+        <div>
+          <h2 className={heading()}>Transactions</h2>
+          <TransactionsList
+            selectedDate={selectedDate}
+            transactions={transactions}
+          />
+        </div>
+      </div>
+
+      {/* md & lg - desktop */}
+      <Content>
+        <div>
+          <div className="h-14 flex items-center mb-1">
+            <h2 className={heading()}>Overview</h2>
+          </div>
+          <div className="flex gap-3 justify-between py-2 h-32">
+            <ThisMonth
+              category="Income"
+              selectedDate={selectedDate}
+              transactions={transactions}
+            />
+            <ThisMonth
+              category="Expenses"
+              selectedDate={selectedDate}
+              transactions={transactions}
+            />
+            <ThisMonth
+              category="Savings"
               selectedDate={selectedDate}
               transactions={transactions}
             />
           </div>
+        </div>
+        <div>
+          <TotalBalanceChart
+            selectedDate={selectedDate}
+            transactions={transactions}
+          />
+        </div>
+        <div>
           <GoalsList
             goals={goals.sort((a, b) => {
               if (a.priority === 0) return 1;
@@ -215,6 +254,28 @@ export default function RealtimeDashboard({
           />
         </div>
       </Content>
+      <Aside>
+        <div className="min-h-14 sticky top-14 z-40">
+          <DateSelector
+            changeDate={handleChangeDate}
+            selectedDate={selectedDate}
+          />
+        </div>
+        <div>
+          <ExpenseChart
+            budgets={budgets}
+            selectedDate={selectedDate}
+            transactions={transactions}
+          />
+        </div>
+        <div>
+          <h2 className={heading()}>Transactions</h2>
+          <TransactionsList
+            selectedDate={selectedDate}
+            transactions={transactions}
+          />
+        </div>
+      </Aside>
     </>
   );
 }

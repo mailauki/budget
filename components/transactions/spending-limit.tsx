@@ -28,6 +28,24 @@ export default function SpendingLimit({
 }) {
   const currencyFormatter = useCurrencyFormatter();
   const spent = getActualTotal({
+    transactions: transactions.filter((item) => item.credit === false),
+    categories: categories.expenses.concat(
+      categories.bills,
+      categories.debt,
+      categories.savings,
+    ),
+    date: selectedDate,
+  });
+  const spentCredit = getActualTotal({
+    transactions: transactions.filter((item) => item.credit === true),
+    categories: categories.expenses.concat(
+      categories.bills,
+      categories.debt,
+      categories.savings,
+    ),
+    date: selectedDate,
+  });
+  const spentTotal = getActualTotal({
     transactions,
     categories: categories.expenses.concat(
       categories.bills,
@@ -66,9 +84,14 @@ export default function SpendingLimit({
           <Progress value={percent} />
           <p className={heading({ variant: "subtitle" })}>{percent || 0}%</p>
         </div>
+        <p className="my-2">
+          <span className={heading({ variant: "tertiary" })}>
+            {currencyFormatter.format(spentCredit)} on credit
+          </span>
+        </p>
       </CardBody>
       <CardFooter>
-        {percent >= 80 && percent !== Infinity && (
+        {percent >= 75 && percent !== Infinity && (
           <Chip
             className="px-2 gap-1"
             color="danger"

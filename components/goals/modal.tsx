@@ -25,7 +25,7 @@ export default function GoalModal() {
       <Button
         className="hidden sm:flex bg-foreground text-background"
         endContent={<BsPlus size={18} />}
-        radius="sm"
+        radius="full"
         onPress={onOpen}
       >
         Add New
@@ -40,7 +40,7 @@ export default function GoalModal() {
             variant="shadow"
             onPress={onOpen}
           >
-            <BsPlus size={18} />
+            <BsPlus size={20} />
           </Button>
         </Tooltip>
       </div>

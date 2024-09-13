@@ -8,12 +8,12 @@ import { createClient } from "@/utils/supabase/client";
 import BudgetsList from "@/components/budget/list";
 import Aside from "@/components/layout/aside";
 import Content from "@/components/layout/content";
-import Header from "@/components/layout/header";
 import LeftToSpend from "@/components/budget/left-to-spend";
 import CashFlowSummary from "@/components/budget/cash-flow";
 import BudgetExpenses from "@/components/budget/expenses-list";
 import DateSelector from "@/components/date/date-selector";
 import ExpenseChart from "@/components/charts/expenses";
+import { heading } from "@/components/primitives";
 
 export default function Budgets({
   serverBudgets,
@@ -105,57 +105,70 @@ export default function Budgets({
 
   return (
     <>
-      <Header>
-        <DateSelector
-          changeDate={handleChangeDate}
-          selectedDate={selectedDate}
-          title="Budgets"
-        />
-      </Header>
-      <Aside>
-        <div className="flex sm:hidden flex-col gap-4">
+      {/* sm - mobile */}
+      <div className="col-span-full sm:hidden flex flex-col gap-3">
+        <div className="min-h-14 sticky top-14 z-40">
+          <DateSelector
+            changeDate={handleChangeDate}
+            selectedDate={selectedDate}
+          />
+        </div>
+        <div>
           <LeftToSpend
             budgets={budgets}
             selectedDate={selectedDate}
             transactions={transactions}
           />
+        </div>
+        <div>
           <ExpenseChart
             budgets={budgets}
             selectedDate={selectedDate}
             transactions={transactions}
           />
         </div>
-        <div className="hidden sm:flex flex-col gap-4">
-          <LeftToSpend
-            budgets={budgets}
-            selectedDate={selectedDate}
-            transactions={transactions}
-          />
-          <ExpenseChart
-            budgets={budgets}
-            selectedDate={selectedDate}
-            transactions={transactions}
-          />
-          <BudgetExpenses
-            budgets={budgets}
-            selectedDate={selectedDate}
-            transactions={transactions}
-          />
+        <div>
+          <div className="h-14 flex items-center mb-1">
+            <h2 className={heading()}>Budgets</h2>
+          </div>
+          <div>
+            <CashFlowSummary
+              budgets={budgets}
+              selectedDate={selectedDate}
+              transactions={transactions}
+            />
+          </div>
+          <div>
+            <BudgetsList
+              budgets={budgets}
+              selectedDate={selectedDate}
+              transactions={transactions}
+            />
+          </div>
+          <div>
+            <BudgetExpenses
+              budgets={budgets}
+              selectedDate={selectedDate}
+              transactions={transactions}
+            />
+          </div>
         </div>
-      </Aside>
+      </div>
+
+      {/* md & lg - desktop */}
       <Content>
-        <div className="flex flex-col gap-4">
-          <CashFlowSummary
-            budgets={budgets}
-            selectedDate={selectedDate}
-            transactions={transactions}
-          />
-          <BudgetsList
-            budgets={budgets}
-            selectedDate={selectedDate}
-            transactions={transactions}
-          />
-          <div className="flex sm:hidden flex-col gap-4">
+        <div>
+          <div className="h-14 flex items-center mb-3">
+            <h2 className={heading()}>Budgets</h2>
+          </div>
+          <div>
+            <BudgetsList
+              budgets={budgets}
+              selectedDate={selectedDate}
+              transactions={transactions}
+            />
+          </div>
+          <div>
             <BudgetExpenses
               budgets={budgets}
               selectedDate={selectedDate}
@@ -164,6 +177,28 @@ export default function Budgets({
           </div>
         </div>
       </Content>
+      <Aside>
+        <div className="min-h-14 sticky top-14 z-40">
+          <DateSelector
+            changeDate={handleChangeDate}
+            selectedDate={selectedDate}
+          />
+        </div>
+        <div>
+          <LeftToSpend
+            budgets={budgets}
+            selectedDate={selectedDate}
+            transactions={transactions}
+          />
+        </div>
+        <div>
+          <CashFlowSummary
+            budgets={budgets}
+            selectedDate={selectedDate}
+            transactions={transactions}
+          />
+        </div>
+      </Aside>
     </>
   );
 }

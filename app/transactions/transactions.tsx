@@ -10,7 +10,6 @@ import Aside from "@/components/layout/aside";
 import Content from "@/components/layout/content";
 import DateSelector from "@/components/date/date-selector";
 import SpendingLimit from "@/components/transactions/spending-limit";
-import TransactionModal from "@/components/transactions/modal";
 import { heading } from "@/components/primitives";
 import ExpenseChart from "@/components/charts/expenses";
 
@@ -104,20 +103,63 @@ export default function RealtimeTransactions({
 
   return (
     <>
-      <Aside>
-        <div className="flex flex-col gap-4">
-          <div className="flex sm:hidden">
-            <DateSelector
-              changeDate={handleChangeDate}
-              endContent={<TransactionModal />}
-              selectedDate={selectedDate}
-            />
-          </div>
+      <div className="col-span-full sm:hidden flex flex-col gap-3">
+        <div className="min-h-14 sticky top-14 z-40">
+          <DateSelector
+            changeDate={handleChangeDate}
+            selectedDate={selectedDate}
+          />
+        </div>
+        <div>
           <SpendingLimit
             budgets={budgets}
             selectedDate={selectedDate}
             transactions={transactions}
           />
+        </div>
+        <div>
+          <ExpenseChart
+            budgets={budgets}
+            selectedDate={selectedDate}
+            transactions={transactions}
+          />
+        </div>
+        <div>
+          <h2 className={heading()}>Transactions</h2>
+          <TransactionsList
+            selectedDate={selectedDate}
+            transactions={transactions}
+          />
+        </div>
+      </div>
+
+      {/* md & lg - desktop */}
+      <Content>
+        <div>
+          <div className="h-14 flex items-center mb-1">
+            <h2 className={heading()}>Transactions</h2>
+          </div>
+          <TransactionsList
+            selectedDate={selectedDate}
+            transactions={transactions}
+          />
+        </div>
+      </Content>
+      <Aside>
+        <div className="min-h-14 sticky top-14 z-40">
+          <DateSelector
+            changeDate={handleChangeDate}
+            selectedDate={selectedDate}
+          />
+        </div>
+        <div>
+          <SpendingLimit
+            budgets={budgets}
+            selectedDate={selectedDate}
+            transactions={transactions}
+          />
+        </div>
+        <div>
           <ExpenseChart
             budgets={budgets}
             selectedDate={selectedDate}
@@ -125,23 +167,6 @@ export default function RealtimeTransactions({
           />
         </div>
       </Aside>
-      <Content>
-        <div className="hidden sm:flex">
-          <DateSelector
-            changeDate={handleChangeDate}
-            endContent={<TransactionModal />}
-            selectedDate={selectedDate}
-            title="Transactions"
-          />
-        </div>
-        <div className="flex sm:hidden">
-          <h2 className={heading()}>Transactions</h2>
-        </div>
-        <TransactionsList
-          selectedDate={selectedDate}
-          transactions={transactions}
-        />
-      </Content>
     </>
   );
 }

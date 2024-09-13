@@ -13,7 +13,7 @@ export default function GoalsList({ goals }: { goals: Goal[] }) {
 
   return (
     <div className="w-full relative">
-      <Tabs aria-label="Options">
+      <Tabs aria-label="Options" radius="full">
         <Tab key="active" title="Active">
           {active.length === 0 ? (
             <Listbox emptyContent="No goals added yet">{[]}</Listbox>

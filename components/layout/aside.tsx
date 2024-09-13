@@ -1,7 +1,7 @@
 export default function Aside({ children }: { children: React.ReactNode }) {
   return (
-    <section className="md:col-span-4 order-1 md:order-last">
-      {children}
-    </section>
+    <div className="col-span-12 md:col-span-5 hidden sm:block">
+      <div className="flex flex-col gap-3">{children}</div>
+    </div>
   );
 }

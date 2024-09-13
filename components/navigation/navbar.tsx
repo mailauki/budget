@@ -21,7 +21,7 @@ import { ThemeSwitch } from "@/components/theme-switch";
 import { Logo } from "@/components/icons";
 import { siteConfig } from "@/config/site";
 
-export function Navbar({ children }: { children: React.ReactNode }) {
+export function Navbar({ user }: { user?: React.ReactNode }) {
   const path = usePathname();
 
   return (
@@ -45,6 +45,7 @@ export function Navbar({ children }: { children: React.ReactNode }) {
     //   </NavbarContent>
     // </NextUINavbar>
     <NextUINavbar maxWidth="xl" position="sticky">
+      {/* large - desktop */}
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
@@ -71,16 +72,18 @@ export function Navbar({ children }: { children: React.ReactNode }) {
         </ul>
       </NavbarContent>
 
+      {/* medium */}
       <NavbarContent
         className="hidden sm:flex basis-1/5 sm:basis-full"
         justify="end"
       >
         <NavbarItem className="hidden sm:flex gap-2">
           <ThemeSwitch />
-          {children}
+          {user}
         </NavbarItem>
       </NavbarContent>
 
+      {/* small - mobile */}
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
         <ThemeSwitch />
         <NavbarMenuToggle />

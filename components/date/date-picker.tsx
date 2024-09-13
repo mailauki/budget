@@ -39,12 +39,7 @@ export default function DatePicker({
 
   return (
     <>
-      <ButtonGroup
-        className="w-full sm:w-[200px]"
-        radius="full"
-        size="sm"
-        variant="solid"
-      >
+      <ButtonGroup className="w-full" radius="full" variant="solid">
         <Button
           isIconOnly
           className="bg-foreground text-background"

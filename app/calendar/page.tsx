@@ -21,6 +21,9 @@ export default function CalendarPage() {
 
   return (
     <>
+      <Content>
+        <p>{selectedDate.toString()}</p>
+      </Content>
       <Aside>
         <div className="flex flex-col items-center gap-3">
           <Card
@@ -54,9 +57,6 @@ export default function CalendarPage() {
           />
         </div>
       </Aside>
-      <Content>
-        <p>{selectedDate.toString()}</p>
-      </Content>
     </>
   );
 }

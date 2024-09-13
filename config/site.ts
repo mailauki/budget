@@ -5,10 +5,6 @@ export const siteConfig = {
   description: "Make a budget and track your expenses.",
   navItems: [
     {
-      label: "Dashboard",
-      href: "/dashboard",
-    },
-    {
       label: "Transactions",
       href: "/transactions",
     },
@@ -25,10 +21,6 @@ export const siteConfig = {
     {
       label: "Overview",
       href: "/",
-    },
-    {
-      label: "Dashboard",
-      href: "/dashboard",
     },
     {
       label: "Transactions",
@@ -49,10 +41,6 @@ export const siteConfig = {
     {
       label: "Settings",
       href: "/settings",
-    },
-    {
-      label: "Help & Feedback",
-      href: "/help-feedback",
     },
   ],
   links: {

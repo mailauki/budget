@@ -13,11 +13,15 @@ import {
 import { BsPlus } from "react-icons/bs";
 import React from "react";
 
-import GoalForm from "./form";
+import { editGoal, editTransaction } from "@/db/actions";
 
-import { editGoal } from "@/db/actions";
-
-export default function GoalModal() {
+export default function FormModal({
+  formType,
+  children,
+}: {
+  formType: string;
+  children: React.ReactNode;
+}) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
@@ -30,7 +34,7 @@ export default function GoalModal() {
       >
         Add New
       </Button>
-      <div className="fixed sm:hidden bottom-0 right-0 m-6 z-50">
+      <div className="fixed sm:hidden bottom-0 right-0 m-6 z-20">
         <Tooltip content="Add New">
           <Button
             isIconOnly
@@ -44,16 +48,19 @@ export default function GoalModal() {
           </Button>
         </Tooltip>
       </div>
-      <Modal isOpen={isOpen} radius="sm" onOpenChange={onOpenChange}>
+      <Modal
+        isOpen={isOpen}
+        placement="top-center"
+        radius="sm"
+        onOpenChange={onOpenChange}
+      >
         <ModalContent>
           {(onClose) => (
-            <form action={editGoal}>
+            <form action={formType === "goal" ? editGoal : editTransaction}>
               <ModalHeader className="flex flex-col gap-1">
-                Add new goal
+                Add new {formType}
               </ModalHeader>
-              <ModalBody>
-                <GoalForm />
-              </ModalBody>
+              <ModalBody>{children}</ModalBody>
               <ModalFooter>
                 <Button radius="sm" variant="bordered" onPress={onClose}>
                   Close

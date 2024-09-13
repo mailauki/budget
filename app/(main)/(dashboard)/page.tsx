@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import Overview from "./overview";
 
 import { createClient } from "@/utils/supabase/server";
@@ -9,10 +11,12 @@ export default async function DashboardPage() {
   const { data: goals } = await supabase.from("goals").select();
 
   return (
-    <Overview
-      serverBudgets={budgets ?? []}
-      serverGoals={goals ?? []}
-      serverTransactions={transactions ?? []}
-    />
+    <Suspense fallback={<p>Loading...</p>}>
+      <Overview
+        serverBudgets={budgets ?? []}
+        serverGoals={goals ?? []}
+        serverTransactions={transactions ?? []}
+      />
+    </Suspense>
   );
 }

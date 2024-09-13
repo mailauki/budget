@@ -68,6 +68,20 @@ export default function RealtimeGoals({
 
   return (
     <>
+      {/* sm - mobile */}
+      <div className="col-span-full flex sm:hidden flex-col gap-3">
+        <TotalProgress goals={goals} />
+        <GoalsList
+          goals={goals.sort((a, b) => {
+            if (a.priority === 0) return 1;
+            if (b.priority === 0) return -1;
+
+            return a.priority - b.priority;
+          })}
+        />
+      </div>
+
+      {/* md & lg - desktop */}
       <Content>
         <GoalsList
           goals={goals.sort((a, b) => {

@@ -7,9 +7,9 @@ export default function NavUser({ user }: { user: User }) {
   return (
     <Avatar
       isBordered
+      showFallback
+      alt={user.user_metadata.name}
       className="transition-transform"
-      color="primary"
-      name={user.user_metadata.name}
       size="sm"
       src={user.user_metadata.avatar_url}
     />

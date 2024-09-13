@@ -50,7 +50,6 @@ export default async function RootLayout({
           <div className="relative flex flex-col h-screen">
             <Navbar user={user && <NavUser user={user} />} />
             <main className="container mx-auto max-w-7xl py-3 px-6 flex-grow">
-              {/* <NavSidebar>{children}</NavSidebar> */}
               {children}
             </main>
             <footer className="w-full flex items-center justify-center py-3">

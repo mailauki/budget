@@ -5,17 +5,17 @@ import moment from "moment";
 
 import { Budget, Transaction } from "@/types";
 import { createClient } from "@/utils/supabase/client";
-import BudgetsList from "@/components/budget/list";
+import TransactionsList from "@/components/transactions/list";
 import Aside from "@/components/layout/aside";
 import Content from "@/components/layout/content";
-import LeftToSpend from "@/components/budget/left-to-spend";
-import CashFlowSummary from "@/components/budget/cash-flow";
-import BudgetExpenses from "@/components/budget/expenses-list";
 import DateSelector from "@/components/date/date-selector";
-import ExpenseChart from "@/components/charts/expenses";
+import SpendingLimit from "@/components/transactions/spending-limit";
 import { heading } from "@/components/primitives";
+import ExpenseChart from "@/components/charts/expenses";
+import TransactionForm from "@/components/transactions/form";
+import FormModal from "@/components/modal";
 
-export default function Budgets({
+export default function RealtimeTransactions({
   serverBudgets,
   serverTransactions,
 }: {
@@ -35,6 +35,10 @@ export default function Budgets({
   }, [serverBudgets]);
 
   React.useEffect(() => {
+    setTransactions(serverTransactions);
+  }, [serverTransactions]);
+
+  React.useEffect(() => {
     const channel = supabase
       .channel("realtime-budgets")
       .on(
@@ -52,10 +56,6 @@ export default function Budgets({
       supabase.removeChannel(channel);
     };
   }, [serverBudgets]);
-
-  React.useEffect(() => {
-    setTransactions(serverTransactions);
-  }, [serverTransactions]);
 
   React.useEffect(() => {
     const channel = supabase
@@ -106,15 +106,15 @@ export default function Budgets({
   return (
     <>
       {/* sm - mobile */}
-      <div className="col-span-full sm:hidden flex flex-col gap-3">
-        <div className="min-h-14 sticky top-14 z-40">
+      <div className="col-span-full flex sm:hidden flex-col gap-3">
+        <div className="min-h-14 sticky top-14 z-20">
           <DateSelector
             changeDate={handleChangeDate}
             selectedDate={selectedDate}
           />
         </div>
         <div>
-          <LeftToSpend
+          <SpendingLimit
             budgets={budgets}
             selectedDate={selectedDate}
             transactions={transactions}
@@ -128,53 +128,32 @@ export default function Budgets({
           />
         </div>
         <div>
-          <div className="h-14 flex items-center mb-1">
-            <h2 className={heading()}>Budgets</h2>
+          <div className="h-14 flex items-center justify-between mb-1">
+            <h2 className={heading()}>Transactions</h2>
+            <FormModal formType="transaction">
+              <TransactionForm />
+            </FormModal>
           </div>
-          <div>
-            <CashFlowSummary
-              budgets={budgets}
-              selectedDate={selectedDate}
-              transactions={transactions}
-            />
-          </div>
-          <div>
-            <BudgetsList
-              budgets={budgets}
-              selectedDate={selectedDate}
-              transactions={transactions}
-            />
-          </div>
-          <div>
-            <BudgetExpenses
-              budgets={budgets}
-              selectedDate={selectedDate}
-              transactions={transactions}
-            />
-          </div>
+          <TransactionsList
+            selectedDate={selectedDate}
+            transactions={transactions}
+          />
         </div>
       </div>
 
       {/* md & lg - desktop */}
       <Content>
         <div>
-          <div className="h-14 flex items-center mb-3">
-            <h2 className={heading()}>Budgets</h2>
+          <div className="h-14 flex items-center justify-between mb-1">
+            <h2 className={heading()}>Transactions</h2>
+            <FormModal formType="transaction">
+              <TransactionForm />
+            </FormModal>
           </div>
-          <div>
-            <BudgetsList
-              budgets={budgets}
-              selectedDate={selectedDate}
-              transactions={transactions}
-            />
-          </div>
-          <div>
-            <BudgetExpenses
-              budgets={budgets}
-              selectedDate={selectedDate}
-              transactions={transactions}
-            />
-          </div>
+          <TransactionsList
+            selectedDate={selectedDate}
+            transactions={transactions}
+          />
         </div>
       </Content>
       <Aside>
@@ -185,14 +164,14 @@ export default function Budgets({
           />
         </div>
         <div>
-          <LeftToSpend
+          <SpendingLimit
             budgets={budgets}
             selectedDate={selectedDate}
             transactions={transactions}
           />
         </div>
         <div>
-          <CashFlowSummary
+          <ExpenseChart
             budgets={budgets}
             selectedDate={selectedDate}
             transactions={transactions}

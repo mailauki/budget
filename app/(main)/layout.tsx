@@ -1,8 +1,6 @@
-"use client";
+import NavList from "@/components/navigation/list";
 
-import NavList from "../navigation/list";
-
-export default function LayoutWrapper({
+export default function DashboardLayout({
   children,
 }: {
   children?: React.ReactNode;
@@ -23,15 +21,10 @@ export default function LayoutWrapper({
         </div>
       </div>
 
-      {/* md - desktop */}
+      {/* md & sm - mobile */}
       <div className="grid lg:hidden grid-cols-12 auto-rows-auto grid-flow-row-dense gap-3">
         {children}
       </div>
-
-      {/* sm - mobile */}
-      {/* <div className="grid sm:hidden grid-cols-1 auto-rows-auto grid-flow-row-dense gap-3">
-        {children}
-      </div> */}
     </>
   );
 }

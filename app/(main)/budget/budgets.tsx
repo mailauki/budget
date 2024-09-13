@@ -3,32 +3,29 @@
 import React from "react";
 import moment from "moment";
 
-import { Budget, Goal, Transaction } from "@/types";
+import { Budget, Transaction } from "@/types";
 import { createClient } from "@/utils/supabase/client";
-import TransactionsList from "@/components/transactions/list";
+import BudgetsList from "@/components/budget/list";
 import Aside from "@/components/layout/aside";
 import Content from "@/components/layout/content";
+import LeftToSpend from "@/components/budget/left-to-spend";
+import CashFlowSummary from "@/components/charts/cash-flow";
+import BudgetExpenses from "@/components/budget/expenses-list";
 import DateSelector from "@/components/date/date-selector";
-import { heading } from "@/components/primitives";
 import ExpenseChart from "@/components/charts/expenses";
-import ThisMonth from "@/components/dashboard/this-month-card";
-import TotalBalanceChart from "@/components/charts/total-balance";
-import GoalsList from "@/components/dashboard/goals";
+import { heading } from "@/components/primitives";
 
-export default function RealtimeDashboard({
+export default function Budgets({
   serverBudgets,
   serverTransactions,
-  serverGoals,
 }: {
   serverBudgets: Budget[];
   serverTransactions: Transaction[];
-  serverGoals: Goal[];
 }) {
   const supabase = createClient();
 
   const [budgets, setBudgets] = React.useState(serverBudgets);
   const [transactions, setTransactions] = React.useState(serverTransactions);
-  const [goals, setGoals] = React.useState(serverGoals);
   const [selectedDate, setSelectedDate] = React.useState(
     moment().format("YYYY-MM"),
   );
@@ -36,14 +33,6 @@ export default function RealtimeDashboard({
   React.useEffect(() => {
     setBudgets(serverBudgets);
   }, [serverBudgets]);
-
-  React.useEffect(() => {
-    setTransactions(serverTransactions);
-  }, [serverTransactions]);
-
-  React.useEffect(() => {
-    setGoals(serverGoals);
-  }, [serverGoals]);
 
   React.useEffect(() => {
     const channel = supabase
@@ -63,6 +52,10 @@ export default function RealtimeDashboard({
       supabase.removeChannel(channel);
     };
   }, [serverBudgets]);
+
+  React.useEffect(() => {
+    setTransactions(serverTransactions);
+  }, [serverTransactions]);
 
   React.useEffect(() => {
     const channel = supabase
@@ -106,45 +99,6 @@ export default function RealtimeDashboard({
     };
   }, [serverTransactions]);
 
-  React.useEffect(() => {
-    const channel = supabase
-      .channel("realtime-goals")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "goals",
-        },
-        (payload) => {
-          const eventType = payload.eventType;
-
-          if (eventType === "INSERT") {
-            setGoals((goals: Goal[]) => [...goals, payload.new as Goal]);
-          }
-
-          if (eventType === "UPDATE") {
-            setGoals(
-              goals.map((goal) =>
-                goal.id === payload.new.id ? (payload.new as Goal) : goal,
-              ),
-            );
-          }
-
-          if (eventType === "DELETE") {
-            setGoals(
-              goals.filter((goal) => goal.id !== payload.old.id ?? goal),
-            );
-          }
-        },
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [serverGoals]);
-
   function handleChangeDate(date: string) {
     setSelectedDate(date);
   }
@@ -152,7 +106,7 @@ export default function RealtimeDashboard({
   return (
     <>
       {/* sm - mobile */}
-      <div className="col-span-full sm:hidden flex flex-col gap-3">
+      <div className="col-span-full flex sm:hidden flex-col gap-3">
         <div className="min-h-14 sticky top-14 z-40">
           <DateSelector
             changeDate={handleChangeDate}
@@ -160,29 +114,8 @@ export default function RealtimeDashboard({
           />
         </div>
         <div>
-          <div className="h-14 flex items-center mb-1">
-            <h2 className={heading()}>Overview</h2>
-          </div>
-          <div className="flex gap-3 justify-between py-2 h-32">
-            <ThisMonth
-              category="Income"
-              selectedDate={selectedDate}
-              transactions={transactions}
-            />
-            <ThisMonth
-              category="Expenses"
-              selectedDate={selectedDate}
-              transactions={transactions}
-            />
-            <ThisMonth
-              category="Savings"
-              selectedDate={selectedDate}
-              transactions={transactions}
-            />
-          </div>
-        </div>
-        <div>
-          <TotalBalanceChart
+          <LeftToSpend
+            budgets={budgets}
             selectedDate={selectedDate}
             transactions={transactions}
           />
@@ -195,63 +128,53 @@ export default function RealtimeDashboard({
           />
         </div>
         <div>
-          <GoalsList
-            goals={goals.sort((a, b) => {
-              if (a.priority === 0) return 1;
-              if (b.priority === 0) return -1;
-
-              return a.priority - b.priority;
-            })}
-          />
-        </div>
-        <div>
-          <h2 className={heading()}>Transactions</h2>
-          <TransactionsList
-            selectedDate={selectedDate}
-            transactions={transactions}
-          />
+          <div className="h-14 flex items-center mb-1">
+            <h2 className={heading()}>Budgets</h2>
+          </div>
+          <div>
+            <CashFlowSummary
+              budgets={budgets}
+              selectedDate={selectedDate}
+              transactions={transactions}
+            />
+          </div>
+          <div>
+            <BudgetsList
+              budgets={budgets}
+              selectedDate={selectedDate}
+              transactions={transactions}
+            />
+          </div>
+          <div>
+            <BudgetExpenses
+              budgets={budgets}
+              selectedDate={selectedDate}
+              transactions={transactions}
+            />
+          </div>
         </div>
       </div>
 
       {/* md & lg - desktop */}
       <Content>
         <div>
-          <div className="h-14 flex items-center mb-1">
-            <h2 className={heading()}>Overview</h2>
+          <div className="h-14 flex items-center mb-3">
+            <h2 className={heading()}>Budgets</h2>
           </div>
-          <div className="flex gap-3 justify-between py-2 h-32">
-            <ThisMonth
-              category="Income"
-              selectedDate={selectedDate}
-              transactions={transactions}
-            />
-            <ThisMonth
-              category="Expenses"
-              selectedDate={selectedDate}
-              transactions={transactions}
-            />
-            <ThisMonth
-              category="Savings"
+          <div>
+            <BudgetsList
+              budgets={budgets}
               selectedDate={selectedDate}
               transactions={transactions}
             />
           </div>
-        </div>
-        <div>
-          <TotalBalanceChart
-            selectedDate={selectedDate}
-            transactions={transactions}
-          />
-        </div>
-        <div>
-          <GoalsList
-            goals={goals.sort((a, b) => {
-              if (a.priority === 0) return 1;
-              if (b.priority === 0) return -1;
-
-              return a.priority - b.priority;
-            })}
-          />
+          <div>
+            <BudgetExpenses
+              budgets={budgets}
+              selectedDate={selectedDate}
+              transactions={transactions}
+            />
+          </div>
         </div>
       </Content>
       <Aside>
@@ -262,15 +185,15 @@ export default function RealtimeDashboard({
           />
         </div>
         <div>
-          <ExpenseChart
+          <LeftToSpend
             budgets={budgets}
             selectedDate={selectedDate}
             transactions={transactions}
           />
         </div>
         <div>
-          <h2 className={heading()}>Transactions</h2>
-          <TransactionsList
+          <CashFlowSummary
+            budgets={budgets}
             selectedDate={selectedDate}
             transactions={transactions}
           />

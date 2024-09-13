@@ -1,7 +1,9 @@
 import { Listbox, Tab, Tabs } from "@nextui-org/react";
 
+import FormModal from "../modal";
+
 import GoalCard from "./card";
-import GoalModal from "./modal";
+import GoalForm from "./form";
 
 import { Goal } from "@/types";
 
@@ -38,7 +40,9 @@ export default function GoalsList({ goals }: { goals: Goal[] }) {
         </Tab>
       </Tabs>
       <div className="absolute top-0 right-0">
-        <GoalModal />
+        <FormModal formType="goal">
+          <GoalForm />
+        </FormModal>
       </div>
     </div>
   );

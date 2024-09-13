@@ -129,6 +129,7 @@ export default function TransactionsList({
                         {accountingFormatter.format(item.amount)}
                       </div>
                     }
+                    isReadOnly={Boolean(pathname !== "/transactions")}
                     startContent={
                       <div className="pr-2">
                         <Brand transaction={item} />

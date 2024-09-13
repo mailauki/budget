@@ -110,8 +110,8 @@ export default function CashFlowSummary({
         />
       </CardBody>
       <CardFooter>
-        <Switch onChange={() => setShowComparison(!showComparison)}>
-          Show budget
+        <Switch size="sm" onChange={() => setShowComparison(!showComparison)}>
+          {showComparison ? "Hide" : "Show"} budget
         </Switch>
       </CardFooter>
     </Card>

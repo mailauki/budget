@@ -102,6 +102,7 @@ export function Navbar({ user }: { user?: React.ReactNode }) {
               </Link>
             </NavbarMenuItem>
           ))}
+          <Logout />
         </div>
       </NavbarMenu>
     </NextUINavbar>

@@ -11,9 +11,10 @@ import Content from "@/components/layout/content";
 import DateSelector from "@/components/date/date-selector";
 import SpendingLimit from "@/components/transactions/spending-limit";
 import { heading } from "@/components/primitives";
-import ExpenseChart from "@/components/charts/expenses";
 import TransactionForm from "@/components/transactions/form";
 import FormModal from "@/components/modal";
+import AllocationChart from "@/components/charts/allocation";
+import ExpenseChart from "@/components/charts/expense";
 
 export default function RealtimeTransactions({
   serverBudgets,
@@ -122,6 +123,12 @@ export default function RealtimeTransactions({
         </div>
         <div>
           <ExpenseChart
+            selectedDate={selectedDate}
+            transactions={transactions}
+          />
+        </div>
+        <div>
+          <AllocationChart
             budgets={budgets}
             selectedDate={selectedDate}
             transactions={transactions}
@@ -179,6 +186,12 @@ export default function RealtimeTransactions({
         </div>
         <div>
           <ExpenseChart
+            selectedDate={selectedDate}
+            transactions={transactions}
+          />
+        </div>
+        <div>
+          <AllocationChart
             budgets={budgets}
             selectedDate={selectedDate}
             transactions={transactions}

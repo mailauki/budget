@@ -2,13 +2,7 @@
 
 import React from "react";
 import { BarChart } from "@tremor/react";
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Switch,
-} from "@nextui-org/react";
+import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 
 import { Budget, Transaction } from "@/types";
 import { categories } from "@/utils/categories";
@@ -25,7 +19,7 @@ export default function CashFlowSummary({
   selectedDate: string;
 }) {
   const currencyFormatter = useCurrencyFormatter();
-  const [showComparison, setShowComparison] = React.useState(false);
+  // const [showComparison, setShowComparison] = React.useState(false);
 
   const expensesData = [
     {
@@ -84,17 +78,28 @@ export default function CashFlowSummary({
 
   return (
     <Card radius="sm">
-      <CardHeader>
-        <p>Cash flow summary</p>
-      </CardHeader>
+      <CardHeader>Cash flow summary</CardHeader>
       <CardBody className="px-6">
         <BarChart
+          aria-label="Cash flow chart"
+          categories={["Budget", "Actual"]}
+          colors={["cyan", "blue"]}
+          data={expensesData}
+          index="name"
+          layout="vertical"
+          showGridLines={false}
+          showXAxis={false}
+          valueFormatter={(amount) => currencyFormatter.format(amount)}
+          yAxisWidth={60}
+        />
+        {/* <BarChart
           aria-label="Cash flow chart"
           categories={showComparison ? ["Budget", "Actual"] : ["Actual"]}
           className="mt-6 hidden h-60 sm:block"
           colors={showComparison ? ["cyan", "blue"] : ["blue"]}
           data={expensesData}
           index="name"
+          layout="vertical"
           valueFormatter={(amount) => currencyFormatter.format(amount)}
           yAxisWidth={50}
         />
@@ -105,14 +110,15 @@ export default function CashFlowSummary({
           colors={showComparison ? ["cyan", "blue"] : ["blue"]}
           data={expensesData}
           index="name"
+          layout="vertical"
           showYAxis={false}
           valueFormatter={(amount) => currencyFormatter.format(amount)}
-        />
+        /> */}
       </CardBody>
       <CardFooter>
-        <Switch size="sm" onChange={() => setShowComparison(!showComparison)}>
+        {/* <Switch size="sm" onChange={() => setShowComparison(!showComparison)}>
           {showComparison ? "Hide" : "Show"} budget
-        </Switch>
+        </Switch> */}
       </CardFooter>
     </Card>
   );

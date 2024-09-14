@@ -12,8 +12,8 @@ import LeftToSpend from "@/components/budget/left-to-spend";
 import CashFlowSummary from "@/components/charts/cash-flow";
 import BudgetExpenses from "@/components/budget/expenses-list";
 import DateSelector from "@/components/date/date-selector";
-import ExpenseChart from "@/components/charts/expenses";
 import { heading } from "@/components/primitives";
+import AllocationChart from "@/components/charts/allocation";
 
 export default function Budgets({
   serverBudgets,
@@ -121,7 +121,7 @@ export default function Budgets({
           />
         </div>
         <div>
-          <ExpenseChart
+          <AllocationChart
             budgets={budgets}
             selectedDate={selectedDate}
             transactions={transactions}

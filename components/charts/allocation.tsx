@@ -7,7 +7,7 @@ import { getCategoryColor } from "@/utils/colors";
 import { useCurrencyFormatter } from "@/utils/formatters";
 import { getActualTotal, getBudgetTotal } from "@/utils/helpers";
 
-export default function ExpenseChart({
+export default function AllocationChart({
   budgets,
   transactions,
   selectedDate,

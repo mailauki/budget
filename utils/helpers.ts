@@ -19,6 +19,15 @@ export function getDatesBetween(
   return dates;
 }
 
+export function getDates(transactions: Transaction[]) {
+  return Array.from(
+    new Set(Array.from(transactions.flatMap(({ date }) => date as string))),
+  ).sort(
+    (date1, date2) =>
+      new Date(`${date2}`).getTime() - new Date(`${date1}`).getTime(),
+  );
+}
+
 export function getBudgetBalance({
   budgets,
   date,

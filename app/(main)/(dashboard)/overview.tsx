@@ -10,10 +10,10 @@ import Aside from "@/components/layout/aside";
 import Content from "@/components/layout/content";
 import DateSelector from "@/components/date/date-selector";
 import { heading } from "@/components/primitives";
-import ExpenseChart from "@/components/charts/expenses";
 import ThisMonth from "@/components/dashboard/this-month-card";
 import TotalBalanceChart from "@/components/charts/total-balance";
 import GoalsList from "@/components/dashboard/goals";
+import AllocationChart from "@/components/charts/allocation";
 
 export default function RealtimeDashboard({
   serverBudgets,
@@ -188,7 +188,7 @@ export default function RealtimeDashboard({
           />
         </div>
         <div>
-          <ExpenseChart
+          <AllocationChart
             budgets={budgets}
             selectedDate={selectedDate}
             transactions={transactions}
@@ -262,7 +262,7 @@ export default function RealtimeDashboard({
           />
         </div>
         <div>
-          <ExpenseChart
+          <AllocationChart
             budgets={budgets}
             selectedDate={selectedDate}
             transactions={transactions}

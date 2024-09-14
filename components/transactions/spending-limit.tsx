@@ -45,15 +45,15 @@ export default function SpendingLimit({
     ),
     date: selectedDate,
   });
-  const spentTotal = getActualTotal({
-    transactions,
-    categories: categories.expenses.concat(
-      categories.bills,
-      categories.debt,
-      categories.savings,
-    ),
-    date: selectedDate,
-  });
+  // const spentTotal = getActualTotal({
+  //   transactions,
+  //   categories: categories.expenses.concat(
+  //     categories.bills,
+  //     categories.debt,
+  //     categories.savings,
+  //   ),
+  //   date: selectedDate,
+  // });
   // const income = getActualTotal({
   //   transactions,
   //   categories: categories.income,
@@ -97,7 +97,7 @@ export default function SpendingLimit({
             color="danger"
             size="sm"
             startContent={<BsExclamationCircle size={14} />}
-            variant="flat"
+            variant="light"
           >
             Your spending has almost reached the limit.
           </Chip>

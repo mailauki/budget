@@ -14,6 +14,7 @@ import TransactionCard from "./card";
 
 import { Transaction } from "@/types";
 import { useDateMediumFormatter } from "@/utils/formatters";
+import { getDates } from "@/utils/helpers";
 
 export default function TransactionsList({
   transactions,
@@ -26,14 +27,7 @@ export default function TransactionsList({
   const [dates, setDates] = React.useState<string[]>([]);
 
   React.useEffect(() => {
-    setDates(
-      Array.from(
-        new Set(Array.from(transactions.flatMap(({ date }) => date as string))),
-      ).sort(
-        (date1, date2) =>
-          new Date(`${date2}`).getTime() - new Date(`${date1}`).getTime(),
-      ),
-    );
+    setDates(getDates(transactions));
   }, [transactions]);
 
   if (

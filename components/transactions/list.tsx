@@ -6,31 +6,14 @@ import {
   isSameMonth,
   getLocalTimeZone,
 } from "@internationalized/date";
-import { Listbox, ListboxItem, ListboxSection } from "@nextui-org/listbox";
-import { BsCreditCard2Front } from "react-icons/bs";
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  useDisclosure,
-} from "@nextui-org/react";
-import { usePathname } from "next/navigation";
+import { Listbox } from "@nextui-org/listbox";
 
 import { heading } from "../primitives";
 
-import Brand from "./brand";
-import TransactionForm from "./form";
+import TransactionCard from "./card";
 
 import { Transaction } from "@/types";
-import { categories } from "@/utils/categories";
-import {
-  useAccountingFormatter,
-  useDateMediumFormatter,
-} from "@/utils/formatters";
-import { editTransaction } from "@/db/actions";
+import { useDateMediumFormatter } from "@/utils/formatters";
 
 export default function TransactionsList({
   transactions,
@@ -39,18 +22,8 @@ export default function TransactionsList({
   transactions: Transaction[];
   selectedDate: string;
 }) {
-  const pathname = usePathname();
   const dateMediumFormatter = useDateMediumFormatter();
-  const accountingFormatter = useAccountingFormatter();
   const [dates, setDates] = React.useState<string[]>([]);
-  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
-  const [openItem, setOpenItem] = React.useState<Transaction>();
-
-  function handleOpen(item: Transaction) {
-    setOpenItem(item);
-    // setOpenItem(transactions.find(({ id }) => id === item.id));
-    onOpen();
-  }
 
   React.useEffect(() => {
     setDates(
@@ -90,89 +63,26 @@ export default function TransactionsList({
 
   return (
     <>
-      <Listbox aria-label="List of transactions" variant="flat">
+      <div className="flex flex-col gap-3 my-3">
         {dates
           .filter((date) =>
             isSameMonth(parseDate(date), parseDate(`${selectedDate}-01`)),
           )
           .map((date) => (
-            <ListboxSection
-              key={date}
-              className="mt-3"
-              classNames={{
-                heading: heading({ variant: "secondary" }),
-                group: "mt-1",
-              }}
-              title={dateMediumFormatter.format(
-                parseDate(`${date}`).toDate(getLocalTimeZone()),
-              )}
-            >
+            <div key={date} className="flex flex-col">
+              <h3 className={heading({ variant: "secondary" })}>
+                {dateMediumFormatter.format(
+                  parseDate(`${date}`).toDate(getLocalTimeZone()),
+                )}
+              </h3>
               {transactions
                 .filter((item) => item.date === date)
                 .map((item) => (
-                  <ListboxItem
-                    key={`${item.id}-${item.name}`}
-                    classNames={{
-                      title: `${item.credit && <BsCreditCard2Front />}`,
-                    }}
-                    description={`${item.category} • ${item.category_label}`}
-                    endContent={
-                      <div
-                        className={`${
-                          categories.income.find(({ labels }) =>
-                            labels.find(
-                              ({ name }) => name == item.category_label,
-                            ),
-                          ) && "text-green-600 dark:text-green-400"
-                        }`}
-                      >
-                        {accountingFormatter.format(item.amount)}
-                      </div>
-                    }
-                    isReadOnly={Boolean(pathname !== "/transactions")}
-                    startContent={
-                      <div className="pr-2">
-                        <Brand transaction={item} />
-                      </div>
-                    }
-                    title={item.name}
-                    onPress={() => (pathname == "/" ? null : handleOpen(item))}
-                  />
+                  <TransactionCard key={item.id} item={item} />
                 ))}
-            </ListboxSection>
+            </div>
           ))}
-      </Listbox>
-      <Modal
-        isOpen={isOpen}
-        radius="sm"
-        onClose={onClose}
-        onOpenChange={onOpenChange}
-      >
-        <ModalContent action={editTransaction} as="form">
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                {openItem?.name} transaction
-              </ModalHeader>
-              <ModalBody>{<TransactionForm item={openItem} />}</ModalBody>
-              <ModalFooter>
-                <Button radius="sm" variant="bordered" onPress={onClose}>
-                  Close
-                </Button>
-                <Button
-                  className="bg-foreground text-background"
-                  color="primary"
-                  radius="sm"
-                  type="submit"
-                  onPress={onClose}
-                >
-                  Update
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      </div>
     </>
   );
 }

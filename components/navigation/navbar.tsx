@@ -14,43 +14,24 @@ import { link as linkStyles } from "@nextui-org/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
+import { BsFillLayersFill } from "react-icons/bs";
 
 import Logout from "../logout-link";
 
 import { ThemeSwitch } from "@/components/theme-switch";
-import { Logo } from "@/components/icons";
 import { siteConfig } from "@/config/site";
 
 export function Navbar({ user }: { user?: React.ReactNode }) {
   const path = usePathname();
 
   return (
-    // <NextUINavbar maxWidth="xl" position="sticky">
-    //   <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
-    //     <NavbarBrand>
-    //       <Link className="flex justify-start items-center gap-1" href="/">
-    //         <Logo />
-    //         <p className="font-bold text-inherit">ACME</p>
-    //       </Link>
-    //     </NavbarBrand>
-    //   </NavbarContent>
-
-    //   <NavbarContent className="hidden sm:flex gap-4" justify="center">
-    //     <NavLinks />
-    //   </NavbarContent>
-
-    //   <NavbarContent as="div" justify="end">
-    //     <ThemeSwitch />
-    //     {children}
-    //   </NavbarContent>
-    // </NextUINavbar>
     <NextUINavbar maxWidth="xl" position="sticky">
       {/* large - desktop */}
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
-            <Logo />
-            <p className="font-bold text-inherit">ACME</p>
+            <BsFillLayersFill className="-rotate-45" size={24} />
+            <p className="font-bold text-inherit">Paypay</p>
           </NextLink>
         </NavbarBrand>
         <ul className="hidden lg:hidden md:flex gap-4 justify-start ml-2">

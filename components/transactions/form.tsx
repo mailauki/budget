@@ -44,6 +44,15 @@ export default function TransactionForm({ item }: { item?: Transaction }) {
   return (
     <div className="flex flex-col gap-3">
       <input hidden defaultValue={item?.id} name="id" />
+      <Input
+        id="name"
+        label="Name"
+        name="name"
+        radius="sm"
+        value={name}
+        variant="bordered"
+        onChange={(event) => setName(event.target.value)}
+      />
       <DatePicker
         label="Date"
         name="date"
@@ -71,19 +80,14 @@ export default function TransactionForm({ item }: { item?: Transaction }) {
       />
       <Select
         isMultiline
-        // items={expenses}
-        // items={categories}
+        items={categories.income.concat(
+          categories.expenses,
+          categories.bills,
+          categories.debt,
+          categories.savings,
+        )}
         label="Select a category"
         name="category_label"
-        // renderValue={(items: SelectedItems<Category>) => {
-        //   return (
-        //     <div className="flex flex-wrap gap-2">
-        //       {items.map((item) => (
-        //         <Chip key={item.key}>{item.data?.name}</Chip>
-        //       ))}
-        //     </div>
-        //   );
-        // }}
         radius="sm"
         selectedKeys={[categoryLabel]}
         value={categoryLabel}
@@ -104,35 +108,15 @@ export default function TransactionForm({ item }: { item?: Transaction }) {
           );
         }}
       >
-        {categories.income
-          .concat(
-            categories.expenses,
-            categories.bills,
-            categories.debt,
-            categories.savings,
-          )
-          .map((category) => (
-            <SelectSection
-              key={category.name}
-              showDivider
-              title={category.name}
-            >
-              {category.labels.map((label) => (
-                <SelectItem key={label.name}>{label.name}</SelectItem>
-              ))}
-            </SelectSection>
-          ))}
+        {(category) => (
+          <SelectSection key={category.name} showDivider title={category.name}>
+            {category.labels.map((label) => (
+              <SelectItem key={label.name}>{label.name}</SelectItem>
+            ))}
+          </SelectSection>
+        )}
       </Select>
       <input hidden name="category" value={category} />
-      <Input
-        id="name"
-        label="Name"
-        name="name"
-        radius="sm"
-        value={name}
-        variant="bordered"
-        onChange={(event) => setName(event.target.value)}
-      />
       <div className="flex py-2 px-1 justify-between">
         <Checkbox
           classNames={{
@@ -140,6 +124,7 @@ export default function TransactionForm({ item }: { item?: Transaction }) {
           }}
           color="default"
           isSelected={isCredit}
+          radius="sm"
           onValueChange={setIsCredit}
         >
           Credit card {isCredit ? "" : "not"} used
@@ -154,6 +139,7 @@ export default function TransactionForm({ item }: { item?: Transaction }) {
         <Button
           className={`${!item ? "hidden" : "inherit"}`}
           color="danger"
+          radius="full"
           variant="light"
         >
           Delete

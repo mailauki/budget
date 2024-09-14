@@ -129,7 +129,7 @@ export default function GoalForm({ item }: { item?: Goal }) {
             Priority
           </p>
           <input hidden name="priority" value={priority} />
-          <ButtonGroup radius="sm" variant="ghost">
+          <ButtonGroup radius="full" size="sm" variant="ghost">
             <Button isIconOnly onPress={decrement}>
               <BsChevronLeft />
             </Button>
@@ -144,7 +144,7 @@ export default function GoalForm({ item }: { item?: Goal }) {
         <Button
           className={`${!item ? "hidden" : "inherit"}`}
           color="danger"
-          radius="sm"
+          radius="full"
           variant="light"
         >
           Delete

@@ -12,6 +12,7 @@ import { usePathname } from "next/navigation";
 import Logout from "../logout-btn";
 
 import { siteConfig } from "@/config/site";
+import { getNavIcon } from "@/utils/icons";
 
 export default function NavList() {
   const path = usePathname();
@@ -25,6 +26,8 @@ export default function NavList() {
               key={`${item}-${index}`}
               className={`text-${item.href === path ? "primary" : "foreground"}`}
               href={item.href}
+              startContent={getNavIcon(item.href)}
+              textValue={item.label}
             >
               {item.label}
             </ListboxItem>

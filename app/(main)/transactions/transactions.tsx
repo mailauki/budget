@@ -130,9 +130,14 @@ export default function RealtimeTransactions({
         <div>
           <div className="h-14 flex items-center justify-between mb-1">
             <h2 className={heading()}>Transactions</h2>
-            <FormModal formType="transaction">
+            {/* <FormModal formType="transaction">
               <TransactionForm />
-            </FormModal>
+            </FormModal> */}
+            <FormModal
+              form={<TransactionForm />}
+              type="new"
+              variant="transaction"
+            />
           </div>
           <TransactionsList
             selectedDate={selectedDate}
@@ -146,9 +151,11 @@ export default function RealtimeTransactions({
         <div>
           <div className="h-14 flex items-center justify-between mb-1">
             <h2 className={heading()}>Transactions</h2>
-            <FormModal formType="transaction">
-              <TransactionForm />
-            </FormModal>
+            <FormModal
+              form={<TransactionForm />}
+              type="new"
+              variant="transaction"
+            />
           </div>
           <TransactionsList
             selectedDate={selectedDate}

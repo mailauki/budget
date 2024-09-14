@@ -1,16 +1,21 @@
 import {
+  BsArrowLeftRight,
   BsBank,
+  BsCalendar4Week,
   BsCart2,
   BsCashStack,
+  BsColumnsGap,
   BsCreditCard2Back,
   BsCupHot,
   BsCurrencyDollar,
+  BsGear,
   BsHeartPulse,
   BsHouse,
   BsMortarboard,
   BsPiggyBank,
   BsQuestionLg,
   BsRocketTakeoff,
+  BsWallet2,
 } from "react-icons/bs";
 
 export function getCategoryIcon(category: string) {
@@ -65,6 +70,43 @@ export function getGoalIcon(name: string) {
   )
     icon = <BsHouse size={18} />;
   else icon = <BsCurrencyDollar size={18} />;
+
+  return icon;
+}
+
+export function getNavIcon(link: string) {
+  let icon = <></>;
+
+  switch (link) {
+    case "/":
+      icon = <BsColumnsGap />;
+      // <BsGrid />
+      // <BsGrid1X2 />
+      break;
+    case "/transactions":
+      icon = <BsArrowLeftRight />;
+      break;
+    case "/budget":
+      icon = <BsWallet2 />;
+      // <BsCashStack />
+      // <BsCreditCard2Back />
+      // <BsWallet2 />
+      break;
+    case "/goals":
+      icon = <BsPiggyBank />;
+      // <BsBullseye />
+      // <BsPiggyBank />
+      break;
+    case "/calendar":
+      icon = <BsCalendar4Week />;
+      break;
+    case "/settings":
+      icon = <BsGear />;
+      break;
+    default:
+      icon = <></>;
+      break;
+  }
 
   return icon;
 }

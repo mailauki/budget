@@ -7,47 +7,30 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  Tooltip,
   useDisclosure,
 } from "@nextui-org/react";
-import { BsPlus } from "react-icons/bs";
 import React from "react";
+
+import ModalButton from "./modal-button";
 
 import { editGoal, editTransaction } from "@/db/actions";
 
 export default function FormModal({
-  formType,
+  form,
+  variant,
+  type,
   children,
 }: {
-  formType: string;
-  children: React.ReactNode;
+  form: React.ReactNode;
+  variant: "goal" | "transaction";
+  type: "new" | "edit";
+  children?: React.ReactNode;
 }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <>
-      <Button
-        className="hidden sm:flex bg-foreground text-background"
-        endContent={<BsPlus size={18} />}
-        radius="full"
-        onPress={onOpen}
-      >
-        Add New
-      </Button>
-      <div className="fixed sm:hidden bottom-0 right-0 m-6 z-20">
-        <Tooltip content="Add New">
-          <Button
-            isIconOnly
-            className="bg-foreground text-background"
-            radius="full"
-            size="lg"
-            variant="shadow"
-            onPress={onOpen}
-          >
-            <BsPlus size={20} />
-          </Button>
-        </Tooltip>
-      </div>
+      <ModalButton onOpen={onOpen}>{children}</ModalButton>
       <Modal
         isOpen={isOpen}
         placement="top-center"
@@ -56,23 +39,23 @@ export default function FormModal({
       >
         <ModalContent>
           {(onClose) => (
-            <form action={formType === "goal" ? editGoal : editTransaction}>
+            <form action={variant === "goal" ? editGoal : editTransaction}>
               <ModalHeader className="flex flex-col gap-1">
-                Add new {formType}
+                {type === "edit" ? "Edit" : "Add new"} {variant}
               </ModalHeader>
-              <ModalBody>{children}</ModalBody>
+              <ModalBody>{form}</ModalBody>
               <ModalFooter>
-                <Button radius="sm" variant="bordered" onPress={onClose}>
+                <Button radius="full" variant="ghost" onPress={onClose}>
                   Close
                 </Button>
                 <Button
                   className="bg-foreground text-background"
                   color="primary"
-                  radius="sm"
+                  radius="full"
                   type="submit"
                   onPress={onClose}
                 >
-                  Create
+                  {type === "edit" ? "Update" : "Create"}
                 </Button>
               </ModalFooter>
             </form>

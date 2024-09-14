@@ -12,6 +12,7 @@ import GoalsList from "@/components/goals/list";
 import { heading } from "@/components/primitives";
 import FormModal from "@/components/modal";
 import GoalForm from "@/components/goals/form";
+import GoalCard from "@/components/goals/card";
 
 export default function RealtimeGoals({
   serverGoals,
@@ -105,6 +106,16 @@ export default function RealtimeGoals({
       </Content>
       <Aside>
         <TotalProgress goals={goals} />
+        <GoalCard
+          // goal={goals.find((goal) => goal.priority == 1)!}
+          goal={goals.reduce((prev, current) =>
+            (100 * prev.current_amount) / prev.goal_amount >
+            (100 * current.current_amount) / current.goal_amount
+              ? prev
+              : current,
+          )}
+          variant="md"
+        />
         <GoalsSummary goals={goals} />
       </Aside>
     </>

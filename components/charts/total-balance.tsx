@@ -68,7 +68,7 @@ export default function TotalBalanceChart({
         <AreaChart
           aria-label="Total balance chart"
           categories={["Spent", "Income"]}
-          className="mt-6 h-60"
+          className="my-6 h-60"
           colors={["blue", "violet"]}
           data={data}
           index="name"

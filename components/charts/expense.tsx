@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
+import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import { parseDate, isSameMonth } from "@internationalized/date";
 import moment from "moment";
 import { BarChart } from "@tremor/react";
@@ -51,28 +51,22 @@ export default function ExpenseChart({
   );
 
   return (
-    <>
-      {/* <pre>{JSON.stringify(data_exp, null, 2)}</pre> */}
-      <Card>
-        <CardHeader>Expense summary</CardHeader>
-        <CardBody>
-          <BarChart
-            stack
-            aria-label="Expense chart"
-            categories={expense_categories.flatMap((category) => category.name)}
-            colors={expense_categories.flatMap((category) => category.color)}
-            data={data_exp}
-            index="date"
-            showGridLines={false}
-            showLegend={false}
-            // showTooltip={false}
-            // enableLegendSlider
-            showYAxis={false}
-            valueFormatter={(amount) => currencyFormatter.format(amount)}
-          />
-        </CardBody>
-        <CardFooter />
-      </Card>
-    </>
+    <Card>
+      <CardHeader>Expense summary</CardHeader>
+      <CardBody>
+        <BarChart
+          stack
+          aria-label="Expense chart"
+          categories={expense_categories.flatMap((category) => category.name)}
+          className="mb-6 h-60"
+          colors={expense_categories.flatMap((category) => category.color)}
+          data={data_exp}
+          index="date"
+          showLegend={false}
+          showYAxis={false}
+          valueFormatter={(amount) => currencyFormatter.format(amount)}
+        />
+      </CardBody>
+    </Card>
   );
 }

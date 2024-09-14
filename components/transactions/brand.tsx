@@ -54,7 +54,7 @@ export default function Brand({ transaction }: { transaction: Transaction }) {
         classNames={{
           base: `bg-default text-forground ring-${getCategoryColor(transaction.category)}-500`,
         }}
-        fallback={getCategoryIcon(transaction.category)}
+        fallback={getCategoryIcon({ category: transaction.category })}
         src={`${data}`}
       />
       {/* -・• */}

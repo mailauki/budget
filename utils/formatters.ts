@@ -27,6 +27,16 @@ export function useAccountingFormatter() {
   return formatter;
 }
 
+export function useDateMonthFormatter() {
+  const formatter = useDateFormatter({
+    // dateStyle: "long",
+    month: "long",
+    year: "numeric",
+  });
+
+  return formatter;
+}
+
 export function useDateMediumFormatter() {
   const formatter = useDateFormatter({ dateStyle: "medium" });
 

@@ -12,8 +12,8 @@ import DateSelector from "@/components/date/date-selector";
 import { heading } from "@/components/primitives";
 import ThisMonth from "@/components/dashboard/this-month-card";
 import TotalBalanceChart from "@/components/charts/total-balance";
-import GoalsList from "@/components/dashboard/goals";
 import AllocationChart from "@/components/charts/allocation";
+import GoalsList from "@/components/goals/list";
 
 export default function RealtimeDashboard({
   serverBudgets,
